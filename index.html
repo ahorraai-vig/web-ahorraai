@@ -3,39 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AhorraAI - Automatización con Inteligencia Artificial</title>
+    <meta name="description" content="AhorraAI - Automatizamos tus procesos con agentes de Inteligencia Artificial. Reduce costes operativos y escala sin aumentar tu carga de trabajo.">
+    <meta name="keywords" content="IA, automatización, agentes IA, inteligencia artificial, ahorro costos, negocio">
+    <title>AhorraAI - Automatización Inteligente con IA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; }
+        body { 
+            background-color: #0f172a; 
+            color: white; 
+            font-family: system-ui, -apple-system, sans-serif;
+        }
         .gradient-text {
             background: linear-gradient(90deg, #38bdf8, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .hero-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
     </style>
 </head>
-<body>
-    <div class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-        <header class="mb-8">
-            <h1 class="text-5xl font-extrabold mb-4 gradient-text">AhorraAI</h1>
-            <p class="text-xl text-slate-400">Automatización inteligente para negocios que valoran su tiempo.</p>
-        </header>
+<body class="min-h-screen">
 
-        <main class="max-w-2xl bg-slate-800/50 p-8 rounded-2xl border border-slate-700 backdrop-blur-sm">
-            <h2 class="text-2xl font-bold mb-4">Reducimos tus costes operativos con Agentes de IA</h2>
-            <p class="text-slate-300 mb-6 text-lg">
-                Ayudamos a empresas a escalar sin aumentar su carga de trabajo. 
-                Implementamos soluciones de IA personalizadas para tu actividad.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="mailto:contacto@ahorraai.com" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-full font-bold transition">Contactar</a>
-                <div class="text-slate-500 py-3">ahorraai.com</div>
+    <!-- NAVBAR -->
+    <nav class="bg-slate-900/80 backdrop-blur-md border-b border-slate-700 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <h1 class="text-3xl font-extrabold gradient-text">AhorraAI</h1>
             </div>
-        </main>
+            <div class="hidden md:flex items-center gap-8 text-slate-300">
+                <a href="#soluciones" class="hover:text-white transition">Soluciones</a>
+                <a href="#como-funciona" class="hover:text-white transition">Cómo funciona</a>
+                <a href="#testimonios" class="hover:text-white transition">Clientes</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="mailto:contacto@ahorraai.com" 
+                   class="bg-blue-600 hover:bg-blue-500 px-6 py-2.5 rounded-2xl font-semibold transition text-sm">
+                    Contactar
+                </a>
+            </div>
+        </div>
+    </nav>
 
-        <footer class="mt-12 text-slate-500 text-sm">
-            © 2024 AhorraAI - Tecnología de Vanguardia
-        </footer>
-    </div>
+    <!-- HERO -->
+    <section class="hero-bg pt-24 pb-20 md:pt-32 md:pb-28 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter leading-none mb-6">
+                Automatiza.<br>
+                <span class="gradient-text">Ahorra.</span><br>
+                Escala.
+            </h1>
+            <p class="text-2xl text-slate-400 mb-10 max-w-2xl mx-auto">
+                Agentes de IA que trabajan 24/7 para reducir tus costes operativos y liberarte de tareas repetitivas.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="mailto:contacto@ahorraai.com" 
+                   class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-3xl font-bold text-xl shadow-xl shadow-blue-500/30 transition-all active:scale-95">
+                    Solicitar demo gratuita
+                </a>
+                <a href="#soluciones" 
+                   class="border border-slate-500 hover:border-slate-300 px-10 py-5 rounded-3xl font-semibold text-xl transition">
+                    Ver soluciones
+                </a>
+            </div>
+
+            <div class="mt-12 text-slate-400 text-sm flex items-center justify-center gap-8">
+                <div class="flex items-center gap-2">
+                    <span class="text-emerald-400">●</span> 
+                    Ya automatizamos +47 negocios
+                </div>
+                <div>ahorraai.com</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUCIONES / FEATURES -->
+    <section id="soluciones" class="py-20 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Soluciones que realmente ahorran tiempo y dinero</h2>
+                <p class="text-slate-400 max-w-xl mx-auto">Agentes de IA personalizados para tu sector.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
+                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2 2 2 0 01-2-2 2 2 0 012-2 2 2 0 01-2-2 2 2 0 012-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Atención al cliente 24/7</h3>
+                    <p class="text-slate-400">Chatbots y agentes que responden consultas, cierran ventas y gestionan tickets automáticamente.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
+                    <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2 2 2 0 01-2-2 2 2 0 01-2-2 2 2 0 012-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Automatización de procesos</h3>
+                    <p class="text-slate-400">Facturación, seguimiento de leads, gestión de inventario y flujos repetitivos sin intervención humana.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
+                    <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Análisis predictivo</h3>
+                    <p class="text-slate-400">Predice tendencias, optimiza precios y detecta oportunidades de ahorro en tiempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section id="como-funciona" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">En 4 pasos tienes tu agente trabajando</h2>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">1</div>
+                    <h4 class="font-semibold mb-2">Reunión de diagnóstico</h4>
+                    <p class="text-slate-400 text-sm">Analizamos tus procesos y detectamos oportunidades de automatización.</p>
+                </div>
+                <div>
+                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">2</div>
+                    <h4 class="font-semibold mb-2">Diseño del agente</h4>
+                    <p class="text-slate-400 text-sm">Creamos un agente de IA personalizado para tu negocio.</p>
+                </div>
+                <div>
+                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">3</div>
+                    <h4 class="font-semibold mb-2">Integración</h4>
+                    <p class="text-slate-400 text-sm">Conectamos el agente con tus herramientas (WhatsApp, Gmail, CRM...).</p>
+                </div>
+                <div>
+                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">4</div>
+                    <h4 class="font-semibold mb-2">Lanzamiento y seguimiento</h4>
+                    <p class="text-slate-400 text-sm">Tu agente empieza a trabajar y te reportamos los ahorros mensuales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section id="testimonios" class="py-20 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Lo que dicen quienes ya ahorran con AhorraAI</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
+                    <p class="italic text-slate-300">"Redujimos un 68% el tiempo de atención al cliente en solo 3 semanas. Es como tener un equipo extra que nunca duerme."</p>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="w-10 h-10 bg-amber-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Laura Mendoza</div>
+                            <div class="text-sm text-slate-400">Fundadora - Tienda Online Moda</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
+                    <p class="italic text-slate-300">"Automatizamos toda la facturación y seguimiento de cobros. Ahora solo reviso el dashboard. Increíble."</p>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="w-10 h-10 bg-teal-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Carlos Rivera</div>
+                            <div class="text-sm text-slate-400">CEO - Constructora Rivera</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
+                    <p class="italic text-slate-300">"El agente de ventas cerró 14 leads que yo hubiera perdido. ROI brutal en el primer mes."</p>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="w-10 h-10 bg-rose-300 rounded-2xl"></div>
+                        <div>
+                            <div class="font-semibold">Marta López</div>
+                            <div class="text-sm text-slate-400">Directora - Agencia de Marketing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="text-5xl font-bold mb-6">¿Listo para dejar de perder tiempo y dinero?</h2>
+            <p class="text-2xl text-blue-100 mb-10">Agenda una llamada de 15 minutos y te mostramos cuánto puedes ahorrar.</p>
+            <a href="mailto:contacto@ahorraai.com" 
+               class="inline-block bg-white text-slate-900 hover:bg-slate-100 px-12 py-6 rounded-3xl font-bold text-2xl transition">
+                Contactar ahora →
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-slate-400 text-sm">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>© 2026 AhorraAI - Tecnología de Vanguardia</div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white">Política de privacidad</a>
+                    <a href="#" class="hover:text-white">Términos de servicio</a>
+                </div>
+                <div class="text-center md:text-right">
+                    contacto@ahorraai.com<br>
+                    <span class="text-emerald-400">+34 000 000 000</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script ya está cargado
+        console.log('%c🚀 AhorraAI listo para ahorrar tiempo y dinero', 'color:#38bdf8; font-size:13px; font-weight:bold');
+    </script>
 </body>
 </html>

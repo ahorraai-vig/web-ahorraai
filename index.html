@@ -3,301 +3,872 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AhorraAI - Tu asistente IA que te ayuda a ahorrar dinero de verdad. Agenda tu llamada gratis.">
-    <title>AhorraAI • Ahorra con Inteligencia Artificial</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="AhorraAI — Ponemos tu negocio en internet en 48 horas. Web profesional, redes sociales, ficha de Google y automatización con IA para negocios locales en Vigo.">
+    <meta name="keywords" content="página web negocios Vigo, presencia digital Vigo, web para tiendas Vigo, agencia digital Vigo, automatización IA negocios">
+    <title>AhorraAI • Tu negocio en internet en 48 horas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
         :root {
-            --primary-color: #1e3a6b;     /* Azul más claro que antes */
-            --accent-color: #3b82f6;      /* Azul vibrante suave */
-            --text-color: #1f2937;
-            --background-color: #f8fafc;
-        }
-        
-        * { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; }
-        
-        .tail-container * {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .heading-font {
-            font-family: 'Space Grotesk', sans-serif;
+            --navy:   #0f2444;
+            --blue:   #1d5fdc;
+            --sky:    #4f9cf9;
+            --green:  #22c97a;
+            --cream:  #f5f3ee;
+            --white:  #ffffff;
+            --ink:    #141414;
+            --muted:  #6b7280;
+            --border: #e2e2dc;
         }
 
-        /* Animaciones avanzadas */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
         }
-        
-        .animate-on-scroll {
+
+        h1, h2, h3, .syne { font-family: 'Syne', sans-serif; }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(245,243,238,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--navy);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--navy);
+            letter-spacing: -0.03em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--navy); }
+        .nav-cta {
+            background: var(--navy);
+            color: var(--white) !important;
+            padding: 0.6rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+            transition: background 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--blue) !important; color: var(--white) !important; }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--navy);
+            color: var(--white);
+            padding: 5rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(29,95,220,0.35) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(34,201,122,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.02em;
+        }
+        .hero-badge span { color: var(--green); }
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: var(--sky);
+        }
+        .hero-sub {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+            max-width: 540px;
+            line-height: 1.65;
+            margin-bottom: 2.5rem;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green);
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(34,201,122,0.4);
+        }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.95rem;
+            padding: 0.95rem 1.8rem;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-outline:hover { border-color: white; color: white; }
+        .hero-proof {
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+        }
+        .proof-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .proof-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--green);
+            letter-spacing: -0.03em;
+        }
+        .proof-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2px;
+        }
+
+        /* ── SECTION BASE ── */
+        section { padding: 5rem 2rem; }
+        .section-inner { max-width: 1100px; margin: 0 auto; }
+        .section-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--navy);
+        }
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 560px;
+            line-height: 1.65;
+        }
+
+        /* ── PARA QUIÉN ── */
+        .forwhom { background: var(--white); }
+        .forwhom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .forwhom-card {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .forwhom-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(15,36,68,0.08);
+        }
+        .forwhom-icon { font-size: 2rem; }
+        .forwhom-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--navy);
+        }
+        .forwhom-desc {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ── SERVICIOS ── */
+        .services { background: var(--cream); }
+        .services-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .plan-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(15,36,68,0.1);
+        }
+        .plan-card.featured {
+            border-color: var(--blue);
+            background: var(--navy);
+            color: var(--white);
+        }
+        .plan-badge {
+            position: absolute;
+            top: 1.2rem; right: 1.2rem;
+            background: var(--green);
+            color: var(--navy);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.7rem;
+            border-radius: 100px;
+        }
+        .plan-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+        .plan-card.featured .plan-name { color: rgba(255,255,255,0.5); }
+        .plan-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--navy);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+        .plan-card.featured .plan-price { color: var(--white); }
+        .plan-period {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+        .plan-card.featured .plan-period { color: rgba(255,255,255,0.5); }
+        .plan-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .plan-card.featured .plan-divider { background: rgba(255,255,255,0.15); }
+        .plan-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex: 1;
+            margin-bottom: 2rem;
+        }
+        .plan-features li {
+            font-size: 0.9rem;
+            color: var(--ink);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            line-height: 1.4;
+        }
+        .plan-card.featured .plan-features li { color: rgba(255,255,255,0.85); }
+        .plan-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .plan-cta {
+            display: block;
+            text-align: center;
+            padding: 0.9rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            background: var(--cream);
+            color: var(--navy);
+            border: 1.5px solid var(--border);
+        }
+        .plan-cta:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+        .plan-card.featured .plan-cta {
+            background: var(--green);
+            color: var(--navy);
+            border-color: transparent;
+        }
+        .plan-card.featured .plan-cta:hover {
+            background: #1aaf68;
+        }
+
+        /* ── CÓMO FUNCIONA ── */
+        .how { background: var(--white); }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            counter-reset: steps;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            counter-increment: steps;
+            position: relative;
+        }
+        .step-num {
+            width: 48px; height: 48px;
+            background: var(--navy);
+            color: var(--white);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .step p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── POR QUÉ NOSOTROS ── */
+        .why { background: var(--navy); color: var(--white); }
+        .why .section-title { color: var(--white); }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .why-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1.75rem;
+        }
+        .why-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+        .why-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .why-card p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.6;
+        }
+
+        /* ── CONTACTO ── */
+        .contact { background: var(--cream); }
+        .contact-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 3rem auto 0;
+        }
+        .contact-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .contact-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .contact-btn:hover { transform: translateY(-3px); }
+        .contact-btn.phone {
+            background: var(--navy);
+            color: var(--white);
+        }
+        .contact-btn.cal {
+            background: var(--green);
+            color: var(--navy);
+        }
+        .contact-btn span { font-size: 1.5rem; }
+        .contact-btn small { font-size: 0.78rem; opacity: 0.7; font-weight: 400; }
+        .calendly-wrap {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.6);
+            padding: 3rem 2rem;
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .footer-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--white);
+            letter-spacing: -0.03em;
+        }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--white); }
+        .footer-copy { font-size: 0.78rem; }
+
+        /* ── ANIMATIONS ── */
+        .fade-up {
             opacity: 0;
-            animation: fadeInUp 0.8s forwards;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
-        
-        .hero-bg {
-            background: linear-gradient(135deg, #1e3a6b 0%, #3b82f6 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 25px 25px 50px -12px rgb(59 130 246 / 0.25);
-        }
-        
-        .form-input {
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
-            transform: scale(1.02);
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { padding: 3.5rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2.6rem; }
+            .contact-actions { grid-template-columns: 1fr; }
+            .contact-box { padding: 2rem 1.5rem; }
+            section { padding: 3.5rem 1.5rem; }
         }
     </style>
 </head>
-<body class="tail-container bg-[#f8fafc] text-[#1f2937]">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-[#3b82f6] rounded-2xl flex items-center justify-center text-white text-2xl">🤖</div>
-                <h1 class="heading-font text-3xl font-semibold tracking-tighter text-[#1e3a6b]">AhorraAI</h1>
-            </div>
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="#" class="hover:text-[#3b82f6]">Inicio</a>
-                <a href="#" class="hover:text-[#3b82f6]">Cómo funciona</a>
-                <a href="#" class="hover:text-[#3b82f6]">Precios</a>
-                <a href="#" class="hover:text-[#3b82f6]">Blog</a>
-            </div>
-            <a href="#contacto" 
-               class="bg-[#3b82f6] text-white px-6 py-3 rounded-3xl font-semibold flex items-center gap-2 hover:bg-[#1e3a6b]">
-                Contactar ahora
+<!-- NAVBAR -->
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="logo">
+            <div class="logo-icon">🤖</div>
+            <span class="logo-text">AhorraAI</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#como-funciona">Cómo funciona</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="tel:+34614053674" class="nav-cta">📞 614 053 674</a></li>
+        </ul>
+        <a href="#contacto" class="nav-cta" style="display:block;">Pedir demo gratis</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">
+            <span>●</span> Servicio local · Vigo y alrededores
+        </div>
+        <h1>Tu negocio en internet<br><em>en 48 horas.</em></h1>
+        <p class="hero-sub">
+            Web profesional, ficha de Google, redes sociales y automatización con IA. 
+            Sin tecnicismos. Sin contratos eternos. Tú te centras en tu negocio.
+        </p>
+        <div class="hero-actions">
+            <a href="#contacto" class="btn-primary">
+                Ver demo gratis →
+            </a>
+            <a href="tel:+34614053674" class="btn-outline">
+                📞 614 053 674
             </a>
         </div>
-    </nav>
-
-    <!-- HERO -->
-    <header class="hero-bg text-white py-20 md:py-28">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <div class="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-medium px-5 py-2 rounded-3xl mb-6 backdrop-blur-md">
-                🚀 Nueva versión IA 2026
+        <div class="hero-proof">
+            <div class="proof-item">
+                <span class="proof-num">48h</span>
+                <span class="proof-label">Entrega máxima</span>
             </div>
-            <h2 class="heading-font text-5xl md:text-6xl font-semibold leading-none tracking-tighter mb-6">
-                La IA que te hace<br>ahorrar miles de euros
-            </h2>
-            <p class="text-xl md:text-2xl max-w-2xl mx-auto opacity-90 mb-10">
-                Analizamos tus gastos, facturas y oportunidades en segundos.<br>
-                Resultados reales. Sin complicaciones.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#contacto" 
-                   class="bg-white text-[#1e3a6b] px-10 py-5 rounded-3xl font-semibold text-xl shadow-xl flex items-center gap-3 hover:scale-105">
-                    Agenda tu llamada GRATIS
-                    <span class="text-3xl">📅</span>
+            <div class="proof-item">
+                <span class="proof-num">0€</span>
+                <span class="proof-label">Coste inicial básico</span>
+            </div>
+            <div class="proof-item">
+                <span class="proof-num">+20</span>
+                <span class="proof-label">Negocios en Vigo</span>
+            </div>
+            <div class="proof-item">
+                <span class="proof-num">100%</span>
+                <span class="proof-label">Soporte en español</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- PARA QUIÉN -->
+<section class="forwhom fade-up">
+    <div class="section-inner">
+        <span class="section-tag">Para quién es</span>
+        <h2 class="section-title">Hecho para negocios<br>como el tuyo</h2>
+        <p class="section-sub">Sin importar el sector. Si tienes clientes, necesitas que te encuentren.</p>
+        <div class="forwhom-grid">
+            <div class="forwhom-card">
+                <div class="forwhom-icon">🛒</div>
+                <div class="forwhom-name">Tiendas y bazares</div>
+                <div class="forwhom-desc">Web con catálogo, horarios y contacto directo por WhatsApp</div>
+            </div>
+            <div class="forwhom-card">
+                <div class="forwhom-icon">🍽️</div>
+                <div class="forwhom-name">Bares y restaurantes</div>
+                <div class="forwhom-desc">Carta online, reservas y gestión de reseñas de Google</div>
+            </div>
+            <div class="forwhom-card">
+                <div class="forwhom-icon">🏠</div>
+                <div class="forwhom-name">Alquiler vacacional</div>
+                <div class="forwhom-desc">Bot de atención a huéspedes 24/7 en WhatsApp o web</div>
+            </div>
+            <div class="forwhom-card">
+                <div class="forwhom-icon">🔧</div>
+                <div class="forwhom-name">Talleres y servicios</div>
+                <div class="forwhom-desc">Citas online automáticas y recordatorios sin llamadas</div>
+            </div>
+            <div class="forwhom-card">
+                <div class="forwhom-icon">💈</div>
+                <div class="forwhom-name">Peluquerías y estética</div>
+                <div class="forwhom-desc">Agenda online, Instagram conectado y recordatorios</div>
+            </div>
+            <div class="forwhom-card">
+                <div class="forwhom-icon">🏢</div>
+                <div class="forwhom-name">Cualquier local</div>
+                <div class="forwhom-desc">Si tienes clientes, te ayudamos a conseguir más</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="services fade-up" id="servicios">
+    <div class="section-inner">
+        <div class="services-header">
+            <div>
+                <span class="section-tag">Servicios y precios</span>
+                <h2 class="section-title">Elige lo que necesitas</h2>
+                <p class="section-sub">Sin letra pequeña. Sin permanencia. Puedes subir de plan cuando quieras.</p>
+            </div>
+        </div>
+        <div class="plans-grid">
+
+            <!-- PLAN BÁSICO -->
+            <div class="plan-card fade-up">
+                <div class="plan-name">Presencia básica</div>
+                <div class="plan-price">297€</div>
+                <div class="plan-period">pago único + 15€/mes mantenimiento</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li>Web profesional de 1 página</li>
+                    <li>Ficha de Google Business configurada</li>
+                    <li>Dominio + hosting primer año</li>
+                    <li>Formulario de contacto conectado a tu Gmail</li>
+                    <li>Adaptada a móvil y tablet</li>
+                    <li>Entrega en 48 horas</li>
+                </ul>
+                <a href="#contacto" class="plan-cta">Empezar →</a>
+            </div>
+
+            <!-- PLAN COMPLETO (featured) -->
+            <div class="plan-card featured fade-up">
+                <div class="plan-badge">Más popular</div>
+                <div class="plan-name">Presencia completa</div>
+                <div class="plan-price">597€</div>
+                <div class="plan-period">pago único + 49€/mes gestión</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li>Todo lo del plan básico</li>
+                    <li>Perfil Instagram + Facebook creado y optimizado</li>
+                    <li>4 publicaciones de lanzamiento diseñadas</li>
+                    <li>Bot de respuestas automáticas en Instagram</li>
+                    <li>Posicionamiento local SEO inicial</li>
+                    <li>Panel para ver visitas y métricas</li>
+                    <li>Soporte por WhatsApp</li>
+                </ul>
+                <a href="#contacto" class="plan-cta">Empezar →</a>
+            </div>
+
+            <!-- PLAN IA -->
+            <div class="plan-card fade-up">
+                <div class="plan-name">IA + Automatización</div>
+                <div class="plan-price">997€</div>
+                <div class="plan-period">pago único + 99€/mes</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li>Todo lo del plan completo</li>
+                    <li>Bot de WhatsApp que responde clientes 24/7</li>
+                    <li>Respuestas automáticas a reseñas de Google</li>
+                    <li>Citas y reservas automáticas sin llamadas</li>
+                    <li>Alertas de stock o pedidos si tienes tienda</li>
+                    <li>Informe mensual de rendimiento</li>
+                    <li>Soporte prioritario + reunión mensual</li>
+                </ul>
+                <a href="#contacto" class="plan-cta">Empezar →</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="how fade-up" id="como-funciona">
+    <div class="section-inner">
+        <span class="section-tag">El proceso</span>
+        <h2 class="section-title">De cero a online<br>en 4 pasos</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h3>Llamada de 15 min</h3>
+                <p>Cuéntame tu negocio. Sin tecnicismos. Solo necesito saber qué haces y a quién le vendes.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h3>Propuesta en 24h</h3>
+                <p>Te envío un boceto de tu web y el plan de acción. Sin compromiso, sin coste.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h3>Montaje express</h3>
+                <p>Una vez aprobado, monto y configuro todo en 48 horas. Tú no tienes que hacer nada.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">04</div>
+                <h3>Tu negocio online</h3>
+                <p>Te entrego el acceso, te explico cómo funciona en 10 minutos y listo. Yo me ocupo del resto.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- POR QUÉ NOSOTROS -->
+<section class="why fade-up">
+    <div class="section-inner">
+        <span class="section-tag" style="color:var(--sky)">Por qué AhorraAI</span>
+        <h2 class="section-title">No somos una agencia grande.<br>Por eso somos mejores para ti.</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">🗺️</div>
+                <h3>Somos locales</h3>
+                <p>Estamos en Vigo. Conocemos los barrios, los negocios y lo que funciona aquí.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">⚡</div>
+                <h3>Entrega real en 48h</h3>
+                <p>No meses de proyecto. Tienes tu web funcionando antes de que acabe la semana.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🤖</div>
+                <h3>IA aplicada de verdad</h3>
+                <p>Usamos inteligencia artificial para automatizar tareas que te roban tiempo cada día.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">💬</div>
+                <h3>Hablas con una persona</h3>
+                <p>Sin tickets de soporte. Sin chatbots. Tienes mi WhatsApp y te respondo yo.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact fade-up" id="contacto">
+    <div class="section-inner" style="text-align:center;">
+        <span class="section-tag">Contacto</span>
+        <h2 class="section-title">¿Hablamos?</h2>
+        <p class="section-sub" style="margin:0 auto;">Sin presión. En 15 minutos te digo exactamente qué haría con tu negocio y cuánto costaría.</p>
+        <div class="contact-box">
+            <div class="contact-actions">
+                <a href="tel:+34614053674" class="contact-btn phone">
+                    <span>📞</span>
+                    Llamar ahora
+                    <strong>614 053 674</strong>
+                    <small>Lunes a viernes · 9h a 19h</small>
                 </a>
-                
-                <a href="tel:+34614053674" 
-                   class="border-2 border-white/70 hover:border-white text-white px-8 py-5 rounded-3xl font-semibold flex items-center gap-3 text-lg">
-                    📞 Llamar ahora: <span class="font-mono">614 053 674</span>
+                <a href="https://calendly.com/ahorraai" target="_blank" class="contact-btn cal">
+                    <span>📅</span>
+                    Agendar llamada
+                    <strong>Demo gratis · 15 min</strong>
+                    <small>Elige tú el horario</small>
                 </a>
             </div>
-            
-            <p class="text-sm mt-8 opacity-75 flex items-center justify-center gap-2">
-                <span class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
-                +240 personas ahorrando esta semana
-            </p>
-        </div>
-    </header>
-
-    <!-- BENEFICIOS -->
-    <section class="max-w-6xl mx-auto px-6 py-16">
-        <h2 class="text-center text-4xl font-semibold mb-12">¿Por qué miles de personas confían en AhorraAI?</h2>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-3xl card-hover border">
-                <div class="text-5xl mb-6">💰</div>
-                <h3 class="text-2xl font-semibold mb-3">Ahorro real y medible</h3>
-                <p class="text-gray-600">Nuestra IA detecta automáticamente dónde estás perdiendo dinero y te da acciones concretas. Promedio de ahorro: 38% en los primeros 3 meses.</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl card-hover border">
-                <div class="text-5xl mb-6">⚡</div>
-                <h3 class="text-2xl font-semibold mb-3">Resultados en minutos</h3>
-                <p class="text-gray-600">Sube tus facturas o conecta tu banco y la IA hace todo el trabajo. Sin papeleo interminable.</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl card-hover border">
-                <div class="text-5xl mb-6">🛡️</div>
-                <h3 class="text-2xl font-semibold mb-3">100% seguro y privado</h3>
-                <p class="text-gray-600">Cumplimos RGPD. Tus datos nunca se venden. Solo los usamos para ayudarte a ahorrar.</p>
+            <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;">O agenda directamente aquí 👇</p>
+            <div class="calendly-wrap">
+                <div class="calendly-inline-widget"
+                     data-url="https://calendly.com/ahorraai?embed_type=inline"
+                     style="min-width:280px;height:680px;"></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FORMULARIO DE CONTACTO + TELÉFONO + CALENDLY -->
-    <section id="contacto" class="max-w-4xl mx-auto px-6 py-20 bg-white rounded-3xl mx-4 shadow-xl">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-semibold mb-3">¿Listo para empezar a ahorrar?</h2>
-            <p class="text-xl text-gray-600">Rellena el formulario o agenda directamente. Te respondemos en menos de 2 horas.</p>
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <span class="footer-logo">AhorraAI</span>
+        <div class="footer-links">
+            <a href="terminos-de-servicio.html">Términos</a>
+            <a href="politica-de-privacidad.html">Privacidad</a>
+            <a href="mailto:contacto@ahorraai.com">contacto@ahorraai.com</a>
+            <a href="tel:+34614053674">614 053 674</a>
         </div>
+        <span class="footer-copy">© 2026 AhorraAI · Vigo</span>
+    </div>
+</footer>
 
-        <!-- Formulario -->
-        <form id="contactForm" class="grid md:grid-cols-2 gap-6 mb-16">
-            <div>
-                <label class="block text-sm font-medium mb-2">Nombre completo</label>
-                <input type="text" id="name" required
-                       class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-2">Email</label>
-                <input type="email" id="email" required
-                       class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg">
-            </div>
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium mb-2">Tu consulta o cuánto quieres ahorrar al año</label>
-                <textarea id="message" rows="4" required
-                          class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg"></textarea>
-            </div>
-            <div class="md:col-span-2">
-                <button type="submit"
-                        class="w-full bg-[#3b82f6] hover:bg-[#1e3a6b] text-white py-6 text-xl font-semibold rounded-3xl flex items-center justify-center gap-3">
-                    Enviar mensaje 
-                    <span class="text-3xl">→</span>
-                </button>
-            </div>
-        </form>
-
-        <!-- Botones rápidos -->
-        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <!-- Teléfono -->
-            <a href="tel:+34614053674"
-               class="flex-1 max-w-xs bg-[#3b82f6] text-white px-8 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-4 hover:scale-105">
-                📞 Llamar ahora<br>
-                <span class="text-3xl font-mono">614 053 674</span>
-            </a>
-            
-            <!-- Calendly botón -->
-            <a href="https://calendly.com/ahorraai" target="_blank"
-               class="flex-1 max-w-xs bg-emerald-600 text-white px-8 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-4 hover:scale-105">
-                📅 Agenda tu llamada gratis<br>
-                <span class="text-2xl">30 minutos</span>
-            </a>
-        </div>
-
-        <!-- Calendly incrustado (opcional pero recomendado) -->
-        <div class="mt-16">
-            <p class="text-center text-sm text-gray-500 mb-6">O agenda directamente aquí dentro de la web 👇</p>
-            <div class="calendly-inline-widget rounded-3xl overflow-hidden border border-gray-100 shadow-inner" 
-                 data-url="https://calendly.com/ahorraai?embed_domain=tuweb.com&amp;embed_type=inline"
-                 style="min-width:320px;height:700px;"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-[#1e3a6b] text-white py-16">
-        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center text-[#1e3a6b] text-2xl">🤖</div>
-                    <h1 class="heading-font text-3xl font-semibold">AhorraAI</h1>
-                </div>
-                <p class="text-white/70">Inteligencia artificial al servicio de tu bolsillo.</p>
-            </div>
-            
-            <div class="text-sm">
-                <p class="font-medium mb-4">Enlaces rápidos</p>
-                <div class="space-y-2">
-                    <a href="#" class="block hover:text-[#3b82f6]">Cómo funciona</a>
-                    <a href="#" class="block hover:text-[#3b82f6]">Testimonios</a>
-                    <a href="#" class="block hover:text-[#3b82f6]">Precios</a>
-                </div>
-            </div>
-            
-            <div>
-                <p class="font-medium mb-4">Legal</p>
-                <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm">
-                    <a href="terminos-de-servicio.html" class="hover:text-[#3b82f6]">Términos de Servicio</a>
-                    <a href="politica-de-privacidad.html" class="hover:text-[#3b82f6]">Política de Privacidad</a>
-                </div>
-                <p class="text-xs text-white/50 mt-8">
-                    © 2026 AhorraAI • Todos los derechos reservados<br>
-                    Tel: <a href="tel:+34614053674" class="underline">614 053 674</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-    <script>
-        // Configuración Tailwind
-        function initTailwind() {
-            tailwind.config = {
-                content: ["./**/*.{html,js}"],
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: '#1e3a6b',
-                            accent: '#3b82f6'
-                        }
-                    }
-                }
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
             }
-        }
-        
-        // Animaciones al hacer scroll
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.animate-on-scroll');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animationDelay = Math.random() * 200 + 'ms';
-                        entry.target.classList.add('animate-on-scroll');
-                    }
-                });
-            }, { threshold: 0.2 });
-            
-            document.querySelectorAll('.card-hover').forEach(el => observer.observe(el));
-        }
-        
-        // Formulario (envío simulado - puedes conectarlo a Formspree, EmailJS, etc.)
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('button');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = `
-                <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-            `;
-            
-            setTimeout(() => {
-                alert('✅ ¡Mensaje enviado! Te contactaremos en menos de 2 horas al teléfono o email que indicaste.');
-                this.reset();
-                btn.innerHTML = originalText;
-            }, 1200);
         });
-        
-        // Inicializar todo
-        window.onload = function() {
-            initTailwind();
-            animateOnScroll();
-            console.log('%c✅ AhorraAI web cargada correctamente desde móvil 🚀', 'color:#3b82f6; font-size:13px; font-weight:bold');
-        };
-    </script>
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Console branding
+    console.log('%c🤖 AhorraAI · Vigo', 'color:#22c97a; font-size:14px; font-weight:bold');
+</script>
 </body>
 </html>

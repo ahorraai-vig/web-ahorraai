@@ -3,237 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AhorraAI - Automatizamos tus procesos con agentes de Inteligencia Artificial. Reduce costes operativos y escala sin aumentar tu carga de trabajo.">
-    <meta name="keywords" content="IA, automatización, agentes IA, inteligencia artificial, ahorro costos, negocio">
-    <title>AhorraAI - Automatización Inteligente con IA</title>
+    <meta name="description" content="AhorraAI - Tu asistente IA que te ayuda a ahorrar dinero de verdad. Agenda tu llamada gratis.">
+    <title>AhorraAI • Ahorra con Inteligencia Artificial</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <style>
-        body { 
-            background-color: #0f172a; 
-            color: white; 
-            font-family: system-ui, -apple-system, sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary-color: #1e3a6b;     /* Azul más claro que antes */
+            --accent-color: #3b82f6;      /* Azul vibrante suave */
+            --text-color: #1f2937;
+            --background-color: #f8fafc;
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        * { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; }
+        
+        .tail-container * {
+            font-family: 'Inter', system_ui, sans-serif;
         }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Animaciones avanzadas */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards;
+        }
+        
         .hero-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+            background: linear-gradient(135deg, #1e3a6b 0%, #3b82f6 100%);
         }
+        
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
         .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 25px 25px 50px -12px rgb(59 130 246 / 0.25);
+        }
+        
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+            transform: scale(1.02);
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="tail-container bg-[#f8fafc] text-[#1f2937]">
 
     <!-- NAVBAR -->
-    <nav class="bg-slate-900/80 backdrop-blur-md border-b border-slate-700 fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <h1 class="text-3xl font-extrabold gradient-text">AhorraAI</h1>
+                <div class="w-9 h-9 bg-[#3b82f6] rounded-2xl flex items-center justify-center text-white text-2xl">🤖</div>
+                <h1 class="heading-font text-3xl font-semibold tracking-tighter text-[#1e3a6b]">AhorraAI</h1>
             </div>
-            <div class="hidden md:flex items-center gap-8 text-slate-300">
-                <a href="#soluciones" class="hover:text-white transition">Soluciones</a>
-                <a href="#como-funciona" class="hover:text-white transition">Cómo funciona</a>
-                <a href="#testimonios" class="hover:text-white transition">Clientes</a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#" class="hover:text-[#3b82f6]">Inicio</a>
+                <a href="#" class="hover:text-[#3b82f6]">Cómo funciona</a>
+                <a href="#" class="hover:text-[#3b82f6]">Precios</a>
+                <a href="#" class="hover:text-[#3b82f6]">Blog</a>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="mailto:contacto@ahorraai.com" 
-                   class="bg-blue-600 hover:bg-blue-500 px-6 py-2.5 rounded-2xl font-semibold transition text-sm">
-                    Contactar
-                </a>
-            </div>
+            <a href="#contacto" 
+               class="bg-[#3b82f6] text-white px-6 py-3 rounded-3xl font-semibold flex items-center gap-2 hover:bg-[#1e3a6b]">
+                Contactar ahora
+            </a>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="hero-bg pt-24 pb-20 md:pt-32 md:pb-28 text-center">
-        <div class="max-w-4xl mx-auto px-6">
-            <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter leading-none mb-6">
-                Automatiza.<br>
-                <span class="gradient-text">Ahorra.</span><br>
-                Escala.
-            </h1>
-            <p class="text-2xl text-slate-400 mb-10 max-w-2xl mx-auto">
-                Agentes de IA que trabajan 24/7 para reducir tus costes operativos y liberarte de tareas repetitivas.
+    <header class="hero-bg text-white py-20 md:py-28">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-medium px-5 py-2 rounded-3xl mb-6 backdrop-blur-md">
+                🚀 Nueva versión IA 2026
+            </div>
+            <h2 class="heading-font text-5xl md:text-6xl font-semibold leading-none tracking-tighter mb-6">
+                La IA que te hace<br>ahorrar miles de euros
+            </h2>
+            <p class="text-xl md:text-2xl max-w-2xl mx-auto opacity-90 mb-10">
+                Analizamos tus gastos, facturas y oportunidades en segundos.<br>
+                Resultados reales. Sin complicaciones.
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="mailto:contacto@ahorraai.com" 
-                   class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-3xl font-bold text-xl shadow-xl shadow-blue-500/30 transition-all active:scale-95">
-                    Solicitar demo gratuita
+                <a href="#contacto" 
+                   class="bg-white text-[#1e3a6b] px-10 py-5 rounded-3xl font-semibold text-xl shadow-xl flex items-center gap-3 hover:scale-105">
+                    Agenda tu llamada GRATIS
+                    <span class="text-3xl">📅</span>
                 </a>
-                <a href="#soluciones" 
-                   class="border border-slate-500 hover:border-slate-300 px-10 py-5 rounded-3xl font-semibold text-xl transition">
-                    Ver soluciones
+                
+                <a href="tel:+34614053674" 
+                   class="border-2 border-white/70 hover:border-white text-white px-8 py-5 rounded-3xl font-semibold flex items-center gap-3 text-lg">
+                    📞 Llamar ahora: <span class="font-mono">614 053 674</span>
                 </a>
             </div>
+            
+            <p class="text-sm mt-8 opacity-75 flex items-center justify-center gap-2">
+                <span class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
+                +240 personas ahorrando esta semana
+            </p>
+        </div>
+    </header>
 
-            <div class="mt-12 text-slate-400 text-sm flex items-center justify-center gap-8">
-                <div class="flex items-center gap-2">
-                    <span class="text-emerald-400">●</span> 
-                    Ya automatizamos +47 negocios
-                </div>
-                <div>ahorraai.com</div>
+    <!-- BENEFICIOS -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
+        <h2 class="text-center text-4xl font-semibold mb-12">¿Por qué miles de personas confían en AhorraAI?</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-3xl card-hover border">
+                <div class="text-5xl mb-6">💰</div>
+                <h3 class="text-2xl font-semibold mb-3">Ahorro real y medible</h3>
+                <p class="text-gray-600">Nuestra IA detecta automáticamente dónde estás perdiendo dinero y te da acciones concretas. Promedio de ahorro: 38% en los primeros 3 meses.</p>
+            </div>
+            <div class="bg-white p-8 rounded-3xl card-hover border">
+                <div class="text-5xl mb-6">⚡</div>
+                <h3 class="text-2xl font-semibold mb-3">Resultados en minutos</h3>
+                <p class="text-gray-600">Sube tus facturas o conecta tu banco y la IA hace todo el trabajo. Sin papeleo interminable.</p>
+            </div>
+            <div class="bg-white p-8 rounded-3xl card-hover border">
+                <div class="text-5xl mb-6">🛡️</div>
+                <h3 class="text-2xl font-semibold mb-3">100% seguro y privado</h3>
+                <p class="text-gray-600">Cumplimos RGPD. Tus datos nunca se venden. Solo los usamos para ayudarte a ahorrar.</p>
             </div>
         </div>
     </section>
 
-    <!-- SOLUCIONES / FEATURES -->
-    <section id="soluciones" class="py-20 bg-slate-950">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Soluciones que realmente ahorran tiempo y dinero</h2>
-                <p class="text-slate-400 max-w-xl mx-auto">Agentes de IA personalizados para tu sector.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2 2 2 0 01-2-2 2 2 0 012-2 2 2 0 01-2-2 2 2 0 012-2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Atención al cliente 24/7</h3>
-                    <p class="text-slate-400">Chatbots y agentes que responden consultas, cierran ventas y gestionan tickets automáticamente.</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
-                    <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2 2 2 0 01-2-2 2 2 0 01-2-2 2 2 0 012-2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Automatización de procesos</h3>
-                    <p class="text-slate-400">Facturación, seguimiento de leads, gestión de inventario y flujos repetitivos sin intervención humana.</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-slate-900/50 border border-slate-700 rounded-3xl p-8 card-hover">
-                    <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Análisis predictivo</h3>
-                    <p class="text-slate-400">Predice tendencias, optimiza precios y detecta oportunidades de ahorro en tiempo real.</p>
-                </div>
-            </div>
+    <!-- FORMULARIO DE CONTACTO + TELÉFONO + CALENDLY -->
+    <section id="contacto" class="max-w-4xl mx-auto px-6 py-20 bg-white rounded-3xl mx-4 shadow-xl">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-semibold mb-3">¿Listo para empezar a ahorrar?</h2>
+            <p class="text-xl text-gray-600">Rellena el formulario o agenda directamente. Te respondemos en menos de 2 horas.</p>
         </div>
-    </section>
 
-    <!-- CÓMO FUNCIONA -->
-    <section id="como-funciona" class="py-20 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">En 4 pasos tienes tu agente trabajando</h2>
+        <!-- Formulario -->
+        <form id="contactForm" class="grid md:grid-cols-2 gap-6 mb-16">
+            <div>
+                <label class="block text-sm font-medium mb-2">Nombre completo</label>
+                <input type="text" id="name" required
+                       class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg">
             </div>
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">1</div>
-                    <h4 class="font-semibold mb-2">Reunión de diagnóstico</h4>
-                    <p class="text-slate-400 text-sm">Analizamos tus procesos y detectamos oportunidades de automatización.</p>
-                </div>
-                <div>
-                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">2</div>
-                    <h4 class="font-semibold mb-2">Diseño del agente</h4>
-                    <p class="text-slate-400 text-sm">Creamos un agente de IA personalizado para tu negocio.</p>
-                </div>
-                <div>
-                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">3</div>
-                    <h4 class="font-semibold mb-2">Integración</h4>
-                    <p class="text-slate-400 text-sm">Conectamos el agente con tus herramientas (WhatsApp, Gmail, CRM...).</p>
-                </div>
-                <div>
-                    <div class="mx-auto w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl mb-6">4</div>
-                    <h4 class="font-semibold mb-2">Lanzamiento y seguimiento</h4>
-                    <p class="text-slate-400 text-sm">Tu agente empieza a trabajar y te reportamos los ahorros mensuales.</p>
-                </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Email</label>
+                <input type="email" id="email" required
+                       class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg">
             </div>
-        </div>
-    </section>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium mb-2">Tu consulta o cuánto quieres ahorrar al año</label>
+                <textarea id="message" rows="4" required
+                          class="form-input w-full px-6 py-4 rounded-3xl border border-gray-200 focus:outline-none text-lg"></textarea>
+            </div>
+            <div class="md:col-span-2">
+                <button type="submit"
+                        class="w-full bg-[#3b82f6] hover:bg-[#1e3a6b] text-white py-6 text-xl font-semibold rounded-3xl flex items-center justify-center gap-3">
+                    Enviar mensaje 
+                    <span class="text-3xl">→</span>
+                </button>
+            </div>
+        </form>
 
-    <!-- TESTIMONIOS -->
-    <section id="testimonios" class="py-20 bg-slate-950">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Lo que dicen quienes ya ahorran con AhorraAI</h2>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
-                    <p class="italic text-slate-300">"Redujimos un 68% el tiempo de atención al cliente en solo 3 semanas. Es como tener un equipo extra que nunca duerme."</p>
-                    <div class="mt-8 flex items-center gap-4">
-                        <div class="w-10 h-10 bg-amber-300 rounded-2xl"></div>
-                        <div>
-                            <div class="font-semibold">Laura Mendoza</div>
-                            <div class="text-sm text-slate-400">Fundadora - Tienda Online Moda</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
-                    <p class="italic text-slate-300">"Automatizamos toda la facturación y seguimiento de cobros. Ahora solo reviso el dashboard. Increíble."</p>
-                    <div class="mt-8 flex items-center gap-4">
-                        <div class="w-10 h-10 bg-teal-300 rounded-2xl"></div>
-                        <div>
-                            <div class="font-semibold">Carlos Rivera</div>
-                            <div class="text-sm text-slate-400">CEO - Constructora Rivera</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-slate-900/70 border border-slate-700 rounded-3xl p-8">
-                    <p class="italic text-slate-300">"El agente de ventas cerró 14 leads que yo hubiera perdido. ROI brutal en el primer mes."</p>
-                    <div class="mt-8 flex items-center gap-4">
-                        <div class="w-10 h-10 bg-rose-300 rounded-2xl"></div>
-                        <div>
-                            <div class="font-semibold">Marta López</div>
-                            <div class="text-sm text-slate-400">Directora - Agencia de Marketing</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA FINAL -->
-    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-center">
-        <div class="max-w-2xl mx-auto px-6">
-            <h2 class="text-5xl font-bold mb-6">¿Listo para dejar de perder tiempo y dinero?</h2>
-            <p class="text-2xl text-blue-100 mb-10">Agenda una llamada de 15 minutos y te mostramos cuánto puedes ahorrar.</p>
-            <a href="mailto:contacto@ahorraai.com" 
-               class="inline-block bg-white text-slate-900 hover:bg-slate-100 px-12 py-6 rounded-3xl font-bold text-2xl transition">
-                Contactar ahora →
+        <!-- Botones rápidos -->
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <!-- Teléfono -->
+            <a href="tel:+34614053674"
+               class="flex-1 max-w-xs bg-[#3b82f6] text-white px-8 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-4 hover:scale-105">
+                📞 Llamar ahora<br>
+                <span class="text-3xl font-mono">614 053 674</span>
             </a>
+            
+            <!-- Calendly botón -->
+            <a href="https://calendly.com/ahorraai" target="_blank"
+               class="flex-1 max-w-xs bg-emerald-600 text-white px-8 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-4 hover:scale-105">
+                📅 Agenda tu llamada gratis<br>
+                <span class="text-2xl">30 minutos</span>
+            </a>
+        </div>
+
+        <!-- Calendly incrustado (opcional pero recomendado) -->
+        <div class="mt-16">
+            <p class="text-center text-sm text-gray-500 mb-6">O agenda directamente aquí dentro de la web 👇</p>
+            <div class="calendly-inline-widget rounded-3xl overflow-hidden border border-gray-100 shadow-inner" 
+                 data-url="https://calendly.com/ahorraai?embed_domain=tuweb.com&amp;embed_type=inline"
+                 style="min-width:320px;height:700px;"></div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-950 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 text-slate-400 text-sm">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div>© 2026 AhorraAI - Tecnología de Vanguardia</div>
-                <div class="flex gap-8">
-                    <a href="#" class="hover:text-white">Política de privacidad</a>
-                    <a href="#" class="hover:text-white">Términos de servicio</a>
+    <footer class="bg-[#1e3a6b] text-white py-16">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center text-[#1e3a6b] text-2xl">🤖</div>
+                    <h1 class="heading-font text-3xl font-semibold">AhorraAI</h1>
                 </div>
-                <div class="text-center md:text-right">
-                    contacto@ahorraai.com<br>
-                    <span class="text-emerald-400">+34 000 000 000</span>
+                <p class="text-white/70">Inteligencia artificial al servicio de tu bolsillo.</p>
+            </div>
+            
+            <div class="text-sm">
+                <p class="font-medium mb-4">Enlaces rápidos</p>
+                <div class="space-y-2">
+                    <a href="#" class="block hover:text-[#3b82f6]">Cómo funciona</a>
+                    <a href="#" class="block hover:text-[#3b82f6]">Testimonios</a>
+                    <a href="#" class="block hover:text-[#3b82f6]">Precios</a>
                 </div>
+            </div>
+            
+            <div>
+                <p class="font-medium mb-4">Legal</p>
+                <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+                    <a href="terminos-de-servicio.html" class="hover:text-[#3b82f6]">Términos de Servicio</a>
+                    <a href="politica-de-privacidad.html" class="hover:text-[#3b82f6]">Política de Privacidad</a>
+                </div>
+                <p class="text-xs text-white/50 mt-8">
+                    © 2026 AhorraAI • Todos los derechos reservados<br>
+                    Tel: <a href="tel:+34614053674" class="underline">614 053 674</a>
+                </p>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script>
-        // Tailwind script ya está cargado
-        console.log('%c🚀 AhorraAI listo para ahorrar tiempo y dinero', 'color:#38bdf8; font-size:13px; font-weight:bold');
+        // Configuración Tailwind
+        function initTailwind() {
+            tailwind.config = {
+                content: ["./**/*.{html,js}"],
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#1e3a6b',
+                            accent: '#3b82f6'
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Animaciones al hacer scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = Math.random() * 200 + 'ms';
+                        entry.target.classList.add('animate-on-scroll');
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            document.querySelectorAll('.card-hover').forEach(el => observer.observe(el));
+        }
+        
+        // Formulario (envío simulado - puedes conectarlo a Formspree, EmailJS, etc.)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+            `;
+            
+            setTimeout(() => {
+                alert('✅ ¡Mensaje enviado! Te contactaremos en menos de 2 horas al teléfono o email que indicaste.');
+                this.reset();
+                btn.innerHTML = originalText;
+            }, 1200);
+        });
+        
+        // Inicializar todo
+        window.onload = function() {
+            initTailwind();
+            animateOnScroll();
+            console.log('%c✅ AhorraAI web cargada correctamente desde móvil 🚀', 'color:#3b82f6; font-size:13px; font-weight:bold');
+        };
     </script>
 </body>
 </html>

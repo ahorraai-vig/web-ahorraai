@@ -1,742 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>El Sabroso · Todo al Carbón · Vigo</title>
-<meta name="description" content="Pollo asado al carbón, shawarmas y raciones en el corazón de Vigo. Calle Burgos 33. Sabor auténtico, fuego de verdad.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --fire: #FF4E00;
-    --ember: #FF8C00;
-    --gold: #FFB830;
-    --smoke: #1A1208;
-    --ash: #2E2416;
-    --cream: #FFF8EE;
-    --warm-gray: #8A7560;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--smoke);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 2rem;
-    background: linear-gradient(to bottom, rgba(26,18,8,0.95), transparent);
-    backdrop-filter: blur(2px);
-  }
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    letter-spacing: 0.08em;
-    color: var(--gold);
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: var(--cream); text-decoration: none;
-    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
-    opacity: 0.8; transition: opacity 0.2s, color 0.2s;
-  }
-  .nav-links a:hover { opacity: 1; color: var(--gold); }
-
-  /* ── HERO ── */
-  #hero {
-    position: relative; min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    background: radial-gradient(ellipse at 60% 40%, #3D1F00 0%, var(--smoke) 70%);
-  }
-
-  /* Particle / ember canvas */
-  #ember-canvas {
-    position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  }
-
-  /* Diagonal fire glow strip */
-  .fire-strip {
-    position: absolute; bottom: -100px; right: -100px;
-    width: 600px; height: 600px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,78,0,0.35) 0%, transparent 70%);
-    pointer-events: none; z-index: 1;
-    animation: pulse 4s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.15); opacity: 1; }
-  }
-
-  .hero-content {
-    position: relative; z-index: 2;
-    text-align: center;
-    padding: 2rem;
-    animation: fadeUp 1s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-label {
-    display: inline-block;
-    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1rem;
-    border: 1px solid rgba(255,184,48,0.3); border-radius: 2px;
-    padding: 0.3rem 1rem;
-    animation: fadeUp 1s 0.2s ease both;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4.5rem, 14vw, 11rem);
-    line-height: 0.9;
-    letter-spacing: 0.02em;
-    background: linear-gradient(160deg, var(--cream) 30%, var(--gold) 60%, var(--fire) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: fadeUp 1s 0.3s ease both;
-  }
-
-  .hero-sub {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(1.1rem, 3vw, 1.8rem);
-    color: var(--ember);
-    margin-top: 0.5rem;
-    animation: fadeUp 1s 0.5s ease both;
-  }
-
-  .hero-claim {
-    margin-top: 1.5rem;
-    font-size: 1rem; font-weight: 300;
-    color: rgba(255,248,238,0.7);
-    letter-spacing: 0.04em;
-    animation: fadeUp 1s 0.7s ease both;
-  }
-
-  .hero-cta {
-    margin-top: 2.5rem;
-    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-    animation: fadeUp 1s 0.9s ease both;
-  }
-
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.85rem 2rem; border-radius: 3px;
-    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
-    font-weight: 500; text-decoration: none; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: none;
-  }
-  .btn:hover { transform: translateY(-2px); }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--fire), var(--ember));
-    color: white;
-    box-shadow: 0 4px 20px rgba(255,78,0,0.4);
-  }
-  .btn-primary:hover { box-shadow: 0 6px 30px rgba(255,78,0,0.6); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--cream);
-    border: 1px solid rgba(255,248,238,0.3);
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-  .scroll-hint {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    z-index: 2; animation: bounce 2s infinite;
-    color: var(--warm-gray); font-size: 0.75rem; letter-spacing: 0.15em;
-    text-transform: uppercase; text-align: center;
-  }
-  @keyframes bounce {
-    0%,100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-  }
-
-  /* ── SECTION COMMONS ── */
-  section { padding: 6rem 2rem; }
-  .section-tag {
-    font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--fire); margin-bottom: 0.5rem; display: block;
-  }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    line-height: 1;
-    color: var(--cream);
-  }
-  .divider {
-    width: 60px; height: 3px;
-    background: linear-gradient(90deg, var(--fire), transparent);
-    margin: 1.5rem 0 3rem;
-  }
-
-  /* ── MENU ── */
-  #menu { background: var(--ash); }
-  .menu-inner { max-width: 1100px; margin: 0 auto; }
-
-  .menu-categories {
-    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem;
-  }
-  .cat-btn {
-    padding: 0.5rem 1.2rem; border-radius: 2px; cursor: pointer;
-    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
-    background: rgba(255,248,238,0.05);
-    color: var(--warm-gray); border: 1px solid rgba(255,248,238,0.08);
-    transition: all 0.2s;
-  }
-  .cat-btn.active, .cat-btn:hover {
-    background: var(--fire); color: white; border-color: var(--fire);
-  }
-
-  .menu-section { display: none; }
-  .menu-section.active { display: block; }
-
-  .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .menu-card {
-    background: rgba(255,248,238,0.04);
-    border: 1px solid rgba(255,248,238,0.07);
-    border-radius: 4px;
-    padding: 1.5rem;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative; overflow: hidden;
-  }
-  .menu-card::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(to bottom, var(--fire), var(--gold));
-    opacity: 0; transition: opacity 0.2s;
-  }
-  .menu-card:hover { border-color: rgba(255,78,0,0.3); transform: translateY(-2px); }
-  .menu-card:hover::before { opacity: 1; }
-
-  .menu-card-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem; font-weight: 700;
-    color: var(--cream); margin-bottom: 0.3rem;
-  }
-  .menu-card-desc {
-    font-size: 0.82rem; color: var(--warm-gray); line-height: 1.5;
-    margin-bottom: 1rem;
-  }
-  .menu-card-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem; letter-spacing: 0.05em;
-    color: var(--gold);
-  }
-  .menu-card-badge {
-    display: inline-block; margin-bottom: 0.5rem;
-    background: rgba(255,78,0,0.15); color: var(--fire);
-    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
-    padding: 0.2rem 0.6rem; border-radius: 2px; border: 1px solid rgba(255,78,0,0.2);
-  }
-
-  /* ── GALLERY ── */
-  #gallery { background: var(--smoke); }
-  .gallery-inner { max-width: 1100px; margin: 0 auto; }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 1rem;
-  }
-  .gallery-item {
-    background: var(--ash);
-    border-radius: 4px; overflow: hidden;
-    aspect-ratio: 4/3;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-    position: relative;
-    border: 1px solid rgba(255,248,238,0.06);
-    transition: transform 0.3s;
-  }
-  .gallery-item:hover { transform: scale(1.02); z-index: 2; }
-  .gallery-item:first-child {
-    grid-column: span 2; grid-row: span 2;
-    aspect-ratio: unset; min-height: 300px;
-  }
-  .gallery-label {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 1rem 1.2rem;
-    background: linear-gradient(to top, rgba(26,18,8,0.9), transparent);
-    font-size: 0.82rem; letter-spacing: 0.08em;
-    color: var(--cream);
-  }
-  .gallery-emoji { font-size: 4rem; }
-  .gallery-item:first-child .gallery-emoji { font-size: 6rem; }
-
-  /* ── LOCATION ── */
-  #location { background: var(--ash); }
-  .location-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
-  }
-  .location-info { }
-  .location-detail {
-    display: flex; align-items: flex-start; gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .location-icon {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: rgba(255,78,0,0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; flex-shrink: 0;
-    border: 1px solid rgba(255,78,0,0.2);
-  }
-  .location-text-label {
-    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--warm-gray); margin-bottom: 0.25rem;
-  }
-  .location-text-value { font-size: 1rem; color: var(--cream); }
-
-  .map-placeholder {
-    background: var(--smoke);
-    border: 1px solid rgba(255,248,238,0.08);
-    border-radius: 4px; overflow: hidden;
-    aspect-ratio: 4/3;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 0.5rem;
-    position: relative;
-  }
-  .map-placeholder iframe {
-    width: 100%; height: 100%; border: none; position: absolute; inset: 0;
-  }
-  .map-grid {
-    position: absolute; inset: 0; opacity: 0.08;
-    background-image: linear-gradient(var(--warm-gray) 1px, transparent 1px),
-                      linear-gradient(90deg, var(--warm-gray) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .map-pin { font-size: 3rem; position: relative; z-index: 1; }
-  .map-address { font-size: 0.85rem; color: var(--warm-gray); position: relative; z-index: 1; }
-
-  /* ── CONTACT / WHATSAPP ── */
-  #contact {
-    background: var(--smoke);
-    text-align: center;
-  }
-  .contact-inner { max-width: 600px; margin: 0 auto; }
-  .contact-desc {
-    font-size: 1.05rem; color: rgba(255,248,238,0.65);
-    line-height: 1.7; margin-bottom: 3rem;
-  }
-  .wa-btn {
-    display: inline-flex; align-items: center; gap: 0.75rem;
-    background: #25D366; color: white;
-    padding: 1rem 2.5rem; border-radius: 3px;
-    font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;
-    text-decoration: none;
-    box-shadow: 0 4px 30px rgba(37,211,102,0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .wa-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(37,211,102,0.45); }
-  .wa-icon { font-size: 1.4rem; }
-
-  .contact-or { margin: 2rem 0; color: var(--warm-gray); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; }
-
-  .contact-phone {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem; letter-spacing: 0.08em;
-    color: var(--gold); text-decoration: none;
-    transition: color 0.2s;
-  }
-  .contact-phone:hover { color: var(--fire); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #0F0A04;
-    padding: 2rem; text-align: center;
-    border-top: 1px solid rgba(255,248,238,0.05);
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem; letter-spacing: 0.1em;
-    color: var(--gold); margin-bottom: 0.5rem;
-  }
-  .footer-copy { font-size: 0.75rem; color: var(--warm-gray); }
-  .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 1rem 0; }
-  .footer-links a { color: var(--warm-gray); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--gold); }
-
-  /* ── FLOATING WA ── */
-  .float-wa {
-    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: #25D366; display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; text-decoration: none;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-    transition: transform 0.2s;
-    animation: fadeUp 1s 1.5s ease both;
-  }
-  .float-wa:hover { transform: scale(1.1); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .location-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-item:first-child { grid-column: span 2; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Danza Ritmo | Vigo</title>
+    <style>
+        :root {
+            --primary-color: #ff3366;
+            --secondary-color: #2c3e50;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 5px solid var(--primary-color);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        header p {
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .section-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--background-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        ul.style-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            list-style-type: none;
+            padding: 0;
+        }
+        ul.style-list li {
+            background-color: var(--background-color);
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            border-left: 3px solid var(--primary-color);
+        }
+        .contact-info {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .contact-info a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .alternative {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">El Sabroso</div>
-  <ul class="nav-links">
-    <li><a href="#menu">Menú</a></li>
-    <li><a href="#gallery">Galería</a></li>
-    <li><a href="#location">Ubicación</a></li>
-    <li><a href="#contact">Contacto</a></li>
-  </ul>
-</nav>
+    <header>
+        <h1>Centro de Danza Ritmo</h1>
+        <p>Tu academia de baile y artes escénicas en el corazón de Vigo</p>
+    </header>
 
-<section id="hero">
-  <canvas id="ember-canvas"></canvas>
-  <div class="fire-strip"></div>
-  <div class="hero-content">
-    <span class="hero-label">📍 Vigo · Calle Burgos 33</span>
-    <h1 class="hero-title">El Sabroso</h1>
-    <p class="hero-sub">Todo al Carbón</p>
-    <p class="hero-claim">Pollo asado · Shawarmas · Raciones · Fuego de verdad</p>
-    <div class="hero-cta">
-      <a href="#menu" class="btn btn-primary">🍗 Ver Menú</a>
-      <a href="#contact" class="btn btn-outline">Contactar</a>
-    </div>
-  </div>
-  <div class="scroll-hint">↓ Descubre</div>
-</section>
-
-<section id="menu">
-  <div class="menu-inner">
-    <span class="section-tag">— Nuestra carta</span>
-    <h2 class="section-title">El Menú</h2>
-    <div class="divider"></div>
-
-    <div class="menu-categories">
-      <button class="cat-btn active" onclick="showCat('grande')">Menú Grande</button>
-      <button class="cat-btn" onclick="showCat('shawarmas')">Shawarmas</button>
-      <button class="cat-btn" onclick="showCat('menu-sha')">Menú Shawarma</button>
-      <button class="cat-btn" onclick="showCat('raciones')">Raciones</button>
-    </div>
-
-    <div class="menu-section active" id="cat-grande">
-      <div class="menu-grid">
-        <div class="menu-card">
-          <div class="menu-card-badge">⭐ Estrella</div>
-          <div class="menu-card-name">Pollo Asado al Carbón</div>
-          <div class="menu-card-desc">Pollo entero asado lentamente al carbón + patatas</div>
-          <div class="menu-card-price">15€</div>
+    <div class="container">
+        
+        <div class="section-card">
+            <h2>Sobre Nosotros</h2>
+            <p>Ubicados muy cerca del popular local <em>El Sabroso</em>, el <strong>Centro de Danza Ritmo</strong> es una academia reconocida en Vigo que ofrece una amplísima variedad de disciplinas para todas las edades. No solo somos una escuela de danza, sino un espacio creativo dedicado al ritmo, el movimiento y la diversión.</p>
+            <p><strong>📍 Ubicación:</strong> Rúa de Burgos, 42, 36208 Vigo, Pontevedra.</p>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-badge">👨‍👩‍👧‍👦 Familiar</div>
-          <div class="menu-card-name">Menú Familiar</div>
-          <div class="menu-card-desc">Pollo familiar + croquetas (8 uds.) + patatas + arroz + ensalada</div>
-          <div class="menu-card-price">34€</div>
+
+        <div class="section-card">
+            <h2>Estilos y Disciplinas</h2>
+            <p>Ofrecemos clases adaptadas a todos los niveles en las siguientes disciplinas:</p>
+            <ul class="style-list">
+                <li>Comercial</li>
+                <li>Break Dance</li>
+                <li>Urbano / Latinurban</li>
+                <li>Contemporáneo</li>
+                <li>Jazz & Moderno</li>
+                <li>K-Pop</li>
+                <li>Predanza</li>
+                <li>Gimnasia Rítmica</li>
+                <li>Teatro</li>
+                <li>Bachata</li>
+            </ul>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-name">½ Pollo Completo</div>
-          <div class="menu-card-desc">Medio pollo al carbón + patatas + arroz + ensalada</div>
-          <div class="menu-card-price">17,50€</div>
+
+        <div class="section-card">
+            <h2>Servicios Adicionales</h2>
+            <p>¡Llevamos el ritmo más allá de las clases! Nos especializamos en:</p>
+            <ul>
+                <li><strong>Organización de Eventos:</strong> Preparación de coreografías y espectáculos.</li>
+                <li><strong>Animación Infantil:</strong> El mejor entretenimiento para bodas, comuniones y fiestas.</li>
+                <li><strong>Campamentos:</strong> Actividades de inmersión en baile y diversión para los más pequeños.</li>
+            </ul>
         </div>
-      </div>
+
+        <div class="contact-info">
+            <h2>¡Únete a nuestra familia!</h2>
+            <p>Descubre todas nuestras novedades, horarios y eventos siguiéndonos en nuestras redes sociales:</p>
+            <p>📸 Instagram: <a href="https://instagram.com/ritmovigocentrodedanza" target="_blank">@ritmovigocentrodedanza</a> | También estamos en Facebook</p>
+        </div>
+
+        <div class="alternative">
+            <p><em>¿Buscas otras opciones en Vigo?</em> En el centro también puedes encontrar <strong>Caixa de Ritmos</strong>, enfocada en estilos como hip hop, afro, contemporáneo y lindy hop.</p>
+        </div>
+
     </div>
 
-    <div class="menu-section" id="cat-shawarmas">
-      <div class="menu-grid">
-        <div class="menu-card">
-          <div class="menu-card-name">Shawarma de Pollo</div>
-          <div class="menu-card-desc">Pollo marinado en pan de shawarma con salsas de la casa</div>
-          <div class="menu-card-price">5,50€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Shawarma de Ternera</div>
-          <div class="menu-card-desc">Ternera en pan de shawarma con salsas de la casa</div>
-          <div class="menu-card-price">7€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Kofta</div>
-          <div class="menu-card-desc">Ternera picada especiada en pan de shawarma</div>
-          <div class="menu-card-price">6,50€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-badge">🌱 Vegetal</div>
-          <div class="menu-card-name">Falafel</div>
-          <div class="menu-card-desc">Croquetas vegetales a base de garbanzos en pan de shawarma</div>
-          <div class="menu-card-price">5€</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-section" id="cat-menu-sha">
-      <div class="menu-grid">
-        <div class="menu-card">
-          <div class="menu-card-name">Menú Pollo</div>
-          <div class="menu-card-desc">Shawarma de pollo + patatas + refresco</div>
-          <div class="menu-card-price">7,75€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Menú Ternera</div>
-          <div class="menu-card-desc">Shawarma de ternera + patatas + refresco</div>
-          <div class="menu-card-price">9,50€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Menú Kofta</div>
-          <div class="menu-card-desc">Shawarma de kofta + patatas + refresco</div>
-          <div class="menu-card-price">8,50€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-badge">🌱 Vegetal</div>
-          <div class="menu-card-name">Menú Falafel</div>
-          <div class="menu-card-desc">Shawarma de falafel + ensalada o patatas + refresco</div>
-          <div class="menu-card-price">7,50€</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-section" id="cat-raciones">
-      <div class="menu-grid">
-        <div class="menu-card">
-          <div class="menu-card-name">Hummus</div>
-          <div class="menu-card-desc">Crema de garbanzos con salsa de sésamo</div>
-          <div class="menu-card-price">7€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Ensalada Mixta</div>
-          <div class="menu-card-desc">Ensalada fresca de temporada</div>
-          <div class="menu-card-price">5€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-badge">🌱 Vegetal</div>
-          <div class="menu-card-name">Falafel + Acompañamiento</div>
-          <div class="menu-card-desc">Ración de falafel + ensalada o patatas</div>
-          <div class="menu-card-price">8€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Alitas Asadas (12 uds.)</div>
-          <div class="menu-card-desc">Alitas de pollo asadas + patatas</div>
-          <div class="menu-card-price">8,95€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Croquetas de Pollo (10 uds.)</div>
-          <div class="menu-card-desc">Croquetas de pollo caseras + patatas</div>
-          <div class="menu-card-price">8,50€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Brochetas de Pollo (4 uds.)</div>
-          <div class="menu-card-desc">Brochetas de pollo + patatas + arroz + ensalada</div>
-          <div class="menu-card-price">11€</div>
-        </div>
-        <div class="menu-card">
-          <div class="menu-card-name">Tiras de Pollo</div>
-          <div class="menu-card-desc">Tiras de pollo crujientes + patatas</div>
-          <div class="menu-card-price">8,90€</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="gallery">
-  <div class="gallery-inner">
-    <span class="section-tag">— Sabor visual</span>
-    <h2 class="section-title">Galería</h2>
-    <div class="divider"></div>
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <div class="map-grid"></div>
-        <span class="gallery-emoji">🍗</span>
-        <div class="gallery-label">Pollo al Carbón — especialidad de la casa</div>
-      </div>
-      <div class="gallery-item">
-        <span class="gallery-emoji">🌯</span>
-        <div class="gallery-label">Shawarmas</div>
-      </div>
-      <div class="gallery-item">
-        <span class="gallery-emoji">🔥</span>
-        <div class="gallery-label">Al Carbón</div>
-      </div>
-      <div class="gallery-item">
-        <span class="gallery-emoji">🧆</span>
-        <div class="gallery-label">Falafel</div>
-      </div>
-      <div class="gallery-item">
-        <span class="gallery-emoji">🍟</span>
-        <div class="gallery-label">Raciones</div>
-      </div>
-    </div>
-    <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--warm-gray); font-style:italic;">
-      * Las fotos reales del local se añadirán en la versión final
-    </p>
-  </div>
-</section>
-
-<section id="location">
-  <div class="location-inner">
-    <div class="location-info">
-      <span class="section-tag">— Encuéntranos</span>
-      <h2 class="section-title">Dónde<br>Estamos</h2>
-      <div class="divider"></div>
-
-      <div class="location-detail">
-        <div class="location-icon">📍</div>
-        <div>
-          <div class="location-text-label">Dirección</div>
-          <div class="location-text-value">Calle Burgos, 33<br>Vigo, Pontevedra</div>
-        </div>
-      </div>
-      <div class="location-detail">
-        <div class="location-icon">🕐</div>
-        <div>
-          <div class="location-text-label">Horario</div>
-          <div class="location-text-value">Lunes – Domingo<br>12:00 – 23:00</div>
-        </div>
-      </div>
-      <div class="location-detail">
-        <div class="location-icon">🚇</div>
-        <div>
-          <div class="location-text-label">Cómo llegar</div>
-          <div class="location-text-value">Fácil acceso en transporte público.<br>Aparcamiento cercano disponible.</div>
-        </div>
-      </div>
-      <a href="https://maps.google.com/?q=Calle+Burgos+33+Vigo" target="_blank" class="btn btn-primary" style="margin-top:1rem;">
-        🗺️ Abrir en Maps
-      </a>
-    </div>
-
-    <div class="map-placeholder">
-      <div class="map-grid"></div>
-      <div class="map-pin">📍</div>
-      <div class="map-address">Calle Burgos 33, Vigo</div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="contact-inner">
-    <span class="section-tag">— Hablamos</span>
-    <h2 class="section-title">Contacto</h2>
-    <div class="divider" style="margin-left:auto;margin-right:auto;background:linear-gradient(90deg,transparent,var(--fire),transparent);"></div>
-    <p class="contact-desc">
-      ¿Quieres hacer un pedido, reservar o simplemente preguntarnos algo?<br>
-      Escríbenos directamente por WhatsApp — respondemos rápido.
-    </p>
-    <a href="https://wa.me/34694305133?text=Hola%2C%20me%20gustar%C3%ADa%20hacer%20un%20pedido" class="wa-btn" target="_blank">
-      <span class="wa-icon">💬</span> Escribir por WhatsApp
-    </a>
-    <div class="contact-or">— o llámanos —</div>
-    <a href="tel:+34694305133" class="contact-phone">694 30 51 33</a>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">El Sabroso</div>
-  <div class="footer-links">
-    <a href="#menu">Menú</a>
-    <a href="#gallery">Galería</a>
-    <a href="#location">Ubicación</a>
-    <a href="#contact">Contacto</a>
-  </div>
-  <div class="footer-copy">© 2025 El Sabroso · Todo al Carbón · Calle Burgos 33, Vigo</div>
-</footer>
-
-<a href="https://wa.me/34694305133" class="float-wa" target="_blank" title="WhatsApp">💬</a>
-
-<script>
-  // Category switcher
-  function showCat(id) {
-    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('cat-' + id).classList.add('active');
-    event.target.classList.add('active');
-  }
-
-  // Ember particles
-  const canvas = document.getElementById('ember-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  class Ember {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * W;
-      this.y = H + 10;
-      this.vx = (Math.random() - 0.5) * 0.8;
-      this.vy = -(Math.random() * 1.5 + 0.5);
-      this.life = 1;
-      this.decay = Math.random() * 0.008 + 0.003;
-      this.size = Math.random() * 3 + 1;
-      this.hue = Math.random() * 30; // 0-30 = orange/red
-    }
-    update() {
-      this.x += this.vx + Math.sin(Date.now() * 0.001 + this.y * 0.01) * 0.3;
-      this.y += this.vy;
-      this.life -= this.decay;
-      if (this.life <= 0) this.reset();
-    }
-    draw() {
-      ctx.save();
-      ctx.globalAlpha = this.life * 0.7;
-      ctx.fillStyle = `hsl(${this.hue}, 100%, 60%)`;
-      ctx.shadowColor = `hsl(${this.hue}, 100%, 50%)`;
-      ctx.shadowBlur = 6;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  for (let i = 0; i < 60; i++) {
-    const e = new Ember();
-    e.y = Math.random() * H; // start spread
-    particles.push(e);
-  }
-
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(loop);
-  }
-  loop();
-
-  // Intersection observer for scroll animations
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.style.animation = 'fadeUp 0.7s ease both';
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.menu-card, .gallery-item, .location-detail').forEach(el => obs.observe(el));
-</script>
 </body>
 </html>

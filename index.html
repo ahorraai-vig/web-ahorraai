@@ -1,874 +1,570 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AhorraAI — Ponemos tu negocio en internet en 48 horas. Web profesional, redes sociales, ficha de Google y automatización con IA para negocios locales en Vigo.">
-    <meta name="keywords" content="página web negocios Vigo, presencia digital Vigo, web para tiendas Vigo, agencia digital Vigo, automatización IA negocios">
-    <title>AhorraAI • Tu negocio en internet en 48 horas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Sabroso · Todo al Carbón · Vigo</title>
+<meta name="description" content="Pollo asado al carbón, shawarmas y raciones en el corazón de Vigo. Calle Burgos 33. Sabor auténtico, fuego de verdad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire: #FF4E00;
+    --ember: #FF8C00;
+    --gold: #FFB830;
+    --smoke: #1A1208;
+    --ash: #2E2416;
+    --cream: #FFF8EE;
+    --warm-gray: #8A7560;
+  }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <style>
-        :root {
-            --navy:   #0f2444;
-            --blue:   #1d5fdc;
-            --sky:    #4f9cf9;
-            --green:  #22c97a;
-            --cream:  #f5f3ee;
-            --white:  #ffffff;
-            --ink:    #141414;
-            --muted:  #6b7280;
-            --border: #e2e2dc;
-        }
+  html { scroll-behavior: smooth; }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--smoke);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
 
-        html { scroll-behavior: smooth; }
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--cream); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.8; transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            overflow-x: hidden;
-        }
+  /* ── HERO ── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 60% 40%, #3D1F00 0%, var(--smoke) 70%);
+  }
 
-        h1, h2, h3, .syne { font-family: 'Syne', sans-serif; }
+  /* Particle / ember canvas */
+  #ember-canvas {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  }
 
-        /* ── NAVBAR ── */
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(245,243,238,0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 2rem;
-        }
-        .nav-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 68px;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 36px; height: 36px;
-            background: var(--navy);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-        }
-        .logo-text {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: var(--navy);
-            letter-spacing: -0.03em;
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .nav-links a {
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--muted);
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--navy); }
-        .nav-cta {
-            background: var(--navy);
-            color: var(--white) !important;
-            padding: 0.6rem 1.4rem;
-            border-radius: 100px;
-            font-size: 0.875rem !important;
-            font-weight: 500 !important;
-            transition: background 0.2s !important;
-        }
-        .nav-cta:hover { background: var(--blue) !important; color: var(--white) !important; }
+  /* Diagonal fire glow strip */
+  .fire-strip {
+    position: absolute; bottom: -100px; right: -100px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,78,0,0.35) 0%, transparent 70%);
+    pointer-events: none; z-index: 1;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
 
-        /* ── HERO ── */
-        .hero {
-            background: var(--navy);
-            color: var(--white);
-            padding: 5rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -10%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(29,95,220,0.35) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -20%;
-            left: -5%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(34,201,122,0.15) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.85);
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
-            margin-bottom: 2rem;
-            letter-spacing: 0.02em;
-        }
-        .hero-badge span { color: var(--green); }
-        .hero h1 {
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            font-weight: 800;
-            line-height: 1.0;
-            letter-spacing: -0.04em;
-            margin-bottom: 1.5rem;
-            max-width: 800px;
-        }
-        .hero h1 em {
-            font-style: normal;
-            color: var(--sky);
-        }
-        .hero-sub {
-            font-size: 1.15rem;
-            font-weight: 300;
-            color: rgba(255,255,255,0.7);
-            max-width: 540px;
-            line-height: 1.65;
-            margin-bottom: 2.5rem;
-        }
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-        }
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--green);
-            color: var(--navy);
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 1rem 2rem;
-            border-radius: 100px;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(34,201,122,0.4);
-        }
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 1.5px solid rgba(255,255,255,0.3);
-            color: rgba(255,255,255,0.85);
-            font-size: 0.95rem;
-            padding: 0.95rem 1.8rem;
-            border-radius: 100px;
-            text-decoration: none;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .btn-outline:hover { border-color: white; color: white; }
-        .hero-proof {
-            margin-top: 3.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2.5rem;
-        }
-        .proof-item {
-            display: flex;
-            flex-direction: column;
-        }
-        .proof-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--green);
-            letter-spacing: -0.03em;
-        }
-        .proof-label {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
-            margin-top: 2px;
-        }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    animation: fadeUp 1s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-        /* ── SECTION BASE ── */
-        section { padding: 5rem 2rem; }
-        .section-inner { max-width: 1100px; margin: 0 auto; }
-        .section-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--blue);
-            margin-bottom: 1rem;
-        }
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            color: var(--navy);
-        }
-        .section-sub {
-            font-size: 1.05rem;
-            color: var(--muted);
-            max-width: 560px;
-            line-height: 1.65;
-        }
+  .hero-label {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    border: 1px solid rgba(255,184,48,0.3); border-radius: 2px;
+    padding: 0.3rem 1rem;
+    animation: fadeUp 1s 0.2s ease both;
+  }
 
-        /* ── PARA QUIÉN ── */
-        .forwhom { background: var(--white); }
-        .forwhom-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        .forwhom-card {
-            background: var(--cream);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            transition: transform 0.25s, box-shadow 0.25s;
-        }
-        .forwhom-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(15,36,68,0.08);
-        }
-        .forwhom-icon { font-size: 2rem; }
-        .forwhom-name {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--navy);
-        }
-        .forwhom-desc {
-            font-size: 0.82rem;
-            color: var(--muted);
-            line-height: 1.5;
-        }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    background: linear-gradient(160deg, var(--cream) 30%, var(--gold) 60%, var(--fire) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 1s 0.3s ease both;
+  }
 
-        /* ── SERVICIOS ── */
-        .services { background: var(--cream); }
-        .services-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .plan-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .plan-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(15,36,68,0.1);
-        }
-        .plan-card.featured {
-            border-color: var(--blue);
-            background: var(--navy);
-            color: var(--white);
-        }
-        .plan-badge {
-            position: absolute;
-            top: 1.2rem; right: 1.2rem;
-            background: var(--green);
-            color: var(--navy);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 0.25rem 0.7rem;
-            border-radius: 100px;
-        }
-        .plan-name {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 0.5rem;
-        }
-        .plan-card.featured .plan-name { color: rgba(255,255,255,0.5); }
-        .plan-price {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            color: var(--navy);
-            line-height: 1;
-            margin-bottom: 0.3rem;
-        }
-        .plan-card.featured .plan-price { color: var(--white); }
-        .plan-period {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-        }
-        .plan-card.featured .plan-period { color: rgba(255,255,255,0.5); }
-        .plan-divider {
-            height: 1px;
-            background: var(--border);
-            margin-bottom: 1.5rem;
-        }
-        .plan-card.featured .plan-divider { background: rgba(255,255,255,0.15); }
-        .plan-features {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            flex: 1;
-            margin-bottom: 2rem;
-        }
-        .plan-features li {
-            font-size: 0.9rem;
-            color: var(--ink);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.6rem;
-            line-height: 1.4;
-        }
-        .plan-card.featured .plan-features li { color: rgba(255,255,255,0.85); }
-        .plan-features li::before {
-            content: '✓';
-            color: var(--green);
-            font-weight: 700;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-        .plan-cta {
-            display: block;
-            text-align: center;
-            padding: 0.9rem;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: all 0.2s;
-            background: var(--cream);
-            color: var(--navy);
-            border: 1.5px solid var(--border);
-        }
-        .plan-cta:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
-        .plan-card.featured .plan-cta {
-            background: var(--green);
-            color: var(--navy);
-            border-color: transparent;
-        }
-        .plan-card.featured .plan-cta:hover {
-            background: #1aaf68;
-        }
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--ember);
+    margin-top: 0.5rem;
+    animation: fadeUp 1s 0.5s ease both;
+  }
 
-        /* ── CÓMO FUNCIONA ── */
-        .how { background: var(--white); }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-            counter-reset: steps;
-        }
-        .step {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            counter-increment: steps;
-            position: relative;
-        }
-        .step-num {
-            width: 48px; height: 48px;
-            background: var(--navy);
-            color: var(--white);
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .step h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--navy);
-        }
-        .step p {
-            font-size: 0.88rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
+  .hero-claim {
+    margin-top: 1.5rem;
+    font-size: 1rem; font-weight: 300;
+    color: rgba(255,248,238,0.7);
+    letter-spacing: 0.04em;
+    animation: fadeUp 1s 0.7s ease both;
+  }
 
-        /* ── POR QUÉ NOSOTROS ── */
-        .why { background: var(--navy); color: var(--white); }
-        .why .section-title { color: var(--white); }
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        .why-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 1.75rem;
-        }
-        .why-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-        .why-card h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .why-card p {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.6;
-        }
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 1s 0.9s ease both;
+  }
 
-        /* ── CONTACTO ── */
-        .contact { background: var(--cream); }
-        .contact-box {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 3rem;
-            max-width: 700px;
-            margin: 3rem auto 0;
-        }
-        .contact-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-        .contact-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-            padding: 1.5rem;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .contact-btn:hover { transform: translateY(-3px); }
-        .contact-btn.phone {
-            background: var(--navy);
-            color: var(--white);
-        }
-        .contact-btn.cal {
-            background: var(--green);
-            color: var(--navy);
-        }
-        .contact-btn span { font-size: 1.5rem; }
-        .contact-btn small { font-size: 0.78rem; opacity: 0.7; font-weight: 400; }
-        .calendly-wrap {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2rem; border-radius: 3px;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; text-decoration: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+  }
+  .btn:hover { transform: translateY(-2px); }
 
-        /* ── FOOTER ── */
-        footer {
-            background: var(--ink);
-            color: rgba(255,255,255,0.6);
-            padding: 3rem 2rem;
-        }
-        .footer-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        .footer-logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: var(--white);
-            letter-spacing: -0.03em;
-        }
-        .footer-links { display: flex; gap: 2rem; }
-        .footer-links a {
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-        .footer-links a:hover { color: var(--white); }
-        .footer-copy { font-size: 0.78rem; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    color: white;
+    box-shadow: 0 4px 20px rgba(255,78,0,0.4);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 30px rgba(255,78,0,0.6); }
 
-        /* ── ANIMATIONS ── */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .btn-outline {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(255,248,238,0.3);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero { padding: 3.5rem 1.5rem 3rem; }
-            .hero h1 { font-size: 2.6rem; }
-            .contact-actions { grid-template-columns: 1fr; }
-            .contact-box { padding: 2rem 1.5rem; }
-            section { padding: 3.5rem 1.5rem; }
-        }
-    </style>
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; animation: bounce 2s infinite;
+    color: var(--warm-gray); font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; text-align: center;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 6rem 2rem; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--fire); margin-bottom: 0.5rem; display: block;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 1;
+    color: var(--cream);
+  }
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--fire), transparent);
+    margin: 1.5rem 0 3rem;
+  }
+
+  /* ── MENU ── */
+  #menu { background: var(--ash); }
+  .menu-inner { max-width: 1100px; margin: 0 auto; }
+
+  .menu-categories {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem;
+  }
+  .cat-btn {
+    padding: 0.5rem 1.2rem; border-radius: 2px; cursor: pointer;
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(255,248,238,0.05);
+    color: var(--warm-gray); border: 1px solid rgba(255,248,238,0.08);
+    transition: all 0.2s;
+  }
+  .cat-btn.active, .cat-btn:hover {
+    background: var(--fire); color: white; border-color: var(--fire);
+  }
+
+  .menu-section { display: none; }
+  .menu-section.active { display: block; }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .menu-card {
+    background: rgba(255,248,238,0.04);
+    border: 1px solid rgba(255,248,238,0.07);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .menu-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--fire), var(--gold));
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .menu-card:hover { border-color: rgba(255,78,0,0.3); transform: translateY(-2px); }
+  .menu-card:hover::before { opacity: 1; }
+
+  .menu-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--cream); margin-bottom: 0.3rem;
+  }
+  .menu-card-desc {
+    font-size: 0.82rem; color: var(--warm-gray); line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  .menu-card-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 0.05em;
+    color: var(--gold);
+  }
+  .menu-card-badge {
+    display: inline-block; margin-bottom: 0.5rem;
+    background: rgba(255,78,0,0.15); color: var(--fire);
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border-radius: 2px; border: 1px solid rgba(255,78,0,0.2);
+  }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--smoke); }
+  .gallery-inner { max-width: 1100px; margin: 0 auto; }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+  .gallery-item {
+    background: var(--ash);
+    border-radius: 4px; overflow: hidden;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    position: relative;
+    border: 1px solid rgba(255,248,238,0.06);
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover { transform: scale(1.02); z-index: 2; }
+  .gallery-item:first-child {
+    grid-column: span 2; grid-row: span 2;
+    aspect-ratio: unset; min-height: 300px;
+  }
+  .gallery-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(to top, rgba(26,18,8,0.9), transparent);
+    font-size: 0.82rem; letter-spacing: 0.08em;
+    color: var(--cream);
+  }
+  .gallery-emoji { font-size: 4rem; }
+  .gallery-item:first-child .gallery-emoji { font-size: 6rem; }
+
+  /* ── LOCATION ── */
+  #location { background: var(--ash); }
+  .location-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  .location-info { }
+  .location-detail {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .location-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,78,0,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    border: 1px solid rgba(255,78,0,0.2);
+  }
+  .location-text-label {
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--warm-gray); margin-bottom: 0.25rem;
+  }
+  .location-text-value { font-size: 1rem; color: var(--cream); }
+
+  .map-placeholder {
+    background: var(--smoke);
+    border: 1px solid rgba(255,248,238,0.08);
+    border-radius: 4px; overflow: hidden;
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+  .map-placeholder iframe {
+    width: 100%; height: 100%; border: none; position: absolute; inset: 0;
+  }
+  .map-grid {
+    position: absolute; inset: 0; opacity: 0.08;
+    background-image: linear-gradient(var(--warm-gray) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--warm-gray) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .map-pin { font-size: 3rem; position: relative; z-index: 1; }
+  .map-address { font-size: 0.85rem; color: var(--warm-gray); position: relative; z-index: 1; }
+
+  /* ── CONTACT / WHATSAPP ── */
+  #contact {
+    background: var(--smoke);
+    text-align: center;
+  }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact-desc {
+    font-size: 1.05rem; color: rgba(255,248,238,0.65);
+    line-height: 1.7; margin-bottom: 3rem;
+  }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: #25D366; color: white;
+    padding: 1rem 2.5rem; border-radius: 3px;
+    font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;
+    text-decoration: none;
+    box-shadow: 0 4px 30px rgba(37,211,102,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .wa-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(37,211,102,0.45); }
+  .wa-icon { font-size: 1.4rem; }
+
+  .contact-or { margin: 2rem 0; color: var(--warm-gray); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .contact-phone {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; letter-spacing: 0.08em;
+    color: var(--gold); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-phone:hover { color: var(--fire); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0F0A04;
+    padding: 2rem; text-align: center;
+    border-top: 1px solid rgba(255,248,238,0.05);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.1em;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .footer-copy { font-size: 0.75rem; color: var(--warm-gray); }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 1rem 0; }
+  .footer-links a { color: var(--warm-gray); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── FLOATING WA ── */
+  .float-wa {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    transition: transform 0.2s;
+    animation: fadeUp 1s 1.5s ease both;
+  }
+  .float-wa:hover { transform: scale(1.1); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .location-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-column: span 2; }
+  }
+</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav>
-    <div class="nav-inner">
-        <a href="#" class="logo">
-            <div class="logo-icon">🤖</div>
-            <span class="logo-text">AhorraAI</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#como-funciona">Cómo funciona</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-            <li><a href="tel:+34614053674" class="nav-cta">📞 614 053 674</a></li>
-        </ul>
-        <a href="#contacto" class="nav-cta" style="display:block;">Pedir demo gratis</a>
-    </div>
+  <div class="nav-logo">El Sabroso</div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menú</a></li>
+    <li><a href="#gallery">Galería</a></li>
+    <li><a href="#location">Ubicación</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
 </nav>
 
-<!-- HERO -->
-<header class="hero">
-    <div class="hero-inner">
-        <div class="hero-badge">
-            <span>●</span> Servicio local · Vigo y alrededores
-        </div>
-        <h1>Tu negocio en internet<br><em>en 48 horas.</em></h1>
-        <p class="hero-sub">
-            Web profesional, ficha de Google, redes sociales y automatización con IA. 
-            Sin tecnicismos. Sin contratos eternos. Tú te centras en tu negocio.
-        </p>
-        <div class="hero-actions">
-            <a href="#contacto" class="btn-primary">
-                Ver demo gratis →
-            </a>
-            <a href="tel:+34614053674" class="btn-outline">
-                📞 614 053 674
-            </a>
-        </div>
-        <div class="hero-proof">
-            <div class="proof-item">
-                <span class="proof-num">48h</span>
-                <span class="proof-label">Entrega máxima</span>
-            </div>
-            <div class="proof-item">
-                <span class="proof-num">0€</span>
-                <span class="proof-label">Coste inicial básico</span>
-            </div>
-            <div class="proof-item">
-                <span class="proof-num">+20</span>
-                <span class="proof-label">Negocios en Vigo</span>
-            </div>
-            <div class="proof-item">
-                <span class="proof-num">100%</span>
-                <span class="proof-label">Soporte en español</span>
-            </div>
-        </div>
+<section id="hero">
+  <canvas id="ember-canvas"></canvas>
+  <div class="fire-strip"></div>
+  <div class="hero-content">
+    <span class="hero-label">📍 Vigo · Calle Burgos 33</span>
+    <h1 class="hero-title">El Sabroso</h1>
+    <p class="hero-sub">Todo al Carbón</p>
+    <p class="hero-claim">Pollo asado · Shawarmas · Raciones · Fuego de verdad</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn btn-primary">🍗 Ver Menú</a>
+      <a href="#contact" class="btn btn-outline">Contactar</a>
     </div>
-</header>
-
-<!-- PARA QUIÉN -->
-<section class="forwhom fade-up">
-    <div class="section-inner">
-        <span class="section-tag">Para quién es</span>
-        <h2 class="section-title">Hecho para negocios<br>como el tuyo</h2>
-        <p class="section-sub">Sin importar el sector. Si tienes clientes, necesitas que te encuentren.</p>
-        <div class="forwhom-grid">
-            <div class="forwhom-card">
-                <div class="forwhom-icon">🛒</div>
-                <div class="forwhom-name">Tiendas y bazares</div>
-                <div class="forwhom-desc">Web con catálogo, horarios y contacto directo por WhatsApp</div>
-            </div>
-            <div class="forwhom-card">
-                <div class="forwhom-icon">🍽️</div>
-                <div class="forwhom-name">Bares y restaurantes</div>
-                <div class="forwhom-desc">Carta online, reservas y gestión de reseñas de Google</div>
-            </div>
-            <div class="forwhom-card">
-                <div class="forwhom-icon">🏠</div>
-                <div class="forwhom-name">Alquiler vacacional</div>
-                <div class="forwhom-desc">Bot de atención a huéspedes 24/7 en WhatsApp o web</div>
-            </div>
-            <div class="forwhom-card">
-                <div class="forwhom-icon">🔧</div>
-                <div class="forwhom-name">Talleres y servicios</div>
-                <div class="forwhom-desc">Citas online automáticas y recordatorios sin llamadas</div>
-            </div>
-            <div class="forwhom-card">
-                <div class="forwhom-icon">💈</div>
-                <div class="forwhom-name">Peluquerías y estética</div>
-                <div class="forwhom-desc">Agenda online, Instagram conectado y recordatorios</div>
-            </div>
-            <div class="forwhom-card">
-                <div class="forwhom-icon">🏢</div>
-                <div class="forwhom-name">Cualquier local</div>
-                <div class="forwhom-desc">Si tienes clientes, te ayudamos a conseguir más</div>
-            </div>
-        </div>
-    </div>
+  </div>
+  <div class="scroll-hint">↓ Descubre</div>
 </section>
 
-<!-- SERVICIOS -->
-<section class="services fade-up" id="servicios">
-    <div class="section-inner">
-        <div class="services-header">
-            <div>
-                <span class="section-tag">Servicios y precios</span>
-                <h2 class="section-title">Elige lo que necesitas</h2>
-                <p class="section-sub">Sin letra pequeña. Sin permanencia. Puedes subir de plan cuando quieras.</p>
-            </div>
-        </div>
-        <div class="plans-grid">
+<section id="menu">
+  <div class="menu-inner">
+    <span class="section-tag">— Nuestra carta</span>
+    <h2 class="section-title">El Menú</h2>
+    <div class="divider"></div>
 
-            <!-- PLAN BÁSICO -->
-            <div class="plan-card fade-up">
-                <div class="plan-name">Presencia básica</div>
-                <div class="plan-price">297€</div>
-                <div class="plan-period">pago único + 15€/mes mantenimiento</div>
-                <div class="plan-divider"></div>
-                <ul class="plan-features">
-                    <li>Web profesional de 1 página</li>
-                    <li>Ficha de Google Business configurada</li>
-                    <li>Dominio + hosting primer año</li>
-                    <li>Formulario de contacto conectado a tu Gmail</li>
-                    <li>Adaptada a móvil y tablet</li>
-                    <li>Entrega en 48 horas</li>
-                </ul>
-                <a href="#contacto" class="plan-cta">Empezar →</a>
-            </div>
-
-            <!-- PLAN COMPLETO (featured) -->
-            <div class="plan-card featured fade-up">
-                <div class="plan-badge">Más popular</div>
-                <div class="plan-name">Presencia completa</div>
-                <div class="plan-price">597€</div>
-                <div class="plan-period">pago único + 49€/mes gestión</div>
-                <div class="plan-divider"></div>
-                <ul class="plan-features">
-                    <li>Todo lo del plan básico</li>
-                    <li>Perfil Instagram + Facebook creado y optimizado</li>
-                    <li>4 publicaciones de lanzamiento diseñadas</li>
-                    <li>Bot de respuestas automáticas en Instagram</li>
-                    <li>Posicionamiento local SEO inicial</li>
-                    <li>Panel para ver visitas y métricas</li>
-                    <li>Soporte por WhatsApp</li>
-                </ul>
-                <a href="#contacto" class="plan-cta">Empezar →</a>
-            </div>
-
-            <!-- PLAN IA -->
-            <div class="plan-card fade-up">
-                <div class="plan-name">IA + Automatización</div>
-                <div class="plan-price">997€</div>
-                <div class="plan-period">pago único + 99€/mes</div>
-                <div class="plan-divider"></div>
-                <ul class="plan-features">
-                    <li>Todo lo del plan completo</li>
-                    <li>Bot de WhatsApp que responde clientes 24/7</li>
-                    <li>Respuestas automáticas a reseñas de Google</li>
-                    <li>Citas y reservas automáticas sin llamadas</li>
-                    <li>Alertas de stock o pedidos si tienes tienda</li>
-                    <li>Informe mensual de rendimiento</li>
-                    <li>Soporte prioritario + reunión mensual</li>
-                </ul>
-                <a href="#contacto" class="plan-cta">Empezar →</a>
-            </div>
-
-        </div>
+    <div class="menu-categories">
+      <button class="cat-btn active" onclick="showCat('grande')">Menú Grande</button>
+      <button class="cat-btn" onclick="showCat('shawarmas')">Shawarmas</button>
+      <button class="cat-btn" onclick="showCat('menu-sha')">Menú Shawarma</button>
+      <button class="cat-btn" onclick="showCat('raciones')">Raciones</button>
     </div>
+
+    <div class="menu-section active" id="cat-grande">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-badge">⭐ Estrella</div>
+          <div class="menu-card-name">Pollo Asado al Carbón</div>
+          <div class="menu-card-desc">Pollo entero asado lentamente al carbón + patatas</div>
+          <div class="menu-card-price">15€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-badge">👨‍👩‍👧‍👦 Familiar</div>
+          <div class="menu-card-name">Menú Familiar</div>
+          <div class="menu-card-desc">Pollo familiar + croquetas (8 uds.) + patatas + arroz + ensalada</div>
+          <div class="menu-card-price">34€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">½ Pollo Completo</div>
+          <div class="menu-card-desc">Medio pollo al carbón + patatas + arroz + ensalada</div>
+          <div class="menu-card-price">17,50€</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="cat-shawarmas">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-name">Shawarma de Pollo</div>
+          <div class="menu-card-desc">Pollo marinado en pan de shawarma con salsas de la casa</div>
+          <div class="menu-card-price">5,50€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Shawarma de Ternera</div>
+          <div class="menu-card-desc">Ternera en pan de shawarma con salsas de la casa</div>
+          <div class="menu-card-price">7€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Kofta</div>
+          <div class="menu-card-desc">Ternera picada especiada en pan de shawarma</div>
+          <div class="menu-card-price">6,50€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-badge">🌱 Vegetal</div>
+          <div class="menu-card-name">Falafel</div>
+          <div class="menu-card-desc">Croquetas vegetales a base de garbanzos en pan de shawarma</div>
+          <div class="menu-card-price">5€</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="cat-menu-sha">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-name">Menú Pollo</div>
+          <div class="menu-card-desc">Shawarma de pollo + patatas + refresco</div>
+          <div class="menu-card-price">7,75€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Menú Ternera</div>
+          <div class="menu-card-desc">Shawarma de ternera + patatas + refresco</div>
+          <div class="menu-card-price">9,50€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Menú Kofta</div>
+          <div class="menu-card-desc">Shawarma de kofta + patatas + refresco</div>
+          <div class="menu-card-price">8,50€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-badge">🌱 Vegetal</div>
+          <div class="menu-card-name">Menú Falafel</div>
+          <div class="menu-card-desc">Shawarma de falafel + ensalada o patatas + refresco</div>
+          <div class="menu-card-price">7,50€</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="cat-raciones">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-name">Hummus</div>
+          <div class="menu-card-desc">Crema de garbanzos con salsa de sésamo</div>
+          <div class="menu-card-price">7€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Ensalada Mixta</div>
+          <div class="menu-card-desc">Ensalada fresca de temporada</div>
+          <div class="menu-card-price">5€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-badge">🌱 Vegetal</div>
+          <div class="menu-card-name">Falafel + Acompañamiento</div>
+          <div class="menu-card-desc">Ración de falafel + ensalada o patatas</div>
+          <div class="menu-card-price">8€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Alitas Asadas (12 uds.)</div>
+          <div class="menu-card-desc">Alitas de pollo asadas + patatas</div>
+          <div class="menu-card-price">8,95€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Croquetas de Pollo (10 uds.)</div>
+          <div class="menu-card-desc">Croquetas de pollo caseras + patatas</div>
+          <div class="menu-card-price">8,50€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Brochetas de Pollo (4 uds.)</div>
+          <div class="menu-card-desc">Brochetas de pollo + patatas + arroz + ensalada</div>
+          <div class="menu-card-price">11€</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-name">Tiras de Pollo</div>
+          <div class="menu-card-desc">Tiras de pollo crujientes + patatas</div>
+          <div class="menu-card-price">8,90€</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<!-- CÓMO FUNCIONA -->
-<section class="how fade-up" id="como-funciona">
-    <div class="section-inner">
-        <span class="section-tag">El proceso</span>
-        <h2 class="section-title">De cero a online<br>en 4 pasos</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-num">01</div>
-                <h3>Llamada de 15 min</h3>
-                <p>Cuéntame tu negocio. Sin tecnicismos. Solo necesito saber qué haces y a quién le vendes.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">02</div>
-                <h3>Propuesta en 24h</h3>
-                <p>Te envío un boceto de tu web y el plan de acción. Sin compromiso, sin coste.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">03</div>
-                <h3>Montaje express</h3>
-                <p>Una vez aprobado, monto y configuro todo en 48 horas. Tú no tienes que hacer nada.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">04</div>
-                <h3>Tu negocio online</h3>
-                <p>Te entrego el acceso, te explico cómo funciona en 10 minutos y listo. Yo me ocupo del resto.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- POR QUÉ NOSOTROS -->
-<section class="why fade-up">
-    <div class="section-inner">
-        <span class="section-tag" style="color:var(--sky)">Por qué AhorraAI</span>
-        <h2 class="section-title">No somos una agencia grande.<br>Por eso somos mejores para ti.</h2>
-        <div class="why-grid">
-            <div class="why-card">
-                <div class="why-icon">🗺️</div>
-                <h3>Somos locales</h3>
-                <p>Estamos en Vigo. Conocemos los barrios, los negocios y lo que funciona aquí.</p>
-            </div>
-            <div class="why-card">
-                <div class="why-icon">⚡</div>
-                <h3>Entrega real en 48h</h3>
-                <p>No meses de proyecto. Tienes tu web funcionando antes de que acabe la semana.</p>
-            </div>
-            <div class="why-card">
-                <div class="why-icon">🤖</div>
-                <h3>IA aplicada de verdad</h3>
-                <p>Usamos inteligencia artificial para automatizar tareas que te roban tiempo cada día.</p>
-            </div>
-            <div class="why-card">
-                <div class="why-icon">💬</div>
-                <h3>Hablas con una persona</h3>
-                <p>Sin tickets de soporte. Sin chatbots. Tienes mi WhatsApp y te respondo yo.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CONTACTO -->
-<section class="contact fade-up" id="contacto">
-    <div class="section-inner" style="text-align:center;">
-        <span class="section-tag">Contacto</span>
-        <h2 class="section-title">¿Hablamos?</h2>
-        <p class="section-sub" style="margin:0 auto;">Sin presión. En 15 minutos te digo exactamente qué haría con tu negocio y cuánto costaría.</p>
-        <div class="contact-box">
-            <div class="contact-actions">
-                <a href="tel:+34614053674" class="contact-btn phone">
-                    <span>📞</span>
-                    Llamar ahora
-                    <strong>614 053 674</strong>
-                    <small>Lunes a viernes · 9h a 19h</small>
-                </a>
-                <a href="https://calendly.com/ahorraai" target="_blank" class="contact-btn cal">
-                    <span>📅</span>
-                    Agendar llamada
-                    <strong>Demo gratis · 15 min</strong>
-                    <small>Elige tú el horario</small>
-                </a>
-            </div>
-            <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;">O agenda directamente aquí 👇</p>
-            <div class="calendly-wrap">
-                <div class="calendly-inline-widget"
-                     data-url="https://calendly.com/ahorraai?embed_type=inline"
-                     style="min-width:280px;height:680px;"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-    <div class="footer-inner">
-        <span class="footer-logo">AhorraAI</span>
-        <div class="footer-links">
-            <a href="terminos-de-servicio.html">Términos</a>
-            <a href="politica-de-privacidad.html">Privacidad</a>
-            <a href="mailto:contacto@ahorraai.com">contacto@ahorraai.com</a>
-            <a href="tel:+34614053674">614 053 674</a>
-        </div>
-        <span class="footer-copy">© 2026 AhorraAI · Vigo</span>
-    </div>
-</footer>
-
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<script>
-    // Scroll animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-    // Console branding
-    console.log('%c🤖 AhorraAI · Vigo', 'color:#22c97a; font-size:14px; font-weight:bold');
-</script>
-</body>
-</html>
+<section id="gallery">
+  <div class="gallery-inner">
+    <span class="section-tag">— Sabor visual</span>
+    <h2 class="section-title">Galería</h2>
+    <div class="divider"></div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="map-grid"></div>
+        <span cl

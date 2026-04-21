@@ -3,147 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Danza Ritmo | Vigo</title>
+    <title>Centro de Danza Ritmo | Vigo - Academia de Baile</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-color: #ff3366;
-            --secondary-color: #2c3e50;
-            --background-color: #f9f9f9;
-            --text-color: #333;
+            --primary: #ff3366; /* Rosa vibrante para danza */
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #f4f4f4;
+            --whatsapp: #25d366;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; 
+            color: var(--dark); 
+            background-color: var(--light);
+            scroll-behavior: smooth;
         }
+
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+
+        /* HEADER & NAV */
         header {
-            background-color: var(--secondary-color);
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1350&q=80'); /* Imagen de ejemplo */
+            background-size: cover;
+            background-position: center;
             color: white;
+            padding: 100px 20px;
             text-align: center;
-            padding: 3rem 1rem;
-            border-bottom: 5px solid var(--primary-color);
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        header p {
-            font-size: 1.2rem;
-            color: #ddd;
-        }
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 20px;
-        }
-        .section-card {
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--background-color);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
-        }
-        ul.style-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            list-style-type: none;
-            padding: 0;
-        }
-        ul.style-list li {
-            background-color: var(--background-color);
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
+
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
+
+        /* BOTÓN WHATSAPP FLOTANTE */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--whatsapp);
+            color: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            text-decoration: none;
             font-weight: bold;
-            border-left: 3px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
         }
-        .contact-info {
-            background-color: var(--primary-color);
+        .btn-whatsapp:hover { transform: scale(1.1); }
+
+        /* SECCIONES */
+        section { padding: 60px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: var(--gray);
+            padding: 30px;
+            border-radius: 15px;
+            border-bottom: 4px solid var(--primary);
+            transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+
+        /* LISTA DE ESTILOS */
+        .estilos-tag {
+            display: inline-block;
+            background: var(--primary);
             color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .contact-info a {
-            color: white;
-            text-decoration: underline;
-            font-weight: bold;
-        }
-        .alternative {
+            padding: 5px 15px;
+            margin: 5px;
+            border-radius: 20px;
             font-size: 0.9rem;
-            color: #666;
+        }
+
+        /* FOOTER & LEGAL */
+        footer { background: var(--dark); color: white; padding: 40px 0; text-align: center; font-size: 0.9rem; }
+        .legal-links a { color: #bbb; text-decoration: none; margin: 0 10px; }
+        .legal-links a:hover { color: var(--primary); }
+
+        /* BANNER COOKIES */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0; width: 100%;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 15px;
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
+            font-size: 0.8rem;
+            display: none; /* Se activa con JS */
+            z-index: 2000;
+        }
+        #cookie-banner button {
+            background: var(--primary);
+            border: none; color: white;
+            padding: 5px 15px; margin-left: 10px;
+            cursor: pointer; border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            header { padding: 60px 20px; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
+    <div id="cookie-banner">
+        Utilizamos cookies para mejorar tu experiencia. Al seguir navegando, aceptas nuestra política de cookies. 
+        <button onclick="aceptarCookies()">Aceptar</button>
+    </div>
+
+    <a href="https://wa.me/34600000000" class="btn-whatsapp" target="_blank">
+        💬 ¡Pregunta por WhatsApp!
+    </a>
+
     <header>
-        <h1>Centro de Danza Ritmo</h1>
-        <p>Tu academia de baile y artes escénicas en el corazón de Vigo</p>
+        <div class="container">
+            <h1>Centro de Danza Ritmo</h1>
+            <p>Pasión por el movimiento en el centro de Vigo (Rúa de Burgos, 42)</p>
+            <a href="#contacto" style="display:inline-block; margin-top:20px; background:var(--primary); color:white; padding:12px 30px; text-decoration:none; border-radius:30px; font-weight:bold;">RESERVAR CLASE DE PRUEBA</a>
+        </div>
     </header>
 
     <div class="container">
-        
-        <div class="section-card">
-            <h2>Sobre Nosotros</h2>
-            <p>Ubicados muy cerca del popular local <em>El Sabroso</em>, el <strong>Centro de Danza Ritmo</strong> es una academia reconocida en Vigo que ofrece una amplísima variedad de disciplinas para todas las edades. No solo somos una escuela de danza, sino un espacio creativo dedicado al ritmo, el movimiento y la diversión.</p>
-            <p><strong>📍 Ubicación:</strong> Rúa de Burgos, 42, 36208 Vigo, Pontevedra.</p>
-        </div>
-
-        <div class="section-card">
-            <h2>Estilos y Disciplinas</h2>
-            <p>Ofrecemos clases adaptadas a todos los niveles en las siguientes disciplinas:</p>
-            <ul class="style-list">
-                <li>Comercial</li>
-                <li>Break Dance</li>
-                <li>Urbano / Latinurban</li>
-                <li>Contemporáneo</li>
-                <li>Jazz & Moderno</li>
-                <li>K-Pop</li>
-                <li>Predanza</li>
-                <li>Gimnasia Rítmica</li>
-                <li>Teatro</li>
-                <li>Bachata</li>
-            </ul>
-        </div>
-
-        <div class="section-card">
-            <h2>Servicios Adicionales</h2>
-            <p>¡Llevamos el ritmo más allá de las clases! Nos especializamos en:</p>
-            <ul>
-                <li><strong>Organización de Eventos:</strong> Preparación de coreografías y espectáculos.</li>
-                <li><strong>Animación Infantil:</strong> El mejor entretenimiento para bodas, comuniones y fiestas.</li>
-                <li><strong>Campamentos:</strong> Actividades de inmersión en baile y diversión para los más pequeños.</li>
-            </ul>
-        </div>
-
-        <div class="contact-info">
-            <h2>¡Únete a nuestra familia!</h2>
-            <p>Descubre todas nuestras novedades, horarios y eventos siguiéndonos en nuestras redes sociales:</p>
-            <p>📸 Instagram: <a href="https://instagram.com/ritmovigocentrodedanza" target="_blank">@ritmovigocentrodedanza</a> | También estamos en Facebook</p>
-        </div>
-
-        <div class="alternative">
-            <p><em>¿Buscas otras opciones en Vigo?</em> En el centro también puedes encontrar <strong>Caixa de Ritmos</strong>, enfocada en estilos como hip hop, afro, contemporáneo y lindy hop.</p>
-        </div>
-
+        <section id="sobre-nosotros">
+            <h2>Mucho más que baile</h2>
+            <p>Situados junto a <em>El Sabroso</em>, somos un referente en Vigo para quienes buscan aprender, divertirse y profesionalizarse en las artes escénicas.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Nuestras Disciplinas</h3>
+                    <div class="estilos-tag">K-Pop</div>
+                    <div class="estilos-tag">Commercial</div>
+                    <div class="estilos-tag">Urbano</div>
+                    <div class="estilos-tag">Contemporáneo</div>
+                    <div class="estilos-tag">Jazz</div>
+                    <div class="estilos-tag">Bachata</div>
+                    <div class="estilos-tag">Teatro</div>
+                    <div class="estilos-tag">Gimnasia Rítmica</div>
+                </div>
+                <div class="card">
+                    <h3>Eventos y Animación</h3>
+                    <p>Especialistas en animaciones infantiles para bodas y comuniones. Hacemos que los más pequeños vivan un día inolvidable.</p>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <footer id="contacto">
+        <div class="container">
+            <p><strong>Centro de Danza Ritmo</strong><br>
+            Rúa de Burgos, 42, 36208 Vigo, Pontevedra<br>
+            Instagram: @ritmovigocentrodedanza</p>
+            
+            <div class="legal-links">
+                <a href="#">Aviso Legal</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Política de Cookies</a>
+            </div>
+            <p style="margin-top:20px; opacity:0.5;">© 2024 Centro de Danza Ritmo. Web rápida y segura.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica simple para el banner de cookies
+        function aceptarCookies() {
+            localStorage.setItem('cookiesAceptadas', 'true');
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
+        window.onload = function() {
+            if (!localStorage.getItem('cookiesAceptadas')) {
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
+        }
+    </script>
 
 </body>
 </html>

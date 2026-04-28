@@ -2,144 +2,755 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>BTC Futures Simulator</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX BTC · Simulador de Futuros Perpetuos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
+:root {
+  --bg: #04080f;
+  --bg2: #080e1a;
+  --bg3: #0d1525;
+  --border: #1a2540;
+  --accent: #00f5a0;
+  --accent2: #00c3ff;
+  --danger: #ff3b5c;
+  --warn: #ffb800;
+  --text: #c8d8f0;
+  --text-dim: #4a6080;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  background: #0e0e0e;
-  color: #fff;
-  font-family: Arial;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scan line effect */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+#app { position: relative; z-index: 2; }
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(4,8,15,0.9);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--accent); }
+
+.status-bar {
+  display: flex;
+  gap: 24px;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.status-item { display: flex; align-items: center; gap: 6px; }
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── LAYOUT ── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  grid-template-rows: auto 1fr;
+  gap: 1px;
+  background: var(--border);
+  min-height: calc(100vh - 57px);
+}
+
+.panel {
+  background: var(--bg);
+  padding: 20px;
+}
+
+/* ── CONTROLS PANEL (left) ── */
+.controls-panel { grid-row: 1 / 3; }
+
+.section-title {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.control-group { margin-bottom: 20px; }
+.control-label {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.control-label span { color: var(--accent); }
+
+input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  background: var(--bg3);
+  height: 3px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  cursor: pointer;
+}
+
+select {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  outline: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+select:focus { border-color: var(--accent); }
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-100%);
+  transition: transform 0.2s;
+  z-index: -1;
+}
+.btn:hover { color: var(--bg); }
+.btn:hover::before { transform: translateX(0); }
+
+.btn-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+  margin-top: 8px;
+}
+.btn-danger::before { background: var(--danger); }
+.btn-danger:hover { color: white; }
+
+.btn-run {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0,245,160,0.3);
+}
+.btn-run::before { background: transparent; }
+.btn-run:hover { 
+  box-shadow: 0 0 40px rgba(0,245,160,0.6); 
+  color: var(--bg);
+  transform: translateY(-1px);
+}
+
+/* Strategy cards */
+.strategy-card {
+  border: 1px solid var(--border);
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+.strategy-card:hover, .strategy-card.active {
+  border-color: var(--accent);
+  background: rgba(0,245,160,0.05);
+}
+.strategy-card .s-name {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.strategy-card .s-desc {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* ── CHART PANEL (center top) ── */
+.chart-panel { position: relative; min-height: 360px; }
+
+.price-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+#btc-price {
+  font-family: var(--sans);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.03em;
+}
+#price-change {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.change-up { background: rgba(0,245,160,0.15); color: var(--accent); }
+.change-down { background: rgba(255,59,92,0.15); color: var(--danger); }
+
+.chart-container { position: relative; height: 280px; }
+
+/* ── EQUITY PANEL (center bottom) ── */
+.equity-panel { min-height: 200px; }
+
+.mini-chart { height: 120px; }
+
+/* ── METRICS PANEL (right) ── */
+.metrics-panel { grid-row: 1 / 3; }
+
+.metric-card {
+  border: 1px solid var(--border);
+  padding: 14px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+}
+.metric-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.metric-value {
+  font-family: var(--sans);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+}
+.metric-value.up { color: var(--accent); }
+.metric-value.down { color: var(--danger); }
+.metric-value.warn { color: var(--warn); }
+
+.metric-sub {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Trade log */
+.trade-log {
+  border: 1px solid var(--border);
+  height: 200px;
+  overflow-y: auto;
+  font-size: 0.65rem;
+  border-radius: 2px;
+}
+.trade-log::-webkit-scrollbar { width: 3px; }
+.trade-log::-webkit-scrollbar-track { background: var(--bg); }
+.trade-log::-webkit-scrollbar-thumb { background: var(--border); }
+
+.log-entry {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(26,37,64,0.5);
+  display: flex;
+  gap: 8px;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.log-entry .log-time { color: var(--text-dim); min-width: 45px; }
+.log-entry .log-type { min-width: 45px; }
+.log-entry.long .log-type { color: var(--accent); }
+.log-entry.short .log-type { color: #00c3ff; }
+.log-entry.close-win { background: rgba(0,245,160,0.04); }
+.log-entry.close-loss { background: rgba(255,59,92,0.04); }
+.log-entry.liquidation { background: rgba(255,59,92,0.1); }
+.log-entry .log-pnl { margin-left: auto; }
+.log-entry.close-win .log-pnl { color: var(--accent); }
+.log-entry.close-loss .log-pnl { color: var(--danger); }
+
+/* Position display */
+.position-box {
+  border: 1px solid var(--border);
+  padding: 14px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.position-box.has-position { border-color: var(--accent2); }
+.position-box.long-pos::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+.position-box.short-pos::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent2);
+}
+
+.pos-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  margin-bottom: 5px;
+}
+.pos-row .label { color: var(--text-dim); }
+
+/* Speed indicator */
+.speed-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.speed-bars {
+  display: flex;
+  gap: 2px;
+}
+.speed-bar {
+  width: 4px;
+  height: 12px;
+  background: var(--border);
+  border-radius: 1px;
+  transition: background 0.3s;
+}
+.speed-bar.active { background: var(--accent); }
+
+/* Simulation state overlay */
+#sim-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,8,15,0.96);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#sim-overlay.hidden { display: none; }
+
+.overlay-title {
+  font-family: var(--sans);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.overlay-title span { color: var(--accent); }
+.overlay-sub {
+  color: var(--text-dim);
+  font-size: 0.85rem;
   text-align: center;
+  max-width: 420px;
+  line-height: 1.6;
 }
 
-.box {
-  border: 1px solid #333;
-  padding: 15px;
-  margin: 10px auto;
-  width: 320px;
+.loading-bar {
+  width: 300px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.loading-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s;
+  box-shadow: 0 0 10px var(--accent);
 }
 
-.green { color: #00ff88; }
-.red { color: #ff4d4d; }
+/* Liquidation flash */
+.liq-flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,59,92,0.15);
+  z-index: 300;
+  pointer-events: none;
+  animation: liqFlash 0.5s ease forwards;
+}
+@keyframes liqFlash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
+/* Responsive tweaks */
+@media (max-width: 1100px) {
+  .main-grid { grid-template-columns: 240px 1fr 260px; }
+}
+@media (max-width: 800px) {
+  .main-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .controls-panel, .metrics-panel { grid-row: auto; }
+}
+
+/* Profit flash on metric */
+.flash-green {
+  animation: flashG 0.4s ease;
+}
+.flash-red {
+  animation: flashR 0.4s ease;
+}
+@keyframes flashG {
+  0%,100% { background: transparent; }
+  50% { background: rgba(0,245,160,0.15); }
+}
+@keyframes flashR {
+  0%,100% { background: transparent; }
+  50% { background: rgba(255,59,92,0.15); }
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.tag {
+  font-size: 0.6rem;
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.warning-box {
+  background: rgba(255,184,0,0.08);
+  border: 1px solid rgba(255,184,0,0.3);
+  padding: 10px;
+  font-size: 0.65rem;
+  color: var(--warn);
+  line-height: 1.5;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+#progress-days {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
 </style>
 </head>
-
 <body>
+<div id="app">
 
-<h1>BTC Futures Simulator</h1>
-
-<div class="box">
-  <h3>Precio BTC</h3>
-  <p id="price">...</p>
+<!-- INTRO OVERLAY -->
+<div id="sim-overlay">
+  <div class="overlay-title">APEX <span>BTC</span></div>
+  <div class="overlay-sub">
+    Simulador de Futuros Perpetuos · Estrategias cuantitativas con gestión de riesgo profesional<br>
+    <br>Capital inicial: <strong style="color:var(--accent)">€100</strong> · Motor: Geometric Brownian Motion + estrategias reales
+  </div>
+  <div class="loading-bar"><div class="loading-fill" id="load-fill"></div></div>
+  <div id="load-text" style="font-size:0.7rem;color:var(--text-dim)">Inicializando motor de simulación...</div>
+  <button class="btn btn-run" style="width:200px;margin-top:8px" onclick="startApp()">▶ INICIAR</button>
 </div>
 
-<div class="box">
-  <h3>Balance</h3>
-  <p id="balance">100 €</p>
-</div>
+<!-- HEADER -->
+<header>
+  <div class="logo">APEX <span>BTC</span> · PERPS SIM</div>
+  <div class="status-bar">
+    <div class="status-item"><div class="dot"></div><span id="sim-status">SIMULANDO</span></div>
+    <div class="status-item" style="color:var(--text)">BTC/USDT PERP · MEXC</div>
+    <div class="status-item" id="progress-days">Día 0</div>
+    <div class="status-item">
+      <div class="speed-bars">
+        <div class="speed-bar active" id="sb1"></div>
+        <div class="speed-bar" id="sb2"></div>
+        <div class="speed-bar" id="sb3"></div>
+        <div class="speed-bar" id="sb4"></div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<div class="box">
-  <h3>Posición</h3>
-  <p id="position">Sin posición</p>
-</div>
+<!-- MAIN GRID -->
+<div class="main-grid">
 
-<div class="box">
-  <h3>Historial</h3>
-  <div id="log"></div>
+  <!-- LEFT: CONTROLS -->
+  <div class="panel controls-panel">
+    <div class="section-title">Configuración</div>
+
+    <div class="warning-box">
+      ⚠ SIMULACIÓN EDUCATIVA — No conectada a MEXC real. Los resultados no garantizan rendimiento futuro.
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Capital inicial <span id="lbl-capital">€100</span></div>
+      <input type="range" id="sl-capital" min="50" max="1000" value="100" step="10" oninput="updateLabel('lbl-capital','€',this.value)">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Apalancamiento <span id="lbl-lev">x10</span></div>
+      <input type="range" id="sl-lev" min="1" max="50" value="10" step="1" oninput="updateLabel('lbl-lev','x',this.value)">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Riesgo por trade <span id="lbl-risk">2%</span></div>
+      <input type="range" id="sl-risk" min="0.5" max="10" value="2" step="0.5" oninput="updateLabel('lbl-risk','',this.value,'%')">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Duración (días) <span id="lbl-days">90</span></div>
+      <input type="range" id="sl-days" min="30" max="365" value="90" step="10" oninput="updateLabel('lbl-days','',this.value,' días')">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Velocidad simulación</div>
+      <select id="sel-speed">
+        <option value="200">Lenta (analizar)</option>
+        <option value="80" selected>Normal</option>
+        <option value="20">Rápida</option>
+        <option value="1">Turbo (instantánea)</option>
+      </select>
+    </div>
+
+    <div class="section-title" style="margin-top:20px">Estrategia</div>
+
+    <div class="strategy-card active" data-s="ema_rsi" onclick="selectStrategy(this)">
+      <div class="s-name">EMA Cross + RSI Filter</div>
+      <div class="s-desc">EMA 9/21 crossover con filtro RSI 14. Evita sobrecompra/sobreventa. Stop-loss dinámico ATR.</div>
+      <div class="tags"><span class="tag">TENDENCIA</span><span class="tag">FILTRADO</span></div>
+    </div>
+
+    <div class="strategy-card" data-s="bb_vol" onclick="selectStrategy(this)">
+      <div class="s-name">Bollinger Bands + Volumen</div>
+      <div class="s-desc">Rebote en bandas con confirmación de volumen. Mean reversion + breakout híbrido.</div>
+      <div class="tags"><span class="tag">REVERSIÓN</span><span class="tag">VOLUMEN</span></div>
+    </div>
+
+    <div class="strategy-card" data-s="funding" onclick="selectStrategy(this)">
+      <div class="s-name">Funding Rate Arbitrage</div>
+      <div class="s-desc">Aprovecha tasas de financiamiento extremas (+/-0.1%). Counter-trend con momentum.</div>
+      <div class="tags"><span class="tag">FUNDING</span><span class="tag">CONTRARIAN</span></div>
+    </div>
+
+    <div class="strategy-card" data-s="kelly" onclick="selectStrategy(this)">
+      <div class="s-name">Kelly Criterion Dynamic</div>
+      <div class="s-desc">Sizing dinámico basado en win rate y ratio R:R histórico. Maximiza crecimiento logarítmico.</div>
+      <div class="tags"><span class="tag">KELLY</span><span class="tag">ADAPTATIVO</span></div>
+    </div>
+
+    <button class="btn btn-run" onclick="runSimulation()" style="margin-top:16px">▶ EJECUTAR</button>
+    <button class="btn btn-danger" onclick="resetSimulation()">■ RESET</button>
+  </div>
+
+  <!-- CENTER TOP: BTC PRICE CHART -->
+  <div class="panel chart-panel">
+    <div class="price-header">
+      <div id="btc-price">$67,420.00</div>
+      <div id="price-change" class="change-up">+0.00%</div>
+      <div style="font-size:0.65rem;color:var(--text-dim);margin-left:auto" id="current-strategy-label">EMA Cross + RSI</div>
+    </div>
+    <div class="chart-container">
+      <canvas id="priceChart"></canvas>
+    </div>
+  </div>
+
+  <!-- RIGHT: METRICS -->
+  <div class="panel metrics-panel">
+    <div class="section-title">Rendimiento</div>
+
+    <div class="metric-card" id="mc-equity">
+      <div class="metric-label">Equity actual</div>
+      <div class="metric-value up" id="mv-equity">€100.00</div>
+      <div class="metric-sub" id="ms-equity">Capital inicial: €100</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">PnL Total</div>
+      <div class="metric-value" id="mv-pnl">€0.00</div>
+      <div class="metric-sub" id="ms-pnl">0.00%</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Max Drawdown</div>
+      <div class="metric-value" id="mv-dd">0.00%</div>
+      <div class="metric-sub" id="ms-dd">Desde pico</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Win Rate</div>
+      <div class="metric-value" id="mv-wr">—</div>
+      <div class="metric-sub" id="ms-wr">0 trades cerrados</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Ratio Sharpe</div>
+      <div class="metric-value" id="mv-sharpe">—</div>
+      <div class="metric-sub">Rentabilidad ajustada riesgo</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Liquidaciones</div>
+      <div class="metric-value down" id="mv-liq">0</div>
+      <div class="metric-sub" id="ms-liq">Cuenta reiniciada tras liq.</div>
+    </div>
+
+    <div class="section-title" style="margin-top:12px">Posición activa</div>
+
+    <div class="position-box" id="pos-box">
+      <div style="font-size:0.7rem;color:var(--text-dim)">Sin posición abierta</div>
+    </div>
+
+    <div class="section-title" style="margin-top:12px">Log de Trades</div>
+    <div class="trade-log" id="trade-log">
+      <div class="log-entry" style="color:var(--text-dim)">
+        <span>Sistema listo. Ejecuta la simulación.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER BOTTOM: EQUITY CURVE -->
+  <div class="panel equity-panel">
+    <div class="section-title">Curva de Equity · <span id="equity-label" style="color:var(--accent)">€100.00</span></div>
+    <div class="mini-chart">
+      <canvas id="equityChart"></canvas>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <script>
-let balance = 100;
-let position = null;
-let entryPrice = 0;
-let leverage = 20;
-let lastPrice = null;
+// ════════════════════════════════════════════════════
+//  APEX BTC TRADING SIMULATOR
+//  Motor: GBM + Estrategias cuantitativas reales
+// ════════════════════════════════════════════════════
 
-function log(msg) {
-  const el = document.getElementById("log");
-  el.innerHTML = msg + "<br>" + el.innerHTML;
+// ── State ──
+let state = {
+  running: false,
+  paused: false,
+  capital: 100,
+  equity: 100,
+  peak: 100,
+  leverage: 10,
+  riskPct: 2,
+  days: 90,
+  speed: 80,
+  strategy: 'ema_rsi',
+  btcPrice: 67420,
+  position: null,
+  trades: [],
+  liquidations: 0,
+  equityHistory: [100],
+  priceHistory: [],
+  returns: [],
+  dayCount: 0,
+  tickCount: 0,
+  wins: 0,
+  losses: 0,
+  simInterval: null,
+};
+
+// ── Indicadores técnicos ──
+function ema(prices, period) {
+  if (prices.length < period) return null;
+  const k = 2 / (period + 1);
+  let e = prices.slice(0, period).reduce((a,b) => a+b, 0) / period;
+  for (let i = period; i < prices.length; i++) e = prices[i] * k + e * (1 - k);
+  return e;
 }
 
-async function getPrice() {
-  const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
-  const data = await res.json();
-  return parseFloat(data.price);
-}
-
-function openPosition(type, price) {
-  position = type;
-  entryPrice = price;
-
-  log("🟡 Abrir " + type + " en " + price.toFixed(2));
-}
-
-function closePosition(price) {
-  let pnl = 0;
-
-  if (position === "LONG") {
-    pnl = (price - entryPrice) / entryPrice * leverage;
-  } else {
-    pnl = (entryPrice - price) / entryPrice * leverage;
+function rsi(prices, period = 14) {
+  if (prices.length < period + 1) return 50;
+  let gains = 0, losses = 0;
+  for (let i = prices.length - period; i < prices.length; i++) {
+    const d = prices[i] - prices[i-1];
+    if (d > 0) gains += d; else losses -= d;
   }
-
-  let profit = balance * pnl;
-  balance += profit;
-
-  log("🔵 Cerrar " + position + " | PnL: " + (profit).toFixed(2));
-
-  position = null;
+  const rs = losses === 0 ? 100 : gains / losses;
+  return 100 - 100 / (1 + rs);
 }
 
-function updateUI(price) {
-  document.getElementById("price").innerText = price.toFixed(2);
-  document.getElementById("balance").innerText = balance.toFixed(2) + " €";
-  document.getElementById("position").innerText = position || "Sin posición";
-}
-
-function strategy(price) {
-  if (!lastPrice) return;
-
-  let change = (price - lastPrice) / lastPrice * 100;
-
-  // ENTRADAS agresivas
-  if (!position) {
-    if (change > 0.25) openPosition("LONG", price);
-    if (change < -0.25) openPosition("SHORT", price);
-  }
-
-  // SALIDAS
-  if (position) {
-    let move = (price - entryPrice) / entryPrice * 100;
-
-    if (position === "SHORT") move *= -1;
-
-    // take profit
-    if (move > 1.5) closePosition(price);
-
-    // stop loss
-    if (move < -0.7) closePosition(price);
-  }
-}
-
-async function loop() {
-  try {
-    const price = await getPrice();
-
-    strategy(price);
-    updateUI(price);
-
-    lastPrice = price;
-
-  } catch (e) {
-    console.log(e);
-  }
-
-  setTimeout(loop, 3000);
-}
-
-loop();
-</script>
-
-</body>
-</html>
+function bollingerBands(prices, period = 20, mult

@@ -1,188 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Danza Ritmo | Vigo - Academia de Baile</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #ff3366; /* Rosa vibrante para danza */
-            --dark: #1a1a1a;
-            --light: #ffffff;
-            --gray: #f4f4f4;
-            --whatsapp: #25d366;
-        }
+<meta charset="UTF-8">
+<title>BTC Futures Simulator</title>
 
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            margin: 0; 
-            color: var(--dark); 
-            background-color: var(--light);
-            scroll-behavior: smooth;
-        }
+<style>
+body {
+  background: #0e0e0e;
+  color: #fff;
+  font-family: Arial;
+  text-align: center;
+}
 
-        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+.box {
+  border: 1px solid #333;
+  padding: 15px;
+  margin: 10px auto;
+  width: 320px;
+}
 
-        /* HEADER & NAV */
-        header {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1350&q=80'); /* Imagen de ejemplo */
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 20px;
-            text-align: center;
-        }
+.green { color: #00ff88; }
+.red { color: #ff4d4d; }
 
-        .container { max-width: 1100px; margin: auto; padding: 20px; }
-
-        /* BOTÓN WHATSAPP FLOTANTE */
-        .btn-whatsapp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--whatsapp);
-            color: white;
-            border-radius: 50px;
-            padding: 15px 25px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s;
-        }
-        .btn-whatsapp:hover { transform: scale(1.1); }
-
-        /* SECCIONES */
-        section { padding: 60px 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        
-        .card {
-            background: var(--gray);
-            padding: 30px;
-            border-radius: 15px;
-            border-bottom: 4px solid var(--primary);
-            transition: 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); }
-
-        /* LISTA DE ESTILOS */
-        .estilos-tag {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 5px 15px;
-            margin: 5px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        /* FOOTER & LEGAL */
-        footer { background: var(--dark); color: white; padding: 40px 0; text-align: center; font-size: 0.9rem; }
-        .legal-links a { color: #bbb; text-decoration: none; margin: 0 10px; }
-        .legal-links a:hover { color: var(--primary); }
-
-        /* BANNER COOKIES */
-        #cookie-banner {
-            position: fixed;
-            bottom: 0; width: 100%;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 0.8rem;
-            display: none; /* Se activa con JS */
-            z-index: 2000;
-        }
-        #cookie-banner button {
-            background: var(--primary);
-            border: none; color: white;
-            padding: 5px 15px; margin-left: 10px;
-            cursor: pointer; border-radius: 5px;
-        }
-
-        @media (max-width: 600px) {
-            header { padding: 60px 20px; }
-            h1 { font-size: 1.8rem; }
-        }
-    </style>
+</style>
 </head>
+
 <body>
 
-    <div id="cookie-banner">
-        Utilizamos cookies para mejorar tu experiencia. Al seguir navegando, aceptas nuestra política de cookies. 
-        <button onclick="aceptarCookies()">Aceptar</button>
-    </div>
+<h1>BTC Futures Simulator</h1>
 
-    <a href="https://wa.me/34600000000" class="btn-whatsapp" target="_blank">
-        💬 ¡Pregunta por WhatsApp!
-    </a>
+<div class="box">
+  <h3>Precio BTC</h3>
+  <p id="price">...</p>
+</div>
 
-    <header>
-        <div class="container">
-            <h1>Centro de Danza Ritmo</h1>
-            <p>Pasión por el movimiento en el centro de Vigo (Rúa de Burgos, 42)</p>
-            <a href="#contacto" style="display:inline-block; margin-top:20px; background:var(--primary); color:white; padding:12px 30px; text-decoration:none; border-radius:30px; font-weight:bold;">RESERVAR CLASE DE PRUEBA</a>
-        </div>
-    </header>
+<div class="box">
+  <h3>Balance</h3>
+  <p id="balance">100 €</p>
+</div>
 
-    <div class="container">
-        <section id="sobre-nosotros">
-            <h2>Mucho más que baile</h2>
-            <p>Situados junto a <em>El Sabroso</em>, somos un referente en Vigo para quienes buscan aprender, divertirse y profesionalizarse en las artes escénicas.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>Nuestras Disciplinas</h3>
-                    <div class="estilos-tag">K-Pop</div>
-                    <div class="estilos-tag">Commercial</div>
-                    <div class="estilos-tag">Urbano</div>
-                    <div class="estilos-tag">Contemporáneo</div>
-                    <div class="estilos-tag">Jazz</div>
-                    <div class="estilos-tag">Bachata</div>
-                    <div class="estilos-tag">Teatro</div>
-                    <div class="estilos-tag">Gimnasia Rítmica</div>
-                </div>
-                <div class="card">
-                    <h3>Eventos y Animación</h3>
-                    <p>Especialistas en animaciones infantiles para bodas y comuniones. Hacemos que los más pequeños vivan un día inolvidable.</p>
-                </div>
-            </div>
-        </section>
-    </div>
+<div class="box">
+  <h3>Posición</h3>
+  <p id="position">Sin posición</p>
+</div>
 
-    <footer id="contacto">
-        <div class="container">
-            <p><strong>Centro de Danza Ritmo</strong><br>
-            Rúa de Burgos, 42, 36208 Vigo, Pontevedra<br>
-            Instagram: @ritmovigocentrodedanza</p>
-            
-            <div class="legal-links">
-                <a href="#">Aviso Legal</a> | 
-                <a href="#">Política de Privacidad</a> | 
-                <a href="#">Política de Cookies</a>
-            </div>
-            <p style="margin-top:20px; opacity:0.5;">© 2024 Centro de Danza Ritmo. Web rápida y segura.</p>
-        </div>
-    </footer>
+<div class="box">
+  <h3>Historial</h3>
+  <div id="log"></div>
+</div>
 
-    <script>
-        // Lógica simple para el banner de cookies
-        function aceptarCookies() {
-            localStorage.setItem('cookiesAceptadas', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
+<script>
+let balance = 100;
+let position = null;
+let entryPrice = 0;
+let leverage = 20;
+let lastPrice = null;
 
-        window.onload = function() {
-            if (!localStorage.getItem('cookiesAceptadas')) {
-                document.getElementById('cookie-banner').style.display = 'block';
-            }
-        }
-    </script>
+function log(msg) {
+  const el = document.getElementById("log");
+  el.innerHTML = msg + "<br>" + el.innerHTML;
+}
+
+async function getPrice() {
+  const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
+  const data = await res.json();
+  return parseFloat(data.price);
+}
+
+function openPosition(type, price) {
+  position = type;
+  entryPrice = price;
+
+  log("🟡 Abrir " + type + " en " + price.toFixed(2));
+}
+
+function closePosition(price) {
+  let pnl = 0;
+
+  if (position === "LONG") {
+    pnl = (price - entryPrice) / entryPrice * leverage;
+  } else {
+    pnl = (entryPrice - price) / entryPrice * leverage;
+  }
+
+  let profit = balance * pnl;
+  balance += profit;
+
+  log("🔵 Cerrar " + position + " | PnL: " + (profit).toFixed(2));
+
+  position = null;
+}
+
+function updateUI(price) {
+  document.getElementById("price").innerText = price.toFixed(2);
+  document.getElementById("balance").innerText = balance.toFixed(2) + " €";
+  document.getElementById("position").innerText = position || "Sin posición";
+}
+
+function strategy(price) {
+  if (!lastPrice) return;
+
+  let change = (price - lastPrice) / lastPrice * 100;
+
+  // ENTRADAS agresivas
+  if (!position) {
+    if (change > 0.25) openPosition("LONG", price);
+    if (change < -0.25) openPosition("SHORT", price);
+  }
+
+  // SALIDAS
+  if (position) {
+    let move = (price - entryPrice) / entryPrice * 100;
+
+    if (position === "SHORT") move *= -1;
+
+    // take profit
+    if (move > 1.5) closePosition(price);
+
+    // stop loss
+    if (move < -0.7) closePosition(price);
+  }
+}
+
+async function loop() {
+  try {
+    const price = await getPrice();
+
+    strategy(price);
+    updateUI(price);
+
+    lastPrice = price;
+
+  } catch (e) {
+    console.log(e);
+  }
+
+  setTimeout(loop, 3000);
+}
+
+loop();
+</script>
 
 </body>
 </html>

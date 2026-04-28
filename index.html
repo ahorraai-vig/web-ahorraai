@@ -77,50 +77,28 @@
     .m-inner h2 em { font-style: italic; font-weight: 300; color: var(--atardecer); }
     .m-inner p { font-size: 1rem; font-weight: 300; color: var(--gris-t); line-height: 1.8; margin-bottom: 1.2rem; }
 
-    /* COMO FUNCIONA */
-    .como { padding: 7rem 3rem; background: var(--gris-c); }
-    .como .sec-ey { color: var(--atardecer); }
-    .como .sec-ey::before { background: var(--atardecer); }
-    .steps-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(7, 16, 30, .06); border: 1px solid rgba(7, 16, 30, .06); border-radius: 18px; overflow: hidden; }
-    .sb { background: var(--blanco); padding: 2.5rem; transition: background .3s; }
-    .sb:hover { background: var(--mar-profundo); }
-    .sb:hover .sb-num, .sb:hover .sb-title, .sb:hover .sb-desc { color: var(--blanco); }
-    .sb-ico { width: 48px; height: 48px; border-radius: 12px; background: var(--gris-c); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; margin-bottom: 1.4rem; transition: all .3s; }
-    .sb-num { font-family: 'Fraunces', serif; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--celeste); margin-bottom: .35rem; }
-    .sb-title { font-size: 1.1rem; font-weight: 600; margin-bottom: .55rem; color: var(--mar-profundo); }
-    .sb-desc { font-size: .88rem; color: var(--gris-t); line-height: 1.6; }
-
     /* MODELO */
     .modelo { padding: 8rem 3rem; background: var(--mar-profundo); }
-    .modelo .sec-ey { color: var(--celeste); }
-    .modelo .sec-ey::before { background: var(--celeste); }
-    .modelo .sec-hd h2 { color: var(--blanco); }
-    .modelo .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--celeste-p); }
-    .planes { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-    .plan { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); border-radius: 20px; padding: 2.5rem; transition: transform .3s, border-color .3s; }
+    .sec-hd { text-align: center; margin-bottom: 4rem; }
+    .sec-ey { display: inline-flex; align-items: center; gap: .6rem; font-size: .73rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--celeste); margin-bottom: 1rem; }
+    .sec-hd h2 { font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--blanco); }
+    .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--celeste-p); }
+    
+    .planes { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .plan { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); border-radius: 24px; padding: 2.5rem; transition: transform .3s, border-color .3s; display: flex; flex-direction: column; }
     .plan:hover { border-color: rgba(255,255,255,.2); transform: translateY(-6px); }
-    .plan.feat { border-color: var(--celeste); background: rgba(91, 176, 255, 0.05); }
-    .plan-badge { display: inline-block; background: var(--celeste); color: var(--mar-profundo); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .85rem; border-radius: 2rem; margin-bottom: 1.4rem; }
+    .plan.feat { border-color: var(--celeste); background: rgba(91, 176, 255, 0.05); position: relative; }
+    .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--celeste); color: var(--mar-profundo); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .4rem 1rem; border-radius: 2rem; }
     .plan-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--blanco); margin-bottom: .3rem; }
-    .plan-price { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 900; color: var(--celeste-p); line-height: 1; margin: 1rem 0 .4rem; }
-    .plan-price sub { font-family: 'Outfit', sans-serif; font-size: .8rem; font-weight: 400; color: rgba(244,247,251,.4); vertical-align: baseline; }
-    .pf { list-style: none; margin-bottom: 2rem; }
-    .pf li { font-size: .85rem; color: rgba(244,247,251,.75); padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.05); }
-    .pf li .ic { color: var(--celeste); margin-right: .5rem; }
-    .plan-btn { display: block; text-align: center; padding: .8rem; border-radius: 2rem; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: none; }
+    .plan-price { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 900; color: var(--celeste-p); line-height: 1; margin: 1rem 0 .4rem; }
+    .plan-price sub { font-family: 'Outfit', sans-serif; font-size: .85rem; font-weight: 400; color: rgba(244,247,251,.4); vertical-align: baseline; }
+    .pf { list-style: none; margin-bottom: 2.5rem; flex-grow: 1; }
+    .pf li { font-size: .88rem; color: rgba(244,247,251,.75); padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .6rem; align-items: flex-start; }
+    .pf li .ic { color: var(--celeste); font-weight: bold; }
+    .plan-btn { display: block; text-align: center; padding: .9rem; border-radius: 2rem; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: none; }
     .plan-btn.gh { border: 1px solid rgba(255,255,255,.15); color: rgba(244,247,251,.6); }
     .plan-btn.sl { background: var(--celeste); color: var(--mar-profundo); }
-
-    /* FASES */
-    .fases { padding: 8rem 3rem; background: var(--blanco); }
-    .fases .sec-ey { color: var(--verde-g); }
-    .fases .sec-ey::before { background: var(--verde-g); }
-    .timeline { max-width: 1100px; margin: 4rem auto 0; position: relative; }
-    .timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--celeste), var(--atardecer), var(--verde-g)); opacity: 0.3; }
-    .fase { display: grid; grid-template-columns: 50px 1fr; gap: 2.5rem; padding-bottom: 4rem; position: relative; }
-    .fase-dot { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 1; background: var(--blanco); border: 2px solid var(--gris-c); }
-    .fase-title { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 700; color: var(--mar-profundo); margin-bottom: .8rem; }
-    .fase-desc { font-size: .95rem; color: var(--gris-t); line-height: 1.75; max-width: 600px; }
+    .plan-btn:hover { transform: scale(1.02); }
 
     /* CTA DOBLE */
     .cta-doble { display: grid; grid-template-columns: 1fr 1fr; }
@@ -128,9 +106,7 @@
     .cta-panel.dark { background: var(--mar-medio); color: var(--blanco); }
     .cta-panel.celeste { background: var(--celeste); color: var(--mar-profundo); }
     .cta-panel h3 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 1.2rem; }
-    .irow { display: flex; gap: .8rem; }
-    .ci { flex: 1; padding: .9rem 1.4rem; border-radius: 2rem; border: none; font-family: 'Outfit', sans-serif; }
-    .bcta { padding: .9rem 1.8rem; border-radius: 2rem; font-weight: 600; border: none; cursor: none; transition: all .2s; }
+    .bcta { padding: .9rem 1.8rem; border-radius: 2rem; font-weight: 600; border: none; cursor: none; transition: all .2s; text-decoration: none; display: inline-block; text-align: center; width: fit-content; }
     .bcta.od { background: var(--celeste); color: var(--mar-profundo); }
     .bcta.og { background: var(--mar-profundo); color: var(--blanco); }
 
@@ -148,6 +124,7 @@
       .planes, .cta-doble { grid-template-columns: 1fr; }
       .cta-panel { padding: 4rem 2rem; }
       header { padding: 1.2rem; }
+      .hnav { display: none; }
     }
   </style>
 </head>
@@ -158,13 +135,13 @@
 <header id="hdr">
   <a href="#" class="logo">AhorraAI<sup>VIGO</sup></a>
   <nav class="hnav">
-    <a href="#consumidor">Para vecinos</a>
-    <a href="#modelo">Para negocios</a>
-    <a href="#fases">Hoja de ruta</a>
+    <a href="#modelo">Planes</a>
+    <a href="#digital">Digitalización</a>
+    <a href="mailto:contacto@ahorraai.com">Soporte</a>
   </nav>
   <div class="hbtns">
     <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20empezar%20a%20ahorrar%20con%20AhorraAI" class="bsm o">Soy vecino</a>
-    <a href="https://tally.so/r/n0D0Xp" class="bsm f">Tengo un negocio</a>
+    <a href="https://tally.so/r/KYPrZ8" class="bsm f">Tengo un negocio</a>
   </div>
 </header>
 
@@ -172,13 +149,13 @@
   <div class="hero-grain"></div>
   <div class="hero-bg-word">VIGO</div>
   <div class="hero-content">
-    <div class="eyebrow">Vigo · Beta Abierta</div>
-    <h1 class="hero-h1">Lo mejor<br/>de Vigo<br/>a tu <em>puerta.</em></h1>
+    <div class="eyebrow">Vigo · Soluciones Locales</div>
+    <h1 class="hero-h1">Tu negocio<br/>vende más<br/>con <em>AhorraAI.</em></h1>
     <div class="hero-foot">
-      <p class="hero-desc">El primer marketplace <strong>100% local</strong>: compara y compra en los negocios de tu ciudad. Con entrega el mismo día.</p>
+      <p class="hero-desc">Digitalizamos los negocios de Vigo: desde comparativas por IA hasta <strong>webs, redes sociales y Google Maps.</strong></p>
       <div class="hero-actions">
-        <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20empezar%20a%20ahorrar%20con%20AhorraAI" class="btn-hp">📲 Quiero ahorrar</a>
-        <a href="https://tally.so/r/n0D0Xp" class="btn-hg">🏪 Tengo un negocio</a>
+        <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20empezar%20a%20ahorrar%20con%20AhorraAI" class="btn-hp">📲 Soy vecino</a>
+        <a href="https://tally.so/r/KYPrZ8" class="btn-hg">🏪 Impulsar mi negocio</a>
       </div>
     </div>
   </div>
@@ -186,69 +163,80 @@
 
 <div class="ticker-rail">
   <div class="ticker-track">
-    <span class="ti">Supermercados</span><span class="ti td">·</span>
-    <span class="ti">Ferreterías</span><span class="ti td">·</span>
-    <span class="ti">Carnicerías</span><span class="ti td">·</span>
-    <span class="ti">Farmacias</span><span class="ti td">·</span>
-    <span class="ti">Fruterías</span><span class="ti td">·</span>
-    <span class="ti">Electrónica</span><span class="ti td">·</span>
+    <span class="ti">Gestión de Redes</span><span class="ti td">·</span>
+    <span class="ti">Google Business</span><span class="ti td">·</span>
+    <span class="ti">Diseño Web</span><span class="ti td">·</span>
+    <span class="ti">Pedidos WhatsApp</span><span class="ti td">·</span>
+    <span class="ti">SEO Local Vigo</span><span class="ti td">·</span>
+    <span class="ti">Venta Directa IA</span><span class="ti td">·</span>
   </div>
 </div>
 
 <section class="manifesto">
   <div class="m-inner">
     <div class="rev">
-      <div class="m-num">01</div>
-      <p class="m-sub">El problema</p>
+      <div class="m-num">VIGO</div>
+      <p class="m-sub">Tu ciudad, online</p>
     </div>
     <div class="rev">
-      <h2>Amazon entrega en 24h. Nosotros <em>en el mismo día.</em></h2>
-      <p>AhorraAI conecta vecinos con negocios locales usando IA: comparativa de precios y pedidos por WhatsApp.</p>
+      <h2>No solo es una app, es el <em>impulso digital</em> que Vigo necesita.</h2>
+      <p>Acompañamos a los negocios locales en su digitalización total. Si no tienes web, redes o ficha de Google, nosotros lo hacemos por ti mientras tú te centras en tu tienda.</p>
     </div>
   </div>
 </section>
 
 <section class="modelo" id="modelo">
+  <div class="sec-hd rev">
+    <div class="sec-ey">Tarifas 2025</div>
+    <h2>Planes para <em>crecer</em></h2>
+  </div>
   <div class="planes">
     <div class="plan rev">
-      <div class="plan-name">Base</div>
+      <div class="plan-name">Escaparate</div>
       <div class="plan-price">€0 <sub>/mes</sub></div>
       <ul class="pf">
+        <li><span class="ic">✓</span> Presencia en el buscador IA</li>
+        <li><span class="ic">✓</span> Datos básicos (Tel/Dir)</li>
         <li><span class="ic">✓</span> Apareces en comparativas</li>
       </ul>
-      <a href="https://tally.so/r/n0D0Xp" class="plan-btn gh">Registrarme</a>
+      <a href="https://tally.so/r/KYPrZ8" class="plan-btn gh">Registrarme gratis</a>
     </div>
     <div class="plan feat rev">
-      <div class="plan-badge">Popular</div>
-      <div class="plan-name">Premium</div>
+      <div class="plan-badge">El más vendido</div>
+      <div class="plan-name">Ventas</div>
       <div class="plan-price">€49 <sub>/mes</sub></div>
       <ul class="pf">
-        <li><span class="ic">✓</span> Posición prioritaria</li>
-        <li><span class="ic">✓</span> Pedidos por WhatsApp</li>
+        <li><span class="ic">✓</span> <strong>Posición Prioritaria</strong></li>
+        <li><span class="ic">✓</span> Recibe pedidos por WhatsApp</li>
+        <li><span class="ic">✓</span> Gestión de Ofertas semanales</li>
+        <li><span class="ic">✓</span> Botón de contacto directo</li>
       </ul>
-      <a href="https://tally.so/r/n0D0Xp" class="plan-btn sl">30 días gratis</a>
+      <a href="https://tally.so/r/KYPrZ8" class="plan-btn sl">Empezar ahora</a>
     </div>
-    <div class="plan rev">
-      <div class="plan-name">Entrega</div>
-      <div class="plan-price">€89 <sub>/mes</sub></div>
+    <div class="plan rev" id="digital">
+      <div class="plan-name">Digitalización</div>
+      <div class="plan-price">€149 <sub>/mes</sub></div>
       <ul class="pf">
-        <li><span class="ic">✓</span> Todo Premium + Reparto</li>
+        <li><span class="ic">✓</span> <strong>Página Web Estática</strong> propia</li>
+        <li><span class="ic">✓</span> Gestión de <strong>Google Business</strong></li>
+        <li><span class="ic">✓</span> <strong>Redes Sociales:</strong> Post Semanal</li>
+        <li><span class="ic">✓</span> Todo el Plan Ventas incluido</li>
       </ul>
-      <a href="mailto:contacto@ahorraai.com" class="plan-btn gh">Hablar con nosotros</a>
+      <a href="https://tally.so/r/KYPrZ8" class="plan-btn gh">Lo quiero todo</a>
     </div>
   </div>
 </section>
 
 <div class="cta-doble">
   <div class="cta-panel dark">
-    <h3>Vecinos</h3>
-    <p>Apúntate para ahorrar en tu barrio.</p>
-    <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20apuntarme" class="bcta od">WhatsApp →</a>
+    <h3>¿Sin tiempo para redes?</h3>
+    <p>Publicamos por ti en Facebook e Instagram para que tus vecinos te vean a diario.</p>
+    <a href="https://tally.so/r/KYPrZ8" class="bcta od">Consultar servicios →</a>
   </div>
   <div class="cta-panel celeste">
-    <h3>Negocios</h3>
-    <p>Digitaliza tu tienda de Vigo hoy.</p>
-    <a href="https://tally.so/r/n0D0Xp" class="bcta og">Contactar →</a>
+    <h3>Google Maps es clave</h3>
+    <p>Configuramos y mantenemos tu ficha de Google Business para que seas el primero al buscar en Vigo.</p>
+    <a href="https://tally.so/r/KYPrZ8" class="bcta og">Optimizar mi ficha →</a>
   </div>
 </div>
 
@@ -256,8 +244,9 @@
   <a href="#" class="logo">AhorraAI<sup>VIGO</sup></a>
   <div class="fl">
     <a href="mailto:contacto@ahorraai.com">contacto@ahorraai.com</a>
+    <a href="https://wa.me/34614053674">WhatsApp: 614 053 674</a>
   </div>
-  <p class="fc">© 2025 AhorraAI · Vigo</p>
+  <p class="fc">© 2025 AhorraAI · Vigo, España</p>
 </footer>
 
 <script>
@@ -281,4 +270,5 @@
   document.querySelectorAll('.rev').forEach(el => io.observe(el));
 </script>
 </body>
-</html>
+</html>                                                                                     </html>
+        

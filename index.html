@@ -1,897 +1,507 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APEX BTC · Simulador de Futuros Perpetuos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>
-:root {
-  --bg: #04080f;
-  --bg2: #080e1a;
-  --bg3: #0d1525;
-  --border: #1a2540;
-  --accent: #00f5a0;
-  --accent2: #00c3ff;
-  --danger: #ff3b5c;
-  --warn: #ffb800;
-  --text: #c8d8f0;
-  --text-dim: #4a6080;
-  --mono: 'Share Tech Mono', monospace;
-  --sans: 'Syne', sans-serif;
-}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AhorraAI — El marketplace de Vigo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
-* { margin:0; padding:0; box-sizing:border-box; }
+  <style>
+    :root {
+      /* Paleta "Vigo" */
+      --mar-profundo: #07101E; /* Océano Atlántico profundo */
+      --mar-medio:    #0E1D36; /* Azul marino secundario */
+      --celeste:      #5bb0ff; /* Azul celeste Celta/Cielo */
+      --celeste-p:    #8ec9ff; /* Celeste más claro para hovers */
+      --blanco:       #f4f7fb; /* Blanco frío/limpio */
+      --gris-c:       #e5ecf5; /* Gris azulado suave */
+      --gris-t:       #596a7d; /* Texto secundario */
+      --atardecer:    #f05d23; /* Naranja grúas del puerto/Atardecer Cíes */
+      --verde-g:      #216b44; /* Verde monte gallego */
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--blanco); color: var(--mar-profundo); overflow-x: hidden; cursor: none; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+    /* CURSOR */
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--celeste); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; mix-blend-mode: difference; }
+    .cursor.big { width: 42px; height: 42px; background: var(--celeste-p); }
 
-/* Animated grid background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; transition: background .3s, border .3s; }
+    header.scrolled { background: rgba(7, 16, 30, .93); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.4rem; color: var(--blanco); letter-spacing: -0.03em; text-decoration: none; }
+    .logo sup { font-family: 'Outfit', sans-serif; font-size: .48rem; font-weight: 600; letter-spacing: .1em; color: var(--celeste); text-transform: uppercase; vertical-align: super; margin-left: 2px; }
+    .hnav { display: flex; align-items: center; gap: 2rem; }
+    .hnav a { font-size: .85rem; color: rgba(244,247,251,.6); text-decoration: none; transition: color .2s; }
+    .hnav a:hover { color: var(--blanco); }
+    .hbtns { display: flex; gap: .7rem; }
+    .bsm { font-family: 'Outfit', sans-serif; font-size: .8rem; font-weight: 500; padding: .5rem 1.1rem; border-radius: 2rem; text-decoration: none; transition: all .2s; cursor: none; }
+    .bsm.o { border: 1px solid rgba(255,255,255,.2); color: rgba(244,247,251,.8); }
+    .bsm.o:hover { border-color: var(--celeste); color: var(--celeste); }
+    .bsm.f { background: var(--celeste); color: var(--mar-profundo); font-weight: 600; }
+    .bsm.f:hover { background: var(--celeste-p); box-shadow: 0 4px 15px rgba(91, 176, 255, 0.3); }
 
-/* Scan line effect */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
-  );
-  pointer-events: none;
-  z-index: 1;
-}
+    /* HERO */
+    .hero { min-height: 100vh; background: linear-gradient(180deg, var(--mar-profundo) 0%, var(--mar-medio) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
+    .hero-grain { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; }
+    .hero-bg-word { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-52%); font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(10rem, 24vw, 24rem); color: rgba(255,255,255,.015); white-space: nowrap; pointer-events: none; user-select: none; z-index: 1; letter-spacing: -.05em; }
+    .hero-side { position: absolute; top: 50%; right: 3rem; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: .68rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(244,247,251,.3); z-index: 2; }
+    .hero-content { position: relative; z-index: 2; max-width: 1050px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .73rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--celeste); margin-bottom: 2rem; }
+    .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--celeste); display: block; }
+    .hero-h1 { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(3.2rem, 8.5vw, 8rem); color: var(--blanco); line-height: .95; letter-spacing: -.03em; margin-bottom: 2.5rem; }
+    .hero-h1 em { font-style: italic; color: var(--celeste); font-weight: 300; }
+    .hero-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+    .hero-desc { font-size: 1.05rem; font-weight: 300; color: rgba(244,247,251,.6); line-height: 1.75; max-width: 420px; }
+    .hero-desc strong { color: var(--blanco); font-weight: 500; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-hp { background: var(--celeste); color: var(--mar-profundo); font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 600; padding: .9rem 2.2rem; border-radius: 2rem; border: none; text-decoration: none; cursor: none; transition: transform .2s, box-shadow .2s, background .2s; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-hp:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(91, 176, 255, 0.35); background: var(--celeste-p); }
+    .btn-hg { border: 1px solid rgba(255,255,255,.2); color: rgba(244,247,251,.75); font-family: 'Outfit', sans-serif; font-size: .95rem; padding: .9rem 2.2rem; border-radius: 2rem; text-decoration: none; cursor: none; transition: border-color .2s, color .2s, background .2s; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-hg:hover { border-color: rgba(255,255,255,.5); color: var(--blanco); background: rgba(255,255,255,.05); }
 
-#app { position: relative; z-index: 2; }
+    /* TICKER */
+    .ticker-rail { background: var(--celeste); overflow: hidden; padding: .75rem 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .ticker-track { display: flex; white-space: nowrap; animation: roll 35s linear infinite; }
+    .ti { font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--mar-profundo); padding: 0 2.5rem; }
+    .td { color: rgba(7, 16, 30, .2); }
+    @keyframes roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* ── HEADER ── */
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(4,8,15,0.9);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+    /* MANIFESTO */
+    .manifesto { padding: 8rem 3rem; background: var(--blanco); }
+    .m-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: center; }
+    .m-num { font-family: 'Fraunces', serif; font-size: 9rem; font-weight: 900; color: var(--gris-c); line-height: 1; letter-spacing: -.05em; text-shadow: 2px 2px 0px rgba(0,0,0,0.02); }
+    .m-sub { font-size: .76rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gris-t); margin-top: -.8rem; padding-left: .5rem; }
+    .m-inner h2 { font-family: 'Fraunces', serif; font-size: clamp(1.9rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 1.5rem; color: var(--mar-profundo); }
+    .m-inner h2 em { font-style: italic; font-weight: 300; color: var(--atardecer); }
+    .m-inner p { font-size: 1rem; font-weight: 300; color: var(--gris-t); line-height: 1.8; margin-bottom: 1.2rem; }
+    .m-inner p strong { color: var(--mar-profundo); font-weight: 500; }
 
-.logo {
-  font-family: var(--sans);
-  font-weight: 800;
-  font-size: 1.4rem;
-  letter-spacing: -0.02em;
-}
-.logo span { color: var(--accent); }
+    /* SECTION HELPERS */
+    .sec-ey { display: inline-flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .8rem; }
+    .sec-ey::before { content: ''; width: 22px; height: 1px; display: block; }
+    .sec-hd { max-width: 1100px; margin: 0 auto 4rem; }
+    .sec-hd h2 { font-family: 'Fraunces', serif; font-size: clamp(1.9rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+    .sec-hd p { font-size: .95rem; color: var(--gris-t); max-width: 480px; line-height: 1.7; margin-top: .8rem; }
 
-.status-bar {
-  display: flex;
-  gap: 24px;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.status-item { display: flex; align-items: center; gap: 6px; }
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
+    /* COMO FUNCIONA */
+    .como { padding: 7rem 3rem; background: var(--gris-c); }
+    .como .sec-ey { color: var(--atardecer); }
+    .como .sec-ey::before { background: var(--atardecer); }
+    .como .sec-hd h2 { color: var(--mar-profundo); }
+    .como .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--atardecer); }
+    .steps-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(7, 16, 30, .06); border: 1px solid rgba(7, 16, 30, .06); border-radius: 18px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.02); }
+    .sb { background: var(--blanco); padding: 2.5rem; transition: background .3s; }
+    .sb:hover { background: var(--mar-profundo); }
+    .sb:hover .sb-num, .sb:hover .sb-title, .sb:hover .sb-desc { color: var(--blanco); }
+    .sb:hover .sb-ico { background: var(--celeste); box-shadow: 0 0 15px rgba(91, 176, 255, 0.4); }
+    .sb-ico { width: 48px; height: 48px; border-radius: 12px; background: var(--gris-c); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; margin-bottom: 1.4rem; transition: all .3s; }
+    .sb-num { font-family: 'Fraunces', serif; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--celeste); margin-bottom: .35rem; transition: color .3s; }
+    .sb-title { font-size: 1.1rem; font-weight: 600; margin-bottom: .55rem; color: var(--mar-profundo); transition: color .3s; }
+    .sb-desc { font-size: .88rem; color: var(--gris-t); line-height: 1.6; transition: color .3s; }
 
-/* ── LAYOUT ── */
-.main-grid {
-  display: grid;
-  grid-template-columns: 280px 1fr 300px;
-  grid-template-rows: auto 1fr;
-  gap: 1px;
-  background: var(--border);
-  min-height: calc(100vh - 57px);
-}
+    /* MODELO */
+    .modelo { padding: 8rem 3rem; background: var(--mar-profundo); }
+    .modelo .sec-ey { color: var(--celeste); }
+    .modelo .sec-ey::before { background: var(--celeste); }
+    .modelo .sec-hd h2 { color: var(--blanco); }
+    .modelo .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--celeste-p); }
+    .modelo .sec-hd p { color: rgba(244,247,251,.5); }
+    .planes { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .plan { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); border-radius: 20px; padding: 2.5rem; transition: border-color .3s, transform .3s, background .3s; backdrop-filter: blur(10px); }
+    .plan:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); transform: translateY(-6px); }
+    .plan.feat { border-color: var(--celeste); background: rgba(91, 176, 255, 0.05); }
+    .plan-badge { display: inline-block; background: var(--celeste); color: var(--mar-profundo); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .85rem; border-radius: 2rem; margin-bottom: 1.4rem; box-shadow: 0 4px 10px rgba(91, 176, 255, 0.2); }
+    .plan-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--blanco); margin-bottom: .3rem; }
+    .plan-price { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 900; color: var(--celeste-p); line-height: 1; margin: 1rem 0 .4rem; }
+    .plan-price sub { font-family: 'Outfit', sans-serif; font-size: .8rem; font-weight: 400; color: rgba(244,247,251,.4); vertical-align: baseline; margin-left: 2px; }
+    .plan-desc { font-size: .85rem; color: rgba(244,247,251,.5); line-height: 1.55; margin-bottom: 1.8rem; }
+    .pf { list-style: none; }
+    .pf li { font-size: .85rem; color: rgba(244,247,251,.75); padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .75rem; align-items: flex-start; }
+    .pf li:last-child { border-bottom: none; }
+    .pf li .ic { color: var(--celeste); flex-shrink: 0; font-weight: bold; }
+    .pf li.off { color: rgba(244,247,251,.25); }
+    .pf li.off .ic { color: rgba(244,247,251,.15); }
+    .plan-btn { display: block; margin-top: 1.8rem; text-align: center; padding: .8rem; border-radius: 2rem; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: none; }
+    .plan-btn.gh { border: 1px solid rgba(255,255,255,.15); color: rgba(244,247,251,.6); }
+    .plan-btn.gh:hover { border-color: var(--celeste); color: var(--celeste); background: rgba(91, 176, 255, 0.05); }
+    .plan-btn.sl { background: var(--celeste); color: var(--mar-profundo); }
+    .plan-btn.sl:hover { background: var(--celeste-p); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(91, 176, 255, 0.2); }
 
-.panel {
-  background: var(--bg);
-  padding: 20px;
-}
+    /* FASES */
+    .fases { padding: 8rem 3rem; background: var(--blanco); }
+    .fases .sec-ey { color: var(--verde-g); }
+    .fases .sec-ey::before { background: var(--verde-g); }
+    .fases .sec-hd h2 { color: var(--mar-profundo); }
+    .fases .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--verde-g); }
+    .timeline { max-width: 1100px; margin: 4rem auto 0; display: flex; flex-direction: column; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 24px; top: 12px; bottom: 12px; width: 2px; background: linear-gradient(180deg, var(--celeste), var(--atardecer), var(--verde-g)); opacity: 0.8; }
+    .fase { display: grid; grid-template-columns: 50px 1fr; gap: 2.5rem; padding-bottom: 4rem; position: relative; }
+    .fase:last-child { padding-bottom: 0; }
+    .fase-dot { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 1; flex-shrink: 0; border: 4px solid var(--blanco); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .fase:nth-child(1) .fase-dot { background: var(--celeste); color: var(--mar-profundo); }
+    .fase:nth-child(2) .fase-dot { background: var(--atardecer); color: var(--blanco); }
+    .fase:nth-child(3) .fase-dot { background: var(--verde-g); color: var(--blanco); }
+    .fase-body { padding-top: .4rem; }
+    .fase-tag { font-size: .7rem; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--gris-t); margin-bottom: .4rem; }
+    .fase-title { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: .8rem; color: var(--mar-profundo); }
+    .fase-desc { font-size: .95rem; color: var(--gris-t); line-height: 1.75; max-width: 600px; }
+    .fase-desc strong { color: var(--mar-profundo); font-weight: 500; }
+    .chips { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
+    .chip { background: var(--gris-c); border-radius: 2rem; padding: .35rem .9rem; font-size: .78rem; font-weight: 500; color: var(--mar-profundo); border: 1px solid rgba(7, 16, 30, 0.05); }
 
-/* ── CONTROLS PANEL (left) ── */
-.controls-panel { grid-row: 1 / 3; }
+    /* CTA DOBLE */
+    .cta-doble { display: grid; grid-template-columns: 1fr 1fr; }
+    .cta-panel { padding: 7rem 5rem; display: flex; flex-direction: column; justify-content: center; }
+    .cta-panel.dark { background: var(--mar-medio); }
+    .cta-panel.celeste { background: var(--celeste); }
+    .cta-panel h3 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 1.2rem; }
+    .cta-panel.dark h3 { color: var(--blanco); }
+    .cta-panel.celeste h3 { color: var(--mar-profundo); }
+    .cta-panel p { font-size: .95rem; line-height: 1.7; margin-bottom: 2.2rem; }
+    .cta-panel.dark p { color: rgba(244,247,251,.6); }
+    .cta-panel.celeste p { color: rgba(7, 16, 30, .7); }
+    .irow { display: flex; gap: .8rem; }
+    .ci { flex: 1; padding: .9rem 1.4rem; border-radius: 2rem; font-family: 'Outfit', sans-serif; font-size: .9rem; outline: none; transition: border-color .2s, box-shadow .2s; }
+    .ci.dark-in { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05); color: var(--blanco); }
+    .ci.dark-in::placeholder { color: rgba(255,255,255,.3); }
+    .ci.dark-in:focus { border-color: var(--celeste); box-shadow: 0 0 0 3px rgba(91, 176, 255, 0.2); }
+    .ci.celeste-in { border: 1px solid rgba(7, 16, 30, .15); background: rgba(255,255,255,.4); color: var(--mar-profundo); backdrop-filter: blur(5px); }
+    .ci.celeste-in::placeholder { color: rgba(7, 16, 30, .4); }
+    .ci.celeste-in:focus { border-color: var(--mar-profundo); box-shadow: 0 0 0 3px rgba(7, 16, 30, 0.1); }
+    .bcta { padding: .9rem 1.8rem; border-radius: 2rem; font-family: 'Outfit', sans-serif; font-size: .9rem; font-weight: 600; border: none; cursor: none; white-space: nowrap; transition: all .2s; }
+    .bcta.od { background: var(--celeste); color: var(--mar-profundo); }
+    .bcta.od:hover { background: var(--celeste-p); transform: translateY(-2px); }
+    .bcta.og { background: var(--mar-profundo); color: var(--blanco); }
+    .bcta.og:hover { background: var(--mar-medio); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(7, 16, 30, 0.3); }
+    .cta-note { font-size: .75rem; margin-top: 1rem; }
+    .cta-panel.dark .cta-note { color: rgba(244,247,251,.3); }
+    .cta-panel.celeste .cta-note { color: rgba(7, 16, 30, .5); }
+    .ok-msg { display: none; font-size: .9rem; font-weight: 500; padding: .85rem 1.2rem; border-radius: 2rem; }
+    .ok-dark { background: rgba(91, 176, 255, 0.1); color: var(--celeste-p); border: 1px solid rgba(91, 176, 255, 0.2); }
+    .ok-celeste { background: rgba(255,255,255,0.3); color: var(--mar-profundo); border: 1px solid rgba(7, 16, 30, 0.1); }
 
-.section-title {
-  font-family: var(--sans);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
+    /* FOOTER */
+    footer { background: var(--mar-profundo); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .fl { display: flex; gap: 1.8rem; }
+    .fl a { font-size: .8rem; color: rgba(244,247,251,.4); text-decoration: none; transition: color .2s; }
+    .fl a:hover { color: var(--celeste); }
+    .fc { font-size: .8rem; color: rgba(244,247,251,.3); }
 
-.control-group { margin-bottom: 20px; }
-.control-label {
-  font-size: 0.68rem;
-  color: var(--text-dim);
-  margin-bottom: 6px;
-  display: flex;
-  justify-content: space-between;
-}
-.control-label span { color: var(--accent); }
+    /* REVEAL */
+    .rev { opacity: 0; transform: translateY(30px); transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1), transform .7s cubic-bezier(0.16, 1, 0.3, 1); }
+    .rev.up { opacity: 1; transform: translateY(0); }
 
-input[type=range] {
-  width: 100%;
-  -webkit-appearance: none;
-  background: var(--bg3);
-  height: 3px;
-  border-radius: 2px;
-  outline: none;
-  cursor: pointer;
-}
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-  cursor: pointer;
-}
-
-select {
-  width: 100%;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 8px 10px;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  outline: none;
-  cursor: pointer;
-  border-radius: 2px;
-}
-select:focus { border-color: var(--accent); }
-
-.btn {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  transform: translateX(-100%);
-  transition: transform 0.2s;
-  z-index: -1;
-}
-.btn:hover { color: var(--bg); }
-.btn:hover::before { transform: translateX(0); }
-
-.btn-danger {
-  border-color: var(--danger);
-  color: var(--danger);
-  margin-top: 8px;
-}
-.btn-danger::before { background: var(--danger); }
-.btn-danger:hover { color: white; }
-
-.btn-run {
-  background: var(--accent);
-  color: var(--bg);
-  font-weight: 700;
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(0,245,160,0.3);
-}
-.btn-run::before { background: transparent; }
-.btn-run:hover { 
-  box-shadow: 0 0 40px rgba(0,245,160,0.6); 
-  color: var(--bg);
-  transform: translateY(-1px);
-}
-
-/* Strategy cards */
-.strategy-card {
-  border: 1px solid var(--border);
-  padding: 10px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 2px;
-}
-.strategy-card:hover, .strategy-card.active {
-  border-color: var(--accent);
-  background: rgba(0,245,160,0.05);
-}
-.strategy-card .s-name {
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-.strategy-card .s-desc {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  margin-top: 3px;
-  line-height: 1.4;
-}
-
-/* ── CHART PANEL (center top) ── */
-.chart-panel { position: relative; min-height: 360px; }
-
-.price-header {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-#btc-price {
-  font-family: var(--sans);
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: white;
-  letter-spacing: -0.03em;
-}
-#price-change {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 2px;
-}
-.change-up { background: rgba(0,245,160,0.15); color: var(--accent); }
-.change-down { background: rgba(255,59,92,0.15); color: var(--danger); }
-
-.chart-container { position: relative; height: 280px; }
-
-/* ── EQUITY PANEL (center bottom) ── */
-.equity-panel { min-height: 200px; }
-
-.mini-chart { height: 120px; }
-
-/* ── METRICS PANEL (right) ── */
-.metrics-panel { grid-row: 1 / 3; }
-
-.metric-card {
-  border: 1px solid var(--border);
-  padding: 14px;
-  margin-bottom: 8px;
-  border-radius: 2px;
-}
-.metric-label {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.metric-value {
-  font-family: var(--sans);
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: white;
-}
-.metric-value.up { color: var(--accent); }
-.metric-value.down { color: var(--danger); }
-.metric-value.warn { color: var(--warn); }
-
-.metric-sub {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-
-/* Trade log */
-.trade-log {
-  border: 1px solid var(--border);
-  height: 200px;
-  overflow-y: auto;
-  font-size: 0.65rem;
-  border-radius: 2px;
-}
-.trade-log::-webkit-scrollbar { width: 3px; }
-.trade-log::-webkit-scrollbar-track { background: var(--bg); }
-.trade-log::-webkit-scrollbar-thumb { background: var(--border); }
-
-.log-entry {
-  padding: 6px 10px;
-  border-bottom: 1px solid rgba(26,37,64,0.5);
-  display: flex;
-  gap: 8px;
-  animation: fadeIn 0.3s ease;
-}
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-
-.log-entry .log-time { color: var(--text-dim); min-width: 45px; }
-.log-entry .log-type { min-width: 45px; }
-.log-entry.long .log-type { color: var(--accent); }
-.log-entry.short .log-type { color: #00c3ff; }
-.log-entry.close-win { background: rgba(0,245,160,0.04); }
-.log-entry.close-loss { background: rgba(255,59,92,0.04); }
-.log-entry.liquidation { background: rgba(255,59,92,0.1); }
-.log-entry .log-pnl { margin-left: auto; }
-.log-entry.close-win .log-pnl { color: var(--accent); }
-.log-entry.close-loss .log-pnl { color: var(--danger); }
-
-/* Position display */
-.position-box {
-  border: 1px solid var(--border);
-  padding: 14px;
-  margin-bottom: 8px;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-.position-box.has-position { border-color: var(--accent2); }
-.position-box.long-pos::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--accent);
-}
-.position-box.short-pos::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--accent2);
-}
-
-.pos-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  margin-bottom: 5px;
-}
-.pos-row .label { color: var(--text-dim); }
-
-/* Speed indicator */
-.speed-display {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.68rem;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.speed-bars {
-  display: flex;
-  gap: 2px;
-}
-.speed-bar {
-  width: 4px;
-  height: 12px;
-  background: var(--border);
-  border-radius: 1px;
-  transition: background 0.3s;
-}
-.speed-bar.active { background: var(--accent); }
-
-/* Simulation state overlay */
-#sim-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(4,8,15,0.96);
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-#sim-overlay.hidden { display: none; }
-
-.overlay-title {
-  font-family: var(--sans);
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-.overlay-title span { color: var(--accent); }
-.overlay-sub {
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  text-align: center;
-  max-width: 420px;
-  line-height: 1.6;
-}
-
-.loading-bar {
-  width: 300px;
-  height: 2px;
-  background: var(--border);
-  border-radius: 1px;
-  overflow: hidden;
-}
-.loading-fill {
-  height: 100%;
-  background: var(--accent);
-  width: 0%;
-  transition: width 0.1s;
-  box-shadow: 0 0 10px var(--accent);
-}
-
-/* Liquidation flash */
-.liq-flash {
-  position: fixed;
-  inset: 0;
-  background: rgba(255,59,92,0.15);
-  z-index: 300;
-  pointer-events: none;
-  animation: liqFlash 0.5s ease forwards;
-}
-@keyframes liqFlash {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Responsive tweaks */
-@media (max-width: 1100px) {
-  .main-grid { grid-template-columns: 240px 1fr 260px; }
-}
-@media (max-width: 800px) {
-  .main-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .controls-panel, .metrics-panel { grid-row: auto; }
-}
-
-/* Profit flash on metric */
-.flash-green {
-  animation: flashG 0.4s ease;
-}
-.flash-red {
-  animation: flashR 0.4s ease;
-}
-@keyframes flashG {
-  0%,100% { background: transparent; }
-  50% { background: rgba(0,245,160,0.15); }
-}
-@keyframes flashR {
-  0%,100% { background: transparent; }
-  50% { background: rgba(255,59,92,0.15); }
-}
-
-.tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-.tag {
-  font-size: 0.6rem;
-  padding: 2px 7px;
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  border-radius: 20px;
-  letter-spacing: 0.05em;
-}
-
-.warning-box {
-  background: rgba(255,184,0,0.08);
-  border: 1px solid rgba(255,184,0,0.3);
-  padding: 10px;
-  font-size: 0.65rem;
-  color: var(--warn);
-  line-height: 1.5;
-  border-radius: 2px;
-  margin-bottom: 16px;
-}
-
-#progress-days {
-  font-size: 0.7rem;
-  color: var(--text-dim);
-}
-</style>
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .m-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .m-num { font-size: 5.5rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .planes { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
+      .cta-doble { grid-template-columns: 1fr; }
+      .cta-panel { padding: 4.5rem 2rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      header { padding: 1rem 1.5rem; }
+      .hnav { display: none; }
+      .manifesto, .como, .modelo, .fases { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .fase { gap: 1.5rem; }
+      .irow { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-<div id="app">
 
-<!-- INTRO OVERLAY -->
-<div id="sim-overlay">
-  <div class="overlay-title">APEX <span>BTC</span></div>
-  <div class="overlay-sub">
-    Simulador de Futuros Perpetuos · Estrategias cuantitativas con gestión de riesgo profesional<br>
-    <br>Capital inicial: <strong style="color:var(--accent)">€100</strong> · Motor: Geometric Brownian Motion + estrategias reales
-  </div>
-  <div class="loading-bar"><div class="loading-fill" id="load-fill"></div></div>
-  <div id="load-text" style="font-size:0.7rem;color:var(--text-dim)">Inicializando motor de simulación...</div>
-  <button class="btn btn-run" style="width:200px;margin-top:8px" onclick="startApp()">▶ INICIAR</button>
-</div>
+<div class="cursor" id="cur"></div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">APEX <span>BTC</span> · PERPS SIM</div>
-  <div class="status-bar">
-    <div class="status-item"><div class="dot"></div><span id="sim-status">SIMULANDO</span></div>
-    <div class="status-item" style="color:var(--text)">BTC/USDT PERP · MEXC</div>
-    <div class="status-item" id="progress-days">Día 0</div>
-    <div class="status-item">
-      <div class="speed-bars">
-        <div class="speed-bar active" id="sb1"></div>
-        <div class="speed-bar" id="sb2"></div>
-        <div class="speed-bar" id="sb3"></div>
-        <div class="speed-bar" id="sb4"></div>
-      </div>
-    </div>
+<header id="hdr">
+  <a href="#" class="logo">AhorraAI<sup>VIGO</sup></a>
+  <nav class="hnav">
+    <a href="#consumidor">Para vecinos</a>
+    <a href="#modelo">Para negocios</a>
+    <a href="#fases">Hoja de ruta</a>
+  </nav>
+  <div class="hbtns">
+    <a href="#consumidor" class="bsm o">Soy vecino</a>
+    <a href="#modelo" class="bsm f">Tengo un negocio</a>
   </div>
 </header>
 
-<!-- MAIN GRID -->
-<div class="main-grid">
-
-  <!-- LEFT: CONTROLS -->
-  <div class="panel controls-panel">
-    <div class="section-title">Configuración</div>
-
-    <div class="warning-box">
-      ⚠ SIMULACIÓN EDUCATIVA — No conectada a MEXC real. Los resultados no garantizan rendimiento futuro.
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">Capital inicial <span id="lbl-capital">€100</span></div>
-      <input type="range" id="sl-capital" min="50" max="1000" value="100" step="10" oninput="updateLabel('lbl-capital','€',this.value)">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">Apalancamiento <span id="lbl-lev">x10</span></div>
-      <input type="range" id="sl-lev" min="1" max="50" value="10" step="1" oninput="updateLabel('lbl-lev','x',this.value)">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">Riesgo por trade <span id="lbl-risk">2%</span></div>
-      <input type="range" id="sl-risk" min="0.5" max="10" value="2" step="0.5" oninput="updateLabel('lbl-risk','',this.value,'%')">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">Duración (días) <span id="lbl-days">90</span></div>
-      <input type="range" id="sl-days" min="30" max="365" value="90" step="10" oninput="updateLabel('lbl-days','',this.value,' días')">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">Velocidad simulación</div>
-      <select id="sel-speed">
-        <option value="200">Lenta (analizar)</option>
-        <option value="80" selected>Normal</option>
-        <option value="20">Rápida</option>
-        <option value="1">Turbo (instantánea)</option>
-      </select>
-    </div>
-
-    <div class="section-title" style="margin-top:20px">Estrategia</div>
-
-    <div class="strategy-card active" data-s="ema_rsi" onclick="selectStrategy(this)">
-      <div class="s-name">EMA Cross + RSI Filter</div>
-      <div class="s-desc">EMA 9/21 crossover con filtro RSI 14. Evita sobrecompra/sobreventa. Stop-loss dinámico ATR.</div>
-      <div class="tags"><span class="tag">TENDENCIA</span><span class="tag">FILTRADO</span></div>
-    </div>
-
-    <div class="strategy-card" data-s="bb_vol" onclick="selectStrategy(this)">
-      <div class="s-name">Bollinger Bands + Volumen</div>
-      <div class="s-desc">Rebote en bandas con confirmación de volumen. Mean reversion + breakout híbrido.</div>
-      <div class="tags"><span class="tag">REVERSIÓN</span><span class="tag">VOLUMEN</span></div>
-    </div>
-
-    <div class="strategy-card" data-s="funding" onclick="selectStrategy(this)">
-      <div class="s-name">Funding Rate Arbitrage</div>
-      <div class="s-desc">Aprovecha tasas de financiamiento extremas (+/-0.1%). Counter-trend con momentum.</div>
-      <div class="tags"><span class="tag">FUNDING</span><span class="tag">CONTRARIAN</span></div>
-    </div>
-
-    <div class="strategy-card" data-s="kelly" onclick="selectStrategy(this)">
-      <div class="s-name">Kelly Criterion Dynamic</div>
-      <div class="s-desc">Sizing dinámico basado en win rate y ratio R:R histórico. Maximiza crecimiento logarítmico.</div>
-      <div class="tags"><span class="tag">KELLY</span><span class="tag">ADAPTATIVO</span></div>
-    </div>
-
-    <button class="btn btn-run" onclick="runSimulation()" style="margin-top:16px">▶ EJECUTAR</button>
-    <button class="btn btn-danger" onclick="resetSimulation()">■ RESET</button>
-  </div>
-
-  <!-- CENTER TOP: BTC PRICE CHART -->
-  <div class="panel chart-panel">
-    <div class="price-header">
-      <div id="btc-price">$67,420.00</div>
-      <div id="price-change" class="change-up">+0.00%</div>
-      <div style="font-size:0.65rem;color:var(--text-dim);margin-left:auto" id="current-strategy-label">EMA Cross + RSI</div>
-    </div>
-    <div class="chart-container">
-      <canvas id="priceChart"></canvas>
-    </div>
-  </div>
-
-  <!-- RIGHT: METRICS -->
-  <div class="panel metrics-panel">
-    <div class="section-title">Rendimiento</div>
-
-    <div class="metric-card" id="mc-equity">
-      <div class="metric-label">Equity actual</div>
-      <div class="metric-value up" id="mv-equity">€100.00</div>
-      <div class="metric-sub" id="ms-equity">Capital inicial: €100</div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-label">PnL Total</div>
-      <div class="metric-value" id="mv-pnl">€0.00</div>
-      <div class="metric-sub" id="ms-pnl">0.00%</div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-label">Max Drawdown</div>
-      <div class="metric-value" id="mv-dd">0.00%</div>
-      <div class="metric-sub" id="ms-dd">Desde pico</div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-label">Win Rate</div>
-      <div class="metric-value" id="mv-wr">—</div>
-      <div class="metric-sub" id="ms-wr">0 trades cerrados</div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-label">Ratio Sharpe</div>
-      <div class="metric-value" id="mv-sharpe">—</div>
-      <div class="metric-sub">Rentabilidad ajustada riesgo</div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-label">Liquidaciones</div>
-      <div class="metric-value down" id="mv-liq">0</div>
-      <div class="metric-sub" id="ms-liq">Cuenta reiniciada tras liq.</div>
-    </div>
-
-    <div class="section-title" style="margin-top:12px">Posición activa</div>
-
-    <div class="position-box" id="pos-box">
-      <div style="font-size:0.7rem;color:var(--text-dim)">Sin posición abierta</div>
-    </div>
-
-    <div class="section-title" style="margin-top:12px">Log de Trades</div>
-    <div class="trade-log" id="trade-log">
-      <div class="log-entry" style="color:var(--text-dim)">
-        <span>Sistema listo. Ejecuta la simulación.</span>
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-bg-word">VIGO</div>
+  <span class="hero-side">Marketplace local · 2025</span>
+  <div class="hero-content">
+    <div class="eyebrow">Vigo · Beta Abierta</div>
+    <h1 class="hero-h1">
+      Lo mejor<br/>
+      de Vigo<br/>
+      a tu <em>puerta.</em>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-desc">
+        El primer marketplace <strong>100% local de Vigo</strong>: descubre, compara y compra en los negocios de tu ciudad. Con IA. Sin intermediarios. Con entrega el mismo día.
+      </p>
+      <div class="hero-actions">
+        <a href="#consumidor" class="btn-hp">📲 Quiero ahorrar</a>
+        <a href="#modelo" class="btn-hg">🏪 Tengo un negocio</a>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- CENTER BOTTOM: EQUITY CURVE -->
-  <div class="panel equity-panel">
-    <div class="section-title">Curva de Equity · <span id="equity-label" style="color:var(--accent)">€100.00</span></div>
-    <div class="mini-chart">
-      <canvas id="equityChart"></canvas>
+<div class="ticker-rail">
+  <div class="ticker-track">
+    <span class="ti">Supermercados</span><span class="ti td">·</span>
+    <span class="ti">Ferreterías</span><span class="ti td">·</span>
+    <span class="ti">Carnicerías</span><span class="ti td">·</span>
+    <span class="ti">Farmacias</span><span class="ti td">·</span>
+    <span class="ti">Fruterías</span><span class="ti td">·</span>
+    <span class="ti">Electrónica</span><span class="ti td">·</span>
+    <span class="ti">Reformas</span><span class="ti td">·</span>
+    <span class="ti">Papelería</span><span class="ti td">·</span>
+    <span class="ti">Mascotas</span><span class="ti td">·</span>
+    <span class="ti">Panaderías</span><span class="ti td">·</span>
+    <span class="ti">Fontanería</span><span class="ti td">·</span>
+    <span class="ti">Moda local</span><span class="ti td">·</span>
+    <span class="ti">Supermercados</span><span class="ti td">·</span>
+    <span class="ti">Ferreterías</span><span class="ti td">·</span>
+    <span class="ti">Carnicerías</span><span class="ti td">·</span>
+    <span class="ti">Farmacias</span><span class="ti td">·</span>
+    <span class="ti">Fruterías</span><span class="ti td">·</span>
+    <span class="ti">Electrónica</span><span class="ti td">·</span>
+    <span class="ti">Reformas</span><span class="ti td">·</span>
+    <span class="ti">Papelería</span><span class="ti td">·</span>
+    <span class="ti">Mascotas</span><span class="ti td">·</span>
+    <span class="ti">Panaderías</span><span class="ti td">·</span>
+    <span class="ti">Fontanería</span><span class="ti td">·</span>
+    <span class="ti">Moda local</span><span class="ti td">·</span>
+  </div>
+</div>
+
+<section class="manifesto">
+  <div class="m-inner">
+    <div class="rev">
+      <div class="m-num">01</div>
+      <p class="m-sub">El problema</p>
+    </div>
+    <div class="rev">
+      <h2>Amazon entrega en 24h.<br/>Nosotros <em>en el mismo día.</em><br/>Y el dinero se queda en Vigo.</h2>
+      <p>Cada euro que gastas en Amazon o en plataformas genéricas sale de Vigo para siempre. Mientras tanto, hay cientos de negocios en tu barrio que tienen exactamente lo que necesitas — pero sin la tecnología para llegar hasta ti.</p>
+      <p>AhorraAI conecta vecinos con negocios locales usando inteligencia artificial: <strong>comparativa de precios, pedidos por WhatsApp y entrega optimizada el mismo día</strong>, pensada para las calles de esta ciudad.</p>
     </div>
   </div>
+</section>
 
+<section class="como" id="consumidor">
+  <div class="sec-hd rev">
+    <div class="sec-ey">Para vecinos de Vigo</div>
+    <h2>Compra local.<br/>Paga <em>menos.</em></h2>
+    <p>Sin descargar nada. Tu asistente vive donde ya estás: en WhatsApp.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="sb rev">
+      <div class="sb-ico">📲</div>
+      <div class="sb-num">01</div>
+      <div class="sb-title">Escribe lo que necesitas</div>
+      <p class="sb-desc">Manda un WhatsApp en lenguaje normal. "¿Dónde compro la leche más barata?" o "Necesito pintura para el salón." Sin formularios.</p>
+    </div>
+    <div class="sb rev">
+      <div class="sb-ico">🔍</div>
+      <div class="sb-num">02</div>
+      <div class="sb-title">La IA compara por ti</div>
+      <p class="sb-desc">Consultamos precios y disponibilidad en los negocios adheridos de Vigo. Te damos la mejor opción: precio, distancia y tiempo de entrega.</p>
+    </div>
+    <div class="sb rev">
+      <div class="sb-ico">🚴</div>
+      <div class="sb-num">03</div>
+      <div class="sb-title">Lo recibes hoy</div>
+      <p class="sb-desc">Confirmas el pedido por WhatsApp. Nuestro sistema de reparto local te lo entrega el mismo día. El dinero va directo al negocio de tu ciudad.</p>
+    </div>
+  </div>
+</section>
+
+<section class="modelo" id="modelo">
+  <div class="sec-hd rev">
+    <div class="sec-ey">Para negocios de Vigo</div>
+    <h2>El vecino paga cero.<br/>Tú decides <em>cuánto crecer.</em></h2>
+    <p>Los consumidores usan AhorraAI gratis siempre. Los negocios eligen su nivel de visibilidad y herramientas.</p>
+  </div>
+  <div class="planes">
+
+    <div class="plan rev">
+      <div class="plan-name">Base</div>
+      <div class="plan-price">€0 <sub>/mes</sub></div>
+      <p class="plan-desc">Apareces en comparativas de precio. Sin acuerdo previo, solo datos de referencia de mercado.</p>
+      <ul class="pf">
+        <li><span class="ic">✓</span> Ficha básica en el directorio</li>
+        <li><span class="ic">✓</span> Apareces en comparativas</li>
+        <li class="off"><span class="ic">–</span> Sin posicionamiento prioritario</li>
+        <li class="off"><span class="ic">–</span> Sin gestión de pedidos</li>
+        <li class="off"><span class="ic">–</span> Sin reparto integrado</li>
+        <li class="off"><span class="ic">–</span> Sin estadísticas</li>
+      </ul>
+      <a href="#cta-neg" class="plan-btn gh">Registrar mi negocio</a>
+    </div>
+
+    <div class="plan feat rev">
+      <div class="plan-badge">⭐ Más popular</div>
+      <div class="plan-name">Premium</div>
+      <div class="plan-price">€49 <sub>/mes</sub></div>
+      <p class="plan-desc">Posicionamiento prioritario y canal de pedidos directo desde el asistente IA.</p>
+      <ul class="pf">
+        <li><span class="ic">✓</span> Posición prioritaria en resultados</li>
+        <li><span class="ic">✓</span> Canal de pedidos por WhatsApp</li>
+        <li><span class="ic">✓</span> Ficha completa: fotos, horarios, ofertas</li>
+        <li><span class="ic">✓</span> Estadísticas mensuales de visibilidad</li>
+        <li><span class="ic">✓</span> Alertas de oferta a clientes cercanos</li>
+        <li class="off"><span class="ic">–</span> Sin reparto integrado</li>
+      </ul>
+      <a href="#cta-neg" class="plan-btn sl">30 días gratis →</a>
+    </div>
+
+    <div class="plan rev">
+      <div class="plan-name">Entrega</div>
+      <div class="plan-price">€89 <sub>/mes</sub></div>
+      <p class="plan-desc">Todo lo de Premium más acceso al sistema de reparto el mismo día en Vigo.</p>
+      <ul class="pf">
+        <li><span class="ic">✓</span> Todo lo del plan Premium</li>
+        <li><span class="ic">✓</span> Reparto optimizado mismo día</li>
+        <li><span class="ic">✓</span> Tracking en vivo para el cliente</li>
+        <li><span class="ic">✓</span> Panel de gestión de pedidos</li>
+        <li><span class="ic">✓</span> Zonas de entrega configurables</li>
+        <li><span class="ic">✓</span> Soporte prioritario</li>
+      </ul>
+      <a href="#cta-neg" class="plan-btn gh">Hablar con nosotros</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="fases" id="fases">
+  <div class="sec-hd rev">
+    <div class="sec-ey">Hoja de ruta</div>
+    <h2>Tres fases.<br/>Un <em>ecosistema local.</em></h2>
+    <p>Construimos por capas: primero valor real, luego escala. Sin quemar caja antes de tiempo.</p>
+  </div>
+  <div class="timeline">
+
+    <div class="fase rev">
+      <div class="fase-dot">🗂️</div>
+      <div class="fase-body">
+        <div class="fase-tag">Fase 1 · Ahora · Vigo ciudad</div>
+        <div class="fase-title">Directorio + Comparativa</div>
+        <p class="fase-desc">Construimos la base de datos de negocios locales y lanzamos el asistente de comparativas por WhatsApp. <strong>Los negocios Premium consiguen visibilidad prioritaria</strong> frente a los que no han firmado. Los vecinos ya pueden comparar precios y encontrar lo que necesitan en su ciudad.</p>
+        <div class="chips">
+          <span class="chip">Base de datos local</span>
+          <span class="chip">Comparativa de precios</span>
+          <span class="chip">Asistente WhatsApp</span>
+          <span class="chip">Planes Premium</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fase rev">
+      <div class="fase-dot">🛒</div>
+      <div class="fase-body">
+        <div class="fase-tag">Fase 2 · 2025–2026 · Vigo + Pontevedra</div>
+        <div class="fase-title">Canal de pedidos</div>
+        <p class="fase-desc">Con volumen de negocios suscritos y tráfico real validado, activamos el canal de compra directo. El cliente pide, el negocio recibe, el dinero fluye. <strong>Expansión a Pontevedra</strong> una vez que Vigo esté consolidado. Solo damos este paso cuando los números lo respalden.</p>
+        <div class="chips">
+          <span class="chip">Pedidos integrados</span>
+          <span class="chip">Pagos seguros</span>
+          <span class="chip">App web</span>
+          <span class="chip">Pontevedra</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fase rev">
+      <div class="fase-dot">🚴</div>
+      <div class="fase-body">
+        <div class="fase-tag">Fase 3 · 2026 · Galicia</div>
+        <div class="fase-title">Entrega el mismo día</div>
+        <p class="fase-desc">Una vez validado el volumen de pedidos, lanzamos la red de reparto local optimizada con IA. <strong>Empezamos a pie de calle</strong> — con las rutas que ya conocemos — y escalamos desde ahí. El objetivo: cualquier negocio de Vigo, en tu puerta antes de que acabe el día.</p>
+        <div class="chips">
+          <span class="chip">Reparto mismo día</span>
+          <span class="chip">Ruteo con IA</span>
+          <span class="chip">Tracking en vivo</span>
+          <span class="chip">Galicia</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-doble">
+  <div class="cta-panel dark" id="cta-vec">
+    <h3>Soy vecino<br/>de Vigo</h3>
+    <p>Gratis siempre. Apúntate y te avisamos cuando lancemos en tu barrio.</p>
+    <div class="irow" id="row-v">
+      <input type="tel" class="ci dark-in" placeholder="Tu número de WhatsApp" id="tel-v"/>
+      <button class="bcta od" onclick="send('v')">Apuntarme →</button>
+    </div>
+    <div class="ok-msg ok-dark" id="ok-v">✓ ¡Apuntado! Te avisamos cuando lancemos.</div>
+    <p class="cta-note">Sin spam. Solo un mensaje cuando estés listo.</p>
+  </div>
+
+  <div class="cta-panel celeste" id="cta-neg">
+    <h3>Tengo un negocio<br/>en Vigo</h3>
+    <p>Los primeros 20 negocios: 3 meses de Premium completamente gratis. Sin compromiso.</p>
+    <div class="irow" id="row-n">
+      <input type="text" class="ci celeste-in" placeholder="Nombre de tu negocio" id="nom-n"/>
+      <button class="bcta og" onclick="send('n')">Contactar →</button>
+    </div>
+    <div class="ok-msg ok-celeste" id="ok-n">✓ ¡Recibido! Te escribimos en menos de 24h.</div>
+    <p class="cta-note">Hablamos, vemos si encaja, y decidimos juntos.</p>
+  </div>
 </div>
-</div>
+
+<footer>
+  <a href="#" class="logo" style="font-size:1.2rem">AhorraAI<sup style="font-family:'Outfit';font-size:.46rem;letter-spacing:.1em;color:var(--celeste);margin-left:2px">VIGO</sup></a>
+  <div class="fl">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="mailto:hola@ahorraai.com">hola@ahorraai.com</a>
+  </div>
+  <p class="fc">© 2025 AhorraAI · Vigo, Galicia</p>
+</footer>
 
 <script>
-// ════════════════════════════════════════════════════
-//  APEX BTC TRADING SIMULATOR
-//  Motor: GBM + Estrategias cuantitativas reales
-// ════════════════════════════════════════════════════
-
-// ── State ──
-let state = {
-  running: false,
-  paused: false,
-  capital: 100,
-  equity: 100,
-  peak: 100,
-  leverage: 10,
-  riskPct: 2,
-  days: 90,
-  speed: 80,
-  strategy: 'ema_rsi',
-  btcPrice: 67420,
-  position: null,
-  trades: [],
-  liquidations: 0,
-  equityHistory: [100],
-  priceHistory: [],
-  returns: [],
-  dayCount: 0,
-  tickCount: 0,
-  wins: 0,
-  losses: 0,
-  simInterval: null,
-};
-
-// ── Indicadores técnicos ──
-function ema(prices, period) {
-  if (prices.length < period) return null;
-  const k = 2 / (period + 1);
-  let e = prices.slice(0, period).reduce((a,b) => a+b, 0) / period;
-  for (let i = period; i < prices.length; i++) e = prices[i] * k + e * (1 - k);
-  return e;
-}
-
-function rsi(prices, period = 14) {
-  if (prices.length < period + 1) return 50;
-  let gains = 0, losses = 0;
-  for (let i = prices.length - period; i < prices.length; i++) {
-    const d = prices[i] - prices[i-1];
-    if (d > 0) gains += d; else losses -= d;
-  }
-  const rs = losses === 0 ? 100 : gains / losses;
-  return 100 - 100 / (1 + rs);
-}
-
+  // Cursor personalizado
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
   });
-}
+  document.querySelectorAll('a, button, .sb').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('big'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+  });
 
-function updateCharts() {
-  // Price chart
-  const ph = state.priceHistory;
-  priceChart.data.labels = ph.map((_,i)=>i);
-  priceChart.data.datasets[0].data = ph;
-  priceChart.update('none');
+  // Header al hacer scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('hdr').classList.toggle('scrolled', scrollY > 60);
+  });
 
-  // Equity chart
-  const eh = state.equityHistory;
-  equityChart.data.labels = eh.map((_,i)=>i);
-  equityChart.data.datasets[0].data = eh;
-  // Color según rendimiento
-  const isUp = eh[eh.length-1] >= state.capital;
-  equityChart.data.datasets[0].borderColor = isUp ? '#00f5a0' : '#ff3b5c';
-  equityChart.update('none');
-}
+  // Animaciones de entrada (suavizadas)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('up'), i * 85);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.rev').forEach(el => io.observe(el));
 
-// ── SIMULATION CONTROL ──
-
-function runSimulation() {
-  if (state.running) return;
-
-  // Leer configuración
-  state.capital = +document.getElementById('sl-capital').value;
-  state.equity = state.capital;
-  state.peak = state.capital;
-  state.leverage = +document.getElementById('sl-lev').value;
-  state.riskPct = +document.getElementById('sl-risk').value;
-  state.days = +document.getElementById('sl-days').value;
-  state.speed = +document.getElementById('sel-speed').value;
-  state.equityHistory = [state.capital];
-  state.priceHistory = [state.btcPrice];
-  state.position = null;
-  state.trades = [];
-  state.liquidations = 0;
-  state.wins = 0;
-  state.losses = 0;
-  state.dayCount = 0;
-  state.tickCount = 0;
-  state.returns = [];
-  candles = { o:[], h:[], l:[], c:[] };
-  fundingRate = 0.0001;
-
-  document.getElementById('trade-log').innerHTML = '';
-  addLog('', '▶ INICIO', `€${state.capital} · x${state.leverage} · ${state.strategy}`);
-
-  state.running = true;
-  document.getElementById('sim-status').textContent = 'SIMULANDO';
-
-  state.simInterval = setInterval(() => {
-    const ticksPerFrame = state.speed <= 20 ? 5 : 1;
-    for (let i = 0; i < ticksPerFrame; i++) {
-      if (state.running) tick();
-    }
-  }, state.speed);
-}
-
-function endSimulation() {
-  clearInterval(state.simInterval);
-  state.running = false;
-  if (state.position) closePosition('FIN', state.btcPrice);
-  document.getElementById('sim-status').textContent = 'COMPLETADO';
-  const pnl = state.equity - state.capital;
-  const pct = (pnl / state.capital * 100).toFixed(2);
-  addLog('close-win', '■ FIN', `PnL: ${pnl >= 0 ? '+' : ''}€${pnl.toFixed(2)} (${pct}%)`);
-  updateCharts();
-  updateMetrics();
-}
-
-function resetSimulation() {
-  clearInterval(state.simInterval);
-  state.running = false;
-  state.position = null;
-  state.equity = state.capital;
-  state.peak = state.capital;
-  state.equityHistory = [state.capital];
-  state.priceHistory = [state.btcPrice];
-  state.wins = 0; state.losses = 0;
-  state.liquidations = 0;
-  state.dayCount = 0;
-  candles = { o:[], h:[], l:[], c:[] };
-  document.getElementById('trade-log').innerHTML = '';
-  document.getElementById('sim-status').textContent = 'EN ESPERA';
-  document.getElementById('progress-days').textContent = 'Día 0';
-  updateMetrics();
-  updatePositionBox();
-  addLog('', 'RESET', 'Sistema reiniciado');
-}
-
-function flashLiquidation() {
-  const el = document.createElement('div');
-  el.className = 'liq-flash';
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 500);
-}
-
-// ── INPUT HELPERS ──
-
-function updateLabel(id, pre, val, post='') {
-  document.getElementById(id).textContent = pre + val + post;
-}
-
-function selectStrategy(el) {
-  document.querySelectorAll('.strategy-card').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  state.strategy = el.dataset.s;
-  document.getElementById('current-strategy-label').textContent = el.querySelector('.s-name').textContent;
-}
-
-// ── INIT ──
-
-function startApp() {
-  document.getElementById('sim-overlay').classList.add('hidden');
-}
-
-// Loading animation
-let loadPct = 0;
-const loadInterval = setInterval(() => {
-  loadPct = Math.min(100, loadPct + Math.random() * 15);
-  document.getElementById('load-fill').style.width = loadPct + '%';
-  const msgs = ['Cargando motor GBM...','Inicializando indicadores...','Configurando estrategias...','Listo.'];
-  const idx = Math.floor(loadPct / 25);
-  document.getElementById('load-text').textContent = msgs[Math.min(idx, msgs.length-1)];
-  if (loadPct >= 100) clearInterval(loadInterval);
-}, 120);
-
-window.addEventListener('DOMContentLoaded', () => {
-  initCharts();
-  // Precio en movimiento idle
-  setInterval(() => {
-    if (!state.running) {
-      state.btcPrice = gbmTick(state.btcPrice, 0, 0.008);
-      updatePriceUI();
-    }
-  }, 500);
-});
+  // Formularios
+  function send(t) {
+    document.getElementById('row-' + t).style.display = 'none';
+    document.getElementById('ok-' + t).style.display  = 'block';
+  }
 </script>
 </body>
 </html>

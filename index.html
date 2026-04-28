@@ -753,4 +753,145 @@ function rsi(prices, period = 14) {
   return 100 - 100 / (1 + rs);
 }
 
-function bollingerBands(prices, period = 20, mult
+  });
+}
+
+function updateCharts() {
+  // Price chart
+  const ph = state.priceHistory;
+  priceChart.data.labels = ph.map((_,i)=>i);
+  priceChart.data.datasets[0].data = ph;
+  priceChart.update('none');
+
+  // Equity chart
+  const eh = state.equityHistory;
+  equityChart.data.labels = eh.map((_,i)=>i);
+  equityChart.data.datasets[0].data = eh;
+  // Color según rendimiento
+  const isUp = eh[eh.length-1] >= state.capital;
+  equityChart.data.datasets[0].borderColor = isUp ? '#00f5a0' : '#ff3b5c';
+  equityChart.update('none');
+}
+
+// ── SIMULATION CONTROL ──
+
+function runSimulation() {
+  if (state.running) return;
+
+  // Leer configuración
+  state.capital = +document.getElementById('sl-capital').value;
+  state.equity = state.capital;
+  state.peak = state.capital;
+  state.leverage = +document.getElementById('sl-lev').value;
+  state.riskPct = +document.getElementById('sl-risk').value;
+  state.days = +document.getElementById('sl-days').value;
+  state.speed = +document.getElementById('sel-speed').value;
+  state.equityHistory = [state.capital];
+  state.priceHistory = [state.btcPrice];
+  state.position = null;
+  state.trades = [];
+  state.liquidations = 0;
+  state.wins = 0;
+  state.losses = 0;
+  state.dayCount = 0;
+  state.tickCount = 0;
+  state.returns = [];
+  candles = { o:[], h:[], l:[], c:[] };
+  fundingRate = 0.0001;
+
+  document.getElementById('trade-log').innerHTML = '';
+  addLog('', '▶ INICIO', `€${state.capital} · x${state.leverage} · ${state.strategy}`);
+
+  state.running = true;
+  document.getElementById('sim-status').textContent = 'SIMULANDO';
+
+  state.simInterval = setInterval(() => {
+    const ticksPerFrame = state.speed <= 20 ? 5 : 1;
+    for (let i = 0; i < ticksPerFrame; i++) {
+      if (state.running) tick();
+    }
+  }, state.speed);
+}
+
+function endSimulation() {
+  clearInterval(state.simInterval);
+  state.running = false;
+  if (state.position) closePosition('FIN', state.btcPrice);
+  document.getElementById('sim-status').textContent = 'COMPLETADO';
+  const pnl = state.equity - state.capital;
+  const pct = (pnl / state.capital * 100).toFixed(2);
+  addLog('close-win', '■ FIN', `PnL: ${pnl >= 0 ? '+' : ''}€${pnl.toFixed(2)} (${pct}%)`);
+  updateCharts();
+  updateMetrics();
+}
+
+function resetSimulation() {
+  clearInterval(state.simInterval);
+  state.running = false;
+  state.position = null;
+  state.equity = state.capital;
+  state.peak = state.capital;
+  state.equityHistory = [state.capital];
+  state.priceHistory = [state.btcPrice];
+  state.wins = 0; state.losses = 0;
+  state.liquidations = 0;
+  state.dayCount = 0;
+  candles = { o:[], h:[], l:[], c:[] };
+  document.getElementById('trade-log').innerHTML = '';
+  document.getElementById('sim-status').textContent = 'EN ESPERA';
+  document.getElementById('progress-days').textContent = 'Día 0';
+  updateMetrics();
+  updatePositionBox();
+  addLog('', 'RESET', 'Sistema reiniciado');
+}
+
+function flashLiquidation() {
+  const el = document.createElement('div');
+  el.className = 'liq-flash';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 500);
+}
+
+// ── INPUT HELPERS ──
+
+function updateLabel(id, pre, val, post='') {
+  document.getElementById(id).textContent = pre + val + post;
+}
+
+function selectStrategy(el) {
+  document.querySelectorAll('.strategy-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  state.strategy = el.dataset.s;
+  document.getElementById('current-strategy-label').textContent = el.querySelector('.s-name').textContent;
+}
+
+// ── INIT ──
+
+function startApp() {
+  document.getElementById('sim-overlay').classList.add('hidden');
+}
+
+// Loading animation
+let loadPct = 0;
+const loadInterval = setInterval(() => {
+  loadPct = Math.min(100, loadPct + Math.random() * 15);
+  document.getElementById('load-fill').style.width = loadPct + '%';
+  const msgs = ['Cargando motor GBM...','Inicializando indicadores...','Configurando estrategias...','Listo.'];
+  const idx = Math.floor(loadPct / 25);
+  document.getElementById('load-text').textContent = msgs[Math.min(idx, msgs.length-1)];
+  if (loadPct >= 100) clearInterval(loadInterval);
+}, 120);
+
+window.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  // Precio en movimiento idle
+  setInterval(() => {
+    if (!state.running) {
+      state.btcPrice = gbmTick(state.btcPrice, 0, 0.008);
+      updatePriceUI();
+    }
+  }, 500);
+});
+</script>
+</body>
+</html>

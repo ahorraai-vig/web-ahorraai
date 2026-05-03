@@ -55,3 +55,8 @@ Construido de forma autodidacta como proyecto real con caso de uso local.
 Parte de un portfolio de automatización con IA centrado en soluciones para pequeños negocios.
 
 **Contacto:** contacto@ahorraai.com
+| Proyecto | Descripción | Stack |
+|---|---|---|
+| [AhorraAI Backend](https://github.com/ahorraai-vig/ahorraai-backend) | Bot WhatsApp de precios con IA | Python · Lambda · Gemini |
+| [AhorraAI Web](https://github.com/ahorraai-vig/web-ahorraai) | Landing page en producción | HTML · CSS · GitHub Pages |
+| [Centinela Bot](https://github.com/ahorraai-vig/centinela-bot) | Agente de contenido YouTube con Gemini + Telegram | Python · Gemini · YouTube API |

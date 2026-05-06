@@ -1,274 +1,1658 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AhorraAI — El marketplace de Vigo</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AhorraAI · Simulación Vigo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d47;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #475569;
+    --whatsapp: #25D366;
 
-  <style>
-    :root {
-      --mar-profundo: #07101E;
-      --mar-medio:    #0E1D36;
-      --celeste:      #5bb0ff;
-      --celeste-p:    #8ec9ff;
-      --blanco:       #f4f7fb;
-      --gris-c:       #e5ecf5;
-      --gris-t:       #596a7d;
-      --atardecer:    #f05d23;
-      --verde-g:      #216b44;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Outfit', sans-serif; background: var(--blanco); color: var(--mar-profundo); overflow-x: hidden; cursor: none; }
+    --sup1: #ef4444;
+    --sup2: #3b82f6;
+    --sup3: #f59e0b;
+    --sup4: #a855f7;
+  }
 
-    /* CURSOR */
-    .cursor { position: fixed; width: 10px; height: 10px; background: var(--celeste); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; mix-blend-mode: difference; }
-    .cursor.big { width: 42px; height: 42px; background: var(--celeste-p); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* HEADER */
-    header { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; transition: background .3s, border .3s; }
-    header.scrolled { background: rgba(7, 16, 30, .93); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,.08); }
-    .logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.4rem; color: var(--blanco); letter-spacing: -0.03em; text-decoration: none; }
-    .logo sup { font-family: 'Outfit', sans-serif; font-size: .48rem; font-weight: 600; letter-spacing: .1em; color: var(--celeste); text-transform: uppercase; vertical-align: super; margin-left: 2px; }
-    .hnav { display: flex; align-items: center; gap: 2rem; }
-    .hnav a { font-size: .85rem; color: rgba(244,247,251,.6); text-decoration: none; transition: color .2s; }
-    .hnav a:hover { color: var(--blanco); }
-    .hbtns { display: flex; gap: .7rem; }
-    .bsm { font-family: 'Outfit', sans-serif; font-size: .8rem; font-weight: 500; padding: .5rem 1.1rem; border-radius: 2rem; text-decoration: none; transition: all .2s; cursor: none; }
-    .bsm.o { border: 1px solid rgba(255,255,255,.2); color: rgba(244,247,251,.8); }
-    .bsm.o:hover { border-color: var(--celeste); color: var(--celeste); }
-    .bsm.f { background: var(--celeste); color: var(--mar-profundo); font-weight: 600; }
-    .bsm.f:hover { background: var(--celeste-p); box-shadow: 0 4px 15px rgba(91, 176, 255, 0.3); }
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
 
-    /* HERO */
-    .hero { min-height: 100vh; background: linear-gradient(180deg, var(--mar-profundo) 0%, var(--mar-medio) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
-    .hero-grain { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; }
-    .hero-bg-word { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-52%); font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(10rem, 24vw, 24rem); color: rgba(255,255,255,.015); white-space: nowrap; pointer-events: none; user-select: none; z-index: 1; letter-spacing: -.05em; }
-    .hero-side { position: absolute; top: 50%; right: 3rem; transform: translateY(-50%) rotate(90deg); transform-origin: right center; font-size: .68rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(244,247,251,.3); z-index: 2; }
-    .hero-content { position: relative; z-index: 2; max-width: 1050px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .73rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--celeste); margin-bottom: 2rem; }
-    .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--celeste); display: block; }
-    .hero-h1 { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(3.2rem, 8.5vw, 8rem); color: var(--blanco); line-height: .95; letter-spacing: -.03em; margin-bottom: 2.5rem; }
-    .hero-h1 em { font-style: italic; color: var(--celeste); font-weight: 300; }
-    .hero-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
-    .hero-desc { font-size: 1.05rem; font-weight: 300; color: rgba(244,247,251,.6); line-height: 1.75; max-width: 420px; }
-    .hero-desc strong { color: var(--blanco); font-weight: 500; }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn-hp { background: var(--celeste); color: var(--mar-profundo); font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 600; padding: .9rem 2.2rem; border-radius: 2rem; border: none; text-decoration: none; cursor: none; transition: transform .2s, box-shadow .2s, background .2s; display: inline-flex; align-items: center; gap: .5rem; }
-    .btn-hp:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(91, 176, 255, 0.35); background: var(--celeste-p); }
-    .btn-hg { border: 1px solid rgba(255,255,255,.2); color: rgba(244,247,251,.75); font-family: 'Outfit', sans-serif; font-size: .95rem; padding: .9rem 2.2rem; border-radius: 2rem; text-decoration: none; cursor: none; transition: border-color .2s, color .2s, background .2s; display: inline-flex; align-items: center; gap: .5rem; }
-    .btn-hg:hover { border-color: rgba(255,255,255,.5); color: var(--blanco); background: rgba(255,255,255,.05); }
+  /* ── HEADER ── */
+  header {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(12px);
+  }
 
-    /* TICKER */
-    .ticker-rail { background: var(--celeste); overflow: hidden; padding: .75rem 0; border-top: 1px solid rgba(255,255,255,0.1); }
-    .ticker-track { display: flex; white-space: nowrap; animation: roll 35s linear infinite; }
-    .ti { font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--mar-profundo); padding: 0 2.5rem; }
-    .td { color: rgba(7, 16, 30, .2); }
-    @keyframes roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .logo small {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text2);
+    display: block;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
 
-    /* MANIFESTO */
-    .manifesto { padding: 8rem 3rem; background: var(--blanco); }
-    .m-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: center; }
-    .m-num { font-family: 'Fraunces', serif; font-size: 9rem; font-weight: 900; color: var(--gris-c); line-height: 1; letter-spacing: -.05em; }
-    .m-sub { font-size: .76rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gris-t); margin-top: -.8rem; }
-    .m-inner h2 { font-family: 'Fraunces', serif; font-size: clamp(1.9rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 1.5rem; color: var(--mar-profundo); }
-    .m-inner h2 em { font-style: italic; font-weight: 300; color: var(--atardecer); }
-    .m-inner p { font-size: 1rem; font-weight: 300; color: var(--gris-t); line-height: 1.8; margin-bottom: 1.2rem; }
+  .header-stats {
+    display: flex;
+    gap: 24px;
+  }
+  .hstat {
+    text-align: right;
+  }
+  .hstat-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+  .hstat-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
 
-    /* MODELO */
-    .modelo { padding: 8rem 3rem; background: var(--mar-profundo); }
-    .sec-hd { text-align: center; margin-bottom: 4rem; }
-    .sec-ey { display: inline-flex; align-items: center; gap: .6rem; font-size: .73rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--celeste); margin-bottom: 1rem; }
-    .sec-hd h2 { font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--blanco); }
-    .sec-hd h2 em { font-style: italic; font-weight: 300; color: var(--celeste-p); }
-    
-    .planes { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-    .plan { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); border-radius: 24px; padding: 2.5rem; transition: transform .3s, border-color .3s; display: flex; flex-direction: column; }
-    .plan:hover { border-color: rgba(255,255,255,.2); transform: translateY(-6px); }
-    .plan.feat { border-color: var(--celeste); background: rgba(91, 176, 255, 0.05); position: relative; }
-    .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--celeste); color: var(--mar-profundo); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .4rem 1rem; border-radius: 2rem; }
-    .plan-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--blanco); margin-bottom: .3rem; }
-    .plan-price { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 900; color: var(--celeste-p); line-height: 1; margin: 1rem 0 .4rem; }
-    .plan-price sub { font-family: 'Outfit', sans-serif; font-size: .85rem; font-weight: 400; color: rgba(244,247,251,.4); vertical-align: baseline; }
-    .pf { list-style: none; margin-bottom: 2.5rem; flex-grow: 1; }
-    .pf li { font-size: .88rem; color: rgba(244,247,251,.75); padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .6rem; align-items: flex-start; }
-    .pf li .ic { color: var(--celeste); font-weight: bold; }
-    .plan-btn { display: block; text-align: center; padding: .9rem; border-radius: 2rem; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: none; }
-    .plan-btn.gh { border: 1px solid rgba(255,255,255,.15); color: rgba(244,247,251,.6); }
-    .plan-btn.sl { background: var(--celeste); color: var(--mar-profundo); }
-    .plan-btn:hover { transform: scale(1.02); }
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 24px;
+  }
 
-    /* CTA DOBLE */
-    .cta-doble { display: grid; grid-template-columns: 1fr 1fr; }
-    .cta-panel { padding: 7rem 5rem; display: flex; flex-direction: column; justify-content: center; }
-    .cta-panel.dark { background: var(--mar-medio); color: var(--blanco); }
-    .cta-panel.celeste { background: var(--celeste); color: var(--mar-profundo); }
-    .cta-panel h3 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 1.2rem; }
-    .bcta { padding: .9rem 1.8rem; border-radius: 2rem; font-weight: 600; border: none; cursor: none; transition: all .2s; text-decoration: none; display: inline-block; text-align: center; width: fit-content; }
-    .bcta.od { background: var(--celeste); color: var(--mar-profundo); }
-    .bcta.og { background: var(--mar-profundo); color: var(--blanco); }
+  .grid-main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items: start;
+  }
 
-    /* FOOTER */
-    footer { background: var(--mar-profundo); padding: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
-    .fl a { font-size: .8rem; color: rgba(244,247,251,.4); text-decoration: none; margin-right: 1.5rem; }
-    .fc { font-size: .8rem; color: rgba(244,247,251,.3); }
+  .grid-top {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
 
-    /* REVEAL */
-    .rev { opacity: 0; transform: translateY(30px); transition: all .7s ease-out; }
-    .rev.up { opacity: 1; transform: translateY(0); }
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text3);
+    margin-bottom: 16px;
+    font-family: 'Space Mono', monospace;
+  }
 
-    @media (max-width: 900px) {
-      .m-inner { grid-template-columns: 1fr; }
-      .planes, .cta-doble { grid-template-columns: 1fr; }
-      .cta-panel { padding: 4rem 2rem; }
-      header { padding: 1.2rem; }
-      .hnav { display: none; }
-    }
-  </style>
+  /* ── SUPERMARKET CARDS ── */
+  .sup-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .sup-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .sup-card.s1::before { background: var(--sup1); }
+  .sup-card.s2::before { background: var(--sup2); }
+  .sup-card.s3::before { background: var(--sup3); }
+  .sup-card.s4::before { background: var(--sup4); }
+
+  .sup-name {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .sup-address {
+    font-size: 11px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .sup-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .sup-metric-label { font-size: 11px; color: var(--text2); }
+  .sup-metric-val { font-size: 14px; font-weight: 700; font-family: 'Space Mono', monospace; }
+  .sup-bar-wrap {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .sup-bar { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .s1 .sup-bar { background: var(--sup1); }
+  .s2 .sup-bar { background: var(--sup2); }
+  .s3 .sup-bar { background: var(--sup3); }
+  .s4 .sup-bar { background: var(--sup4); }
+
+  /* ── MAP ── */
+  .map-container {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .map-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .map-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .map-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .map-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    transition: all 0.2s;
+  }
+  .map-btn.active, .map-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  #mapCanvas {
+    display: block;
+    width: 100%;
+    cursor: crosshair;
+  }
+
+  .map-legend {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-sq {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── SIDE PANEL ── */
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── LIVE FEED ── */
+  .feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  .feed-list::-webkit-scrollbar { width: 4px; }
+  .feed-list::-webkit-scrollbar-track { background: transparent; }
+  .feed-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .feed-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--surface2);
+    animation: feedIn 0.4s ease;
+    align-items: flex-start;
+  }
+  @keyframes feedIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .feed-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .feed-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .feed-name {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .feed-detail {
+    font-size: 10px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .feed-time {
+    font-size: 9px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  /* ── METRICS ── */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .metric-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .metric-box-val {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'Space Mono', monospace;
+    line-height: 1;
+  }
+  .metric-box-label {
+    font-size: 10px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .green { color: var(--green); }
+  .accent { color: var(--accent); }
+  .amber { color: var(--accent3); }
+  .purple { color: var(--accent2); }
+
+  /* ── ROUTE TABLE ── */
+  .route-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .route-list::-webkit-scrollbar { width: 4px; }
+  .route-list::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .route-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: var(--surface2);
+    border-radius: 6px;
+    font-size: 11px;
+  }
+  .route-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .route-name { flex: 1; font-weight: 600; }
+  .route-zone { color: var(--text2); font-family: 'Space Mono', monospace; font-size: 10px; }
+  .route-status {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+  .status-pending { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .status-enroute { background: rgba(0,229,255,0.12); color: var(--accent); }
+  .status-done { background: rgba(16,185,129,0.12); color: var(--green); }
+
+  /* ── WHATSAPP FLOW ── */
+  .wa-flow {
+    background: #0b1510;
+    border: 1px solid #1a3020;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .wa-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1a3020;
+  }
+  .wa-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--whatsapp);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .wa-title { font-size: 13px; font-weight: 700; }
+  .wa-sub { font-size: 10px; color: #4caf78; font-family: 'Space Mono', monospace; }
+
+  .wa-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .wa-messages::-webkit-scrollbar { width: 3px; }
+  .wa-messages::-webkit-scrollbar-thumb { background: #1a3020; }
+
+  .wa-msg {
+    max-width: 88%;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    animation: msgIn 0.3s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .wa-msg.user {
+    background: #1a3a2a;
+    color: #d1fae5;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+  }
+  .wa-msg.bot {
+    background: #1a2535;
+    color: var(--text);
+    border-bottom-left-radius: 2px;
+  }
+  .wa-msg.system {
+    background: rgba(0,229,255,0.08);
+    color: var(--accent);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    align-self: center;
+    text-align: center;
+    max-width: 100%;
+  }
+  .wa-sender {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 2px;
+    font-family: 'Space Mono', monospace;
+  }
+  .wa-ts { font-size: 9px; color: #4caf78; float: right; margin-left: 8px; margin-top: 2px; }
+
+  /* ── BOTTOM STATS ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .savings-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .savings-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .savings-label { font-size: 11px; color: var(--text2); width: 90px; flex-shrink: 0; }
+  .savings-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .savings-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.5s ease;
+  }
+  .savings-val { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--green); width: 40px; text-align: right; }
+
+  .zone-list { display: flex; flex-direction: column; gap: 8px; }
+  .zone-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border-radius: 6px;
+  }
+  .zone-name { font-size: 12px; font-weight: 600; }
+  .zone-count { font-size: 11px; color: var(--text2); font-family: 'Space Mono', monospace; }
+  .zone-bar-mini {
+    width: 60px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .zone-bar-mini-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── SIMULATION CONTROLS ── */
+  .sim-controls {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sim-label { font-size: 11px; color: var(--text2); font-family: 'Space Mono', monospace; }
+  .sim-btn {
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.2s;
+    font-weight: 700;
+  }
+  .sim-play {
+    background: var(--green);
+    border-color: var(--green);
+    color: #0a0e1a;
+  }
+  .sim-pause {
+    background: transparent;
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+  .sim-reset {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text2);
+  }
+  .sim-speed {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .speed-btn {
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .speed-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .speed-val { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); min-width: 30px; text-align: center; }
+
+  .ticker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+  }
+  .ticker-live {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--green);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* scroll-reveal */
+  .reveal { opacity: 0; transform: translateY(16px); transition: all 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* Tooltip */
+  .tooltip-container { position: absolute; pointer-events: none; z-index: 50; }
+  .tooltip-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    min-width: 160px;
+    pointer-events: none;
+  }
+  .tooltip-name { font-size: 13px; font-weight: 700; font-family: 'Syne', sans-serif; margin-bottom: 6px; }
+  .tooltip-row { display: flex; justify-content: space-between; gap: 16px; color: var(--text2); margin-top: 3px; }
+  .tooltip-row span:last-child { color: var(--text); }
+
+  @media (max-width: 1100px) {
+    .grid-main { grid-template-columns: 1fr; }
+    .grid-top { grid-template-columns: 1fr 1fr; }
+    .bottom-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .grid-top { grid-template-columns: 1fr; }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .header-stats { display: none; }
+  }
+</style>
 </head>
 <body>
 
-<div class="cursor" id="cur"></div>
-
-<header id="hdr">
-  <a href="#" class="logo">AhorraAI<sup>VIGO</sup></a>
-  <nav class="hnav">
-    <a href="#modelo">Planes</a>
-    <a href="#digital">Digitalización</a>
-    <a href="mailto:contacto@ahorraai.com">Soporte</a>
-  </nav>
-  <div class="hbtns">
-    <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20empezar%20a%20ahorrar%20con%20AhorraAI" class="bsm o">Soy vecino</a>
-    <a href="https://tally.so/r/KYPrZ8" class="bsm f">Tengo un negocio</a>
+<header>
+  <div class="logo">
+    Ahorra<span>AI</span>
+    <small>Simulación · Vigo, Pontevedra</small>
+  </div>
+  <div class="ticker">
+    <div class="ticker-live">
+      <div class="live-dot"></div>
+      EN VIVO
+    </div>
+    <span id="tickerTime">00:00:00</span>
+    <span id="tickerOrders">0 pedidos</span>
+  </div>
+  <div class="header-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="hTotalOrders">0</div>
+      <div class="hstat-label">Pedidos hoy</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="hSavings">0€</div>
+      <div class="hstat-label">Ahorro total</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="hDelivered">0</div>
+      <div class="hstat-label">Entregados</div>
+    </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-grain"></div>
-  <div class="hero-bg-word">VIGO</div>
-  <div class="hero-content">
-    <div class="eyebrow">Vigo · Soluciones Locales</div>
-    <h1 class="hero-h1">Tu negocio<br/>vende más<br/>con <em>AhorraAI.</em></h1>
-    <div class="hero-foot">
-      <p class="hero-desc">Digitalizamos los negocios de Vigo: desde comparativas por IA hasta <strong>webs, redes sociales y Google Maps.</strong></p>
-      <div class="hero-actions">
-        <a href="https://wa.me/34614053674?text=Hola!%20Quiero%20empezar%20a%20ahorrar%20con%20AhorraAI" class="btn-hp">📲 Soy vecino</a>
-        <a href="https://tally.so/r/KYPrZ8" class="btn-hg">🏪 Impulsar mi negocio</a>
+<div class="container">
+
+  <!-- Supermarket Cards -->
+  <div class="grid-top reveal">
+    <div class="card sup-card s1">
+      <div class="card-title">Supermercado A</div>
+      <div class="sup-name">Mercadona</div>
+      <div class="sup-address">Rúa Urzáiz 109<br>Gran Vía · Vigo</div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Pedidos activos</span>
+        <span class="sup-metric-val" id="s1orders" style="color:var(--sup1)">0</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Reparto</span>
+        <span class="sup-metric-val" id="s1delivery" style="color:var(--sup1)">—</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Ticket medio</span>
+        <span class="sup-metric-val" id="s1ticket" style="color:var(--sup1)">—</span>
+      </div>
+      <div class="sup-bar-wrap"><div class="sup-bar s1" id="s1bar" style="width:0%"></div></div>
+    </div>
+    <div class="card sup-card s2">
+      <div class="card-title">Supermercado B</div>
+      <div class="sup-name">Froiz</div>
+      <div class="sup-address">Av. de Madrid 14<br>Coia · Vigo</div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Pedidos activos</span>
+        <span class="sup-metric-val" id="s2orders" style="color:var(--sup2)">0</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Reparto</span>
+        <span class="sup-metric-val" id="s2delivery" style="color:var(--sup2)">—</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Ticket medio</span>
+        <span class="sup-metric-val" id="s2ticket" style="color:var(--sup2)">—</span>
+      </div>
+      <div class="sup-bar-wrap"><div class="sup-bar s2" id="s2bar" style="width:0%"></div></div>
+    </div>
+    <div class="card sup-card s3">
+      <div class="card-title">Supermercado C</div>
+      <div class="sup-name">Gadis</div>
+      <div class="sup-address">Rúa García Olloqui 7<br>Bouzas · Vigo</div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Pedidos activos</span>
+        <span class="sup-metric-val" id="s3orders" style="color:var(--sup3)">0</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Reparto</span>
+        <span class="sup-metric-val" id="s3delivery" style="color:var(--sup3)">—</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Ticket medio</span>
+        <span class="sup-metric-val" id="s3ticket" style="color:var(--sup3)">—</span>
+      </div>
+      <div class="sup-bar-wrap"><div class="sup-bar s3" id="s3bar" style="width:0%"></div></div>
+    </div>
+    <div class="card sup-card s4">
+      <div class="card-title">Supermercado D</div>
+      <div class="sup-name">Carrefour</div>
+      <div class="sup-address">Gran Vía 1<br>Centro · Vigo</div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Pedidos activos</span>
+        <span class="sup-metric-val" id="s4orders" style="color:var(--sup4)">0</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Reparto</span>
+        <span class="sup-metric-val" id="s4delivery" style="color:var(--sup4)">—</span>
+      </div>
+      <div class="sup-metric">
+        <span class="sup-metric-label">Ticket medio</span>
+        <span class="sup-metric-val" id="s4ticket" style="color:var(--sup4)">—</span>
+      </div>
+      <div class="sup-bar-wrap"><div class="sup-bar s4" id="s4bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid-main">
+    <!-- MAP COLUMN -->
+    <div>
+      <div class="map-container reveal">
+        <div class="map-header">
+          <div>
+            <div class="map-title">Mapa de Operaciones · Vigo</div>
+          </div>
+          <div class="map-controls">
+            <button class="map-btn active" id="btnAll" onclick="setView('all')">Todo</button>
+            <button class="map-btn" id="btnRoutes" onclick="setView('routes')">Rutas</button>
+            <button class="map-btn" id="btnHeat" onclick="setView('heat')">Densidad</button>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <span class="sim-label">Simulación:</span>
+          <button class="sim-btn sim-play" id="btnPlay" onclick="toggleSim()">▶ INICIAR</button>
+          <button class="sim-btn sim-reset" onclick="resetSim()">↺ RESET</button>
+          <div class="sim-speed">
+            <button class="speed-btn" onclick="changeSpeed(-1)">−</button>
+            <span class="speed-val" id="speedVal">1×</span>
+            <button class="speed-btn" onclick="changeSpeed(1)">+</button>
+          </div>
+        </div>
+        <canvas id="mapCanvas" width="800" height="500"></canvas>
+        <div class="map-legend">
+          <div class="legend-item">
+            <div class="legend-sq" style="background:var(--sup1)"></div> Mercadona
+          </div>
+          <div class="legend-item">
+            <div class="legend-sq" style="background:var(--sup2)"></div> Froiz
+          </div>
+          <div class="legend-item">
+            <div class="legend-sq" style="background:var(--sup3)"></div> Gadis
+          </div>
+          <div class="legend-item">
+            <div class="legend-sq" style="background:var(--sup4)"></div> Carrefour
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#fff;opacity:0.5"></div> Cliente
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--whatsapp)"></div> WhatsApp
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--accent)"></div> En reparto
+          </div>
+        </div>
+        <div id="tooltip" class="tooltip-container" style="display:none">
+          <div class="tooltip-box" id="tooltipBox"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Stats -->
+      <div class="bottom-grid" style="margin-top:16px">
+        <div class="card reveal">
+          <div class="card-title">Ahorro por supermercado</div>
+          <div class="savings-bar-wrap" id="savingsChart">
+            <div class="savings-row">
+              <span class="savings-label">Mercadona</span>
+              <div class="savings-bar-bg"><div class="savings-bar-fill" id="sav1" style="width:0%;background:var(--sup1)"></div></div>
+              <span class="savings-val" id="savv1">0%</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-label">Froiz</span>
+              <div class="savings-bar-bg"><div class="savings-bar-fill" id="sav2" style="width:0%;background:var(--sup2)"></div></div>
+              <span class="savings-val" id="savv2">0%</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-label">Gadis</span>
+              <div class="savings-bar-bg"><div class="savings-bar-fill" id="sav3" style="width:0%;background:var(--sup3)"></div></div>
+              <span class="savings-val" id="savv3">0%</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-label">Carrefour</span>
+              <div class="savings-bar-bg"><div class="savings-bar-fill" id="sav4" style="width:0%;background:var(--sup4)"></div></div>
+              <span class="savings-val" id="savv4">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Clientes por barrio</div>
+          <div class="zone-list" id="zoneList">
+            <div class="zone-row">
+              <div><div class="zone-name">Gran Vía</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:70%"></div></div></div>
+              <div class="zone-count">7 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Coia</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:80%"></div></div></div>
+              <div class="zone-count">8 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Bouzas</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:50%"></div></div></div>
+              <div class="zone-count">5 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Navia</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:60%"></div></div></div>
+              <div class="zone-count">6 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">O Calvario</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:50%"></div></div></div>
+              <div class="zone-count">5 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Teis</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:60%"></div></div></div>
+              <div class="zone-count">6 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Sárdoma</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:30%"></div></div></div>
+              <div class="zone-count">3 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Lavadores</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:40%"></div></div></div>
+              <div class="zone-count">4 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Cabral</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:30%"></div></div></div>
+              <div class="zone-count">3 clientes</div>
+            </div>
+            <div class="zone-row">
+              <div><div class="zone-name">Beade</div><div class="zone-bar-mini"><div class="zone-bar-mini-fill" style="width:30%"></div></div></div>
+              <div class="zone-count">3 clientes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">KPIs de sistema</div>
+          <div class="metric-grid">
+            <div class="metric-box">
+              <div class="metric-box-val green" id="kpi1">0</div>
+              <div class="metric-box-label">Pedidos completados</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val accent" id="kpi2">0 min</div>
+              <div class="metric-box-label">Tiempo medio entrega</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val amber" id="kpi3">0€</div>
+              <div class="metric-box-label">Ahorro acumulado</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val purple" id="kpi4">0%</div>
+              <div class="metric-box-label">Eficiencia de ruta</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val accent" id="kpi5">0</div>
+              <div class="metric-box-label">Mensajes WA procesados</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val green" id="kpi6">0 km</div>
+              <div class="metric-box-label">Distancia optimizada</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<div class="ticker-rail">
-  <div class="ticker-track">
-    <span class="ti">Gestión de Redes</span><span class="ti td">·</span>
-    <span class="ti">Google Business</span><span class="ti td">·</span>
-    <span class="ti">Diseño Web</span><span class="ti td">·</span>
-    <span class="ti">Pedidos WhatsApp</span><span class="ti td">·</span>
-    <span class="ti">SEO Local Vigo</span><span class="ti td">·</span>
-    <span class="ti">Venta Directa IA</span><span class="ti td">·</span>
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+
+      <!-- WhatsApp Flow -->
+      <div class="wa-flow reveal">
+        <div class="wa-header">
+          <div class="wa-icon">💬</div>
+          <div>
+            <div class="wa-title">Canal WhatsApp · AhorraAI</div>
+            <div class="wa-sub">● 50 clientes conectados</div>
+          </div>
+        </div>
+        <div class="wa-messages" id="waMessages">
+          <div class="wa-msg system">AhorraAI conectado · Esperando pedidos...</div>
+        </div>
+      </div>
+
+      <!-- Live Feed -->
+      <div class="card reveal">
+        <div class="card-title">Actividad en tiempo real</div>
+        <div class="feed-list" id="feedList">
+          <div class="feed-item">
+            <div class="feed-icon">⏳</div>
+            <div class="feed-text">
+              <div class="feed-name">Esperando inicio</div>
+              <div class="feed-detail">Pulsa INICIAR para comenzar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Routes -->
+      <div class="card reveal">
+        <div class="card-title">Reparto activo</div>
+        <div class="route-list" id="routeList">
+          <div style="font-size:11px;color:var(--text3);text-align:center;padding:16px;font-family:'Space Mono',monospace;">
+            Sin entregas activas
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
 </div>
-
-<section class="manifesto">
-  <div class="m-inner">
-    <div class="rev">
-      <div class="m-num">VIGO</div>
-      <p class="m-sub">Tu ciudad, online</p>
-    </div>
-    <div class="rev">
-      <h2>No solo es una app, es el <em>impulso digital</em> que Vigo necesita.</h2>
-      <p>Acompañamos a los negocios locales en su digitalización total. Si no tienes web, redes o ficha de Google, nosotros lo hacemos por ti mientras tú te centras en tu tienda.</p>
-    </div>
-  </div>
-</section>
-
-<section class="modelo" id="modelo">
-  <div class="sec-hd rev">
-    <div class="sec-ey">Tarifas 2025</div>
-    <h2>Planes para <em>crecer</em></h2>
-  </div>
-  <div class="planes">
-    <div class="plan rev">
-      <div class="plan-name">Escaparate</div>
-      <div class="plan-price">€0 <sub>/mes</sub></div>
-      <ul class="pf">
-        <li><span class="ic">✓</span> Presencia en el buscador IA</li>
-        <li><span class="ic">✓</span> Datos básicos (Tel/Dir)</li>
-        <li><span class="ic">✓</span> Apareces en comparativas</li>
-      </ul>
-      <a href="https://tally.so/r/KYPrZ8" class="plan-btn gh">Registrarme gratis</a>
-    </div>
-    <div class="plan feat rev">
-      <div class="plan-badge">El más vendido</div>
-      <div class="plan-name">Ventas</div>
-      <div class="plan-price">€49 <sub>/mes</sub></div>
-      <ul class="pf">
-        <li><span class="ic">✓</span> <strong>Posición Prioritaria</strong></li>
-        <li><span class="ic">✓</span> Recibe pedidos por WhatsApp</li>
-        <li><span class="ic">✓</span> Gestión de Ofertas semanales</li>
-        <li><span class="ic">✓</span> Botón de contacto directo</li>
-      </ul>
-      <a href="https://tally.so/r/KYPrZ8" class="plan-btn sl">Empezar ahora</a>
-    </div>
-    <div class="plan rev" id="digital">
-      <div class="plan-name">Digitalización</div>
-      <div class="plan-price">€149 <sub>/mes</sub></div>
-      <ul class="pf">
-        <li><span class="ic">✓</span> <strong>Página Web Estática</strong> propia</li>
-        <li><span class="ic">✓</span> Gestión de <strong>Google Business</strong></li>
-        <li><span class="ic">✓</span> <strong>Redes Sociales:</strong> Post Semanal</li>
-        <li><span class="ic">✓</span> Todo el Plan Ventas incluido</li>
-      </ul>
-      <a href="https://tally.so/r/KYPrZ8" class="plan-btn gh">Lo quiero todo</a>
-    </div>
-  </div>
-</section>
-
-<div class="cta-doble">
-  <div class="cta-panel dark">
-    <h3>¿Sin tiempo para redes?</h3>
-    <p>Publicamos por ti en Facebook e Instagram para que tus vecinos te vean a diario.</p>
-    <a href="https://tally.so/r/KYPrZ8" class="bcta od">Consultar servicios →</a>
-  </div>
-  <div class="cta-panel celeste">
-    <h3>Google Maps es clave</h3>
-    <p>Configuramos y mantenemos tu ficha de Google Business para que seas el primero al buscar en Vigo.</p>
-    <a href="https://tally.so/r/KYPrZ8" class="bcta og">Optimizar mi ficha →</a>
-  </div>
-</div>
-
-<footer>
-  <a href="#" class="logo">AhorraAI<sup>VIGO</sup></a>
-  <div class="fl">
-    <a href="mailto:contacto@ahorraai.com">contacto@ahorraai.com</a>
-    <a href="https://wa.me/34614053674">WhatsApp: 614 053 674</a>
-  </div>
-  <p class="fc">© 2025 AhorraAI · Vigo, España</p>
-</footer>
 
 <script>
-  const cur = document.getElementById('cur');
-  document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px';
-    cur.style.top  = e.clientY + 'px';
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+
+const SUPERMARKETS = [
+  { id: 0, name: 'Mercadona', color: '#ef4444', x: 0.52, y: 0.32, zone: 'Gran Vía', address: 'Rúa Urzáiz 109', discount: 12 },
+  { id: 1, name: 'Froiz',     color: '#3b82f6', x: 0.25, y: 0.45, zone: 'Coia',     address: 'Av. de Madrid 14', discount: 8 },
+  { id: 2, name: 'Gadis',     color: '#f59e0b', x: 0.18, y: 0.62, zone: 'Bouzas',   address: 'Rúa García Olloqui 7', discount: 15 },
+  { id: 3, name: 'Carrefour', color: '#a855f7', x: 0.58, y: 0.48, zone: 'Centro',   address: 'Gran Vía 1', discount: 10 },
+];
+
+const CLIENTS = [
+  // Gran Vía
+  { id:0,  name:'María G.',    zone:'Gran Vía',   street:'Rúa Urzáiz 42',         x:0.50, y:0.28, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:1,  name:'Xosé P.',     zone:'Gran Vía',   street:'Av. de Castelao 8',     x:0.55, y:0.30, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:2,  name:'Ana R.',      zone:'Gran Vía',   street:'Rúa Marqués Valladares',x:0.58, y:0.26, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:3,  name:'Carlos M.',   zone:'Gran Vía',   street:'Rúa Venezuela 12',      x:0.53, y:0.22, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:4,  name:'Lucía F.',    zone:'Gran Vía',   street:'Rúa Pi i Margall 3',    x:0.49, y:0.34, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:5,  name:'Manuel V.',   zone:'Gran Vía',   street:'Rúa Lepanto 7',         x:0.61, y:0.30, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:6,  name:'Sonia L.',    zone:'Gran Vía',   street:'Rúa Policarpo Sanz 5',  x:0.56, y:0.36, sup:3, order:null, status:'idle', savingsEur:0 },
+  // Coia
+  { id:7,  name:'Pedro A.',    zone:'Coia',       street:'Rúa Escultor Acuña 3',  x:0.22, y:0.40, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:8,  name:'Rosa T.',     zone:'Coia',       street:'Av. de Madrid 22',      x:0.27, y:0.43, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:9,  name:'Álvaro D.',   zone:'Coia',       street:'Rúa Lepanto 14',        x:0.20, y:0.48, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:10, name:'Noemí C.',    zone:'Coia',       street:'Rúa Coia 8',            x:0.29, y:0.50, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:11, name:'Iria S.',     zone:'Coia',       street:'Rúa de Vigo 4',         x:0.23, y:0.53, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:12, name:'Brais O.',    zone:'Coia',       street:'Rúa Travesía Madrid 2', x:0.18, y:0.44, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:13, name:'Eva M.',      zone:'Coia',       street:'Rúa Alcabre 11',        x:0.31, y:0.38, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:14, name:'Toni H.',     zone:'Coia',       street:'Calle Isidro Parga 6',  x:0.16, y:0.50, sup:2, order:null, status:'idle', savingsEur:0 },
+  // Bouzas
+  { id:15, name:'Carmen R.',   zone:'Bouzas',     street:'Rúa Bouzas 9',          x:0.14, y:0.65, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:16, name:'Ramón G.',    zone:'Bouzas',     street:'Av. Beiramar 33',       x:0.20, y:0.68, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:17, name:'Dolores P.',  zone:'Bouzas',     street:'Rúa de Traviesas 12',   x:0.11, y:0.72, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:18, name:'Fran N.',     zone:'Bouzas',     street:'Rúa Reconquista 4',     x:0.17, y:0.60, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:19, name:'Pilar B.',    zone:'Bouzas',     street:'Rúa Almirante Vierna 7',x:0.22, y:0.74, sup:2, order:null, status:'idle', savingsEur:0 },
+  // Navia
+  { id:20, name:'Jorge A.',    zone:'Navia',      street:'Rúa Navia 5',           x:0.36, y:0.60, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:21, name:'Susana V.',   zone:'Navia',      street:'Rúa Fragoselo 2',       x:0.32, y:0.65, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:22, name:'Adrián F.',   zone:'Navia',      street:'Rúa das Gándaras 10',   x:0.40, y:0.63, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:23, name:'Rocío L.',    zone:'Navia',      street:'Rúa do Areal 3',        x:0.34, y:0.70, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:24, name:'Óscar C.',    zone:'Navia',      street:'Av. Castrelos 18',      x:0.44, y:0.67, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:25, name:'Miriam P.',   zone:'Navia',      street:'Rúa San Salvador 6',    x:0.38, y:0.74, sup:1, order:null, status:'idle', savingsEur:0 },
+  // O Calvario
+  { id:26, name:'Verónica M.', zone:'O Calvario', street:'Rúa Calvario 14',       x:0.68, y:0.40, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:27, name:'Rubén S.',    zone:'O Calvario', street:'Rúa Tomás Alonso 3',    x:0.72, y:0.45, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:28, name:'Cristina N.', zone:'O Calvario', street:'Rúa Torrecedeira 11',   x:0.65, y:0.52, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:29, name:'David R.',    zone:'O Calvario', street:'Rúa dos Campos 8',      x:0.75, y:0.38, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:30, name:'Helena V.',   zone:'O Calvario', street:'Rúa Castelao 22',       x:0.70, y:0.34, sup:0, order:null, status:'idle', savingsEur:0 },
+  // Teis
+  { id:31, name:'Pablo J.',    zone:'Teis',       street:'Rúa Teis 4',            x:0.80, y:0.25, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:32, name:'Laura C.',    zone:'Teis',       street:'Av. Castrelos 45',      x:0.85, y:0.30, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:33, name:'Nacho R.',    zone:'Teis',       street:'Rúa Teis 19',           x:0.78, y:0.18, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:34, name:'Paula S.',    zone:'Teis',       street:'Rúa Alexandre Bóveda 3',x:0.83, y:0.22, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:35, name:'Martín A.',   zone:'Teis',       street:'Rúa Cesáreo González', x:0.88, y:0.35, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:36, name:'Noelia F.',   zone:'Teis',       street:'Rúa Beiramar 12',       x:0.77, y:0.29, sup:0, order:null, status:'idle', savingsEur:0 },
+  // Sárdoma
+  { id:37, name:'Alberto G.',  zone:'Sárdoma',    street:'Rúa Sárdoma 7',         x:0.62, y:0.75, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:38, name:'Silvia P.',   zone:'Sárdoma',    street:'Rúa das Gándaras 5',    x:0.58, y:0.82, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:39, name:'Raúl M.',     zone:'Sárdoma',    street:'Rúa Fragoselo 8',       x:0.66, y:0.80, sup:3, order:null, status:'idle', savingsEur:0 },
+  // Lavadores
+  { id:40, name:'Sandra O.',   zone:'Lavadores',  street:'Rúa Lavadores 3',       x:0.46, y:0.82, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:41, name:'Marcos D.',   zone:'Lavadores',  street:'Rúa Fragoso 11',        x:0.42, y:0.78, sup:2, order:null, status:'idle', savingsEur:0 },
+  { id:42, name:'Elena V.',    zone:'Lavadores',  street:'Rúa do Berbés 4',       x:0.50, y:0.87, sup:1, order:null, status:'idle', savingsEur:0 },
+  { id:43, name:'Tomás R.',    zone:'Lavadores',  street:'Rúa Pazos Fontes 2',    x:0.38, y:0.85, sup:2, order:null, status:'idle', savingsEur:0 },
+  // Cabral
+  { id:44, name:'Inés B.',     zone:'Cabral',     street:'Rúa Cabral 6',          x:0.74, y:0.60, sup:3, order:null, status:'idle', savingsEur:0 },
+  { id:45, name:'Gonzalo F.',  zone:'Cabral',     street:'Rúa Real 14',           x:0.78, y:0.65, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:46, name:'Mónica S.',   zone:'Cabral',     street:'Rúa As Travesas 9',     x:0.72, y:0.70, sup:3, order:null, status:'idle', savingsEur:0 },
+  // Beade
+  { id:47, name:'Ángel M.',    zone:'Beade',      street:'Rúa Beade 3',           x:0.86, y:0.55, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:48, name:'Patricia G.', zone:'Beade',      street:'Rúa Bouza 8',           x:0.90, y:0.60, sup:0, order:null, status:'idle', savingsEur:0 },
+  { id:49, name:'Julio R.',    zone:'Beade',      street:'Rúa Camiño Beade 5',    x:0.84, y:0.64, sup:0, order:null, status:'idle', savingsEur:0 },
+];
+
+const PRODUCTS = [
+  'Leche entera', 'Pan integral', 'Yogur natural', 'Pollo fresco', 'Tomates',
+  'Pasta espagueti', 'Aceite oliva', 'Arroz', 'Lechuga', 'Jamón cocido',
+  'Agua 5L', 'Cerveza pack', 'Zumo naranja', 'Fruta variada', 'Detergente',
+  'Papel higiénico', 'Queso manchego', 'Atún lata', 'Galletas', 'Mermelada',
+  'Ketchup', 'Fiambre', 'Verduras congeladas', 'Patatas', 'Cebollas'
+];
+
+const WA_GREETINGS = [
+  'Hola! quiero hacer mi compra', 'Buenos días AhorraAI!', 'Necesito hacer la compra',
+  'Me podéis traer la compra?', 'Quiero pedir productos de', 'Buenas, quiero pedir'
+];
+
+const DELIVERY_MESSAGES = [
+  'Tu pedido está en camino 🚚', 'Repartidor a {min} minutos 📦', 
+  'Pedido recogido en {sup} ✅', 'Entregado con éxito! ⭐'
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+
+let simRunning = false;
+let simSpeed = 1;
+let simTime = 0; // seconds
+let simInterval = null;
+let currentView = 'all';
+
+let stats = {
+  orders: 0, delivered: 0, waMessages: 0,
+  totalSavings: 0, kmOptimized: 0,
+  supOrders: [0, 0, 0, 0],
+  supSavings: [0, 0, 0, 0],
+  avgDelivery: 38,
+  routeEfficiency: 0
+};
+
+let activeRoutes = [];
+let particles = []; // animated delivery particles
+let feedItems = [];
+let waHistory = [{ type: 'system', text: 'AhorraAI conectado · Esperando pedidos...' }];
+let simClients = JSON.parse(JSON.stringify(CLIENTS)); // deep copy
+
+let orderQueue = [];
+let nextOrderTime = 0;
+
+// ═══════════════════════════════════════════════
+// CANVAS
+// ═══════════════════════════════════════════════
+
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const w = canvas.parentElement.offsetWidth;
+  canvas.width = w;
+  canvas.height = Math.max(380, Math.min(520, w * 0.6));
+}
+resizeCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); drawMap(); });
+
+function px(rel, axis) {
+  return axis === 'x' ? rel * canvas.width : rel * canvas.height;
+}
+
+// ── DRAW MAP ──
+function drawMap() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Background grid
+  ctx.strokeStyle = 'rgba(30,45,71,0.4)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y < H; y += 40) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Ría de Vigo hint (bottom-left wedge)
+  const grad = ctx.createLinearGradient(0, H, W*0.4, H*0.5);
+  grad.addColorStop(0, 'rgba(0,100,180,0.12)');
+  grad.addColorStop(1, 'rgba(0,100,180,0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.moveTo(0, H);
+  ctx.lineTo(W * 0.45, H);
+  ctx.lineTo(W * 0.15, H * 0.55);
+  ctx.lineTo(0, H * 0.7);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(0,100,180,0.06)';
+  ctx.font = '10px Space Mono, monospace';
+  ctx.fillStyle = 'rgba(0,150,220,0.3)';
+  ctx.fillText('RÍA DE VIGO', px(0.03,'x'), px(0.90,'y'));
+
+  if (currentView === 'heat') {
+    drawHeatmap();
+  }
+
+  if (currentView === 'routes' || currentView === 'all') {
+    drawRoutes();
+  }
+
+  // Particles
+  drawParticles();
+
+  // Supermarkets
+  SUPERMARKETS.forEach(s => {
+    const x = px(s.x, 'x'), y = px(s.y, 'y');
+    // Glow
+    const glow = ctx.createRadialGradient(x, y, 2, x, y, 22);
+    glow.addColorStop(0, s.color + '55');
+    glow.addColorStop(1, s.color + '00');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(x, y, 22, 0, Math.PI*2); ctx.fill();
+
+    // Square marker
+    ctx.fillStyle = s.color;
+    ctx.strokeStyle = '#0a0e1a';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x-10, y-10, 20, 20, 4);
+    ctx.fill(); ctx.stroke();
+
+    // Icon
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px Syne, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(['M','F','G','C'][s.id], x, y);
+
+    // Label
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 11px Syne, sans-serif';
+    ctx.fillText(s.name, x, y + 20);
+    ctx.fillStyle = 'rgba(148,163,184,0.8)';
+    ctx.font = '9px Space Mono, monospace';
+    ctx.fillText(s.zone, x, y + 30);
   });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('big'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+
+  // Clients
+  simClients.forEach(c => {
+    const x = px(c.x, 'x'), y = px(c.y, 'y');
+    const sup = SUPERMARKETS[c.sup];
+    let dotColor = 'rgba(255,255,255,0.35)';
+    let dotRadius = 4;
+
+    if (c.status === 'ordered') {
+      dotColor = '#25D366';
+      dotRadius = 5;
+    } else if (c.status === 'delivering') {
+      dotColor = '#00e5ff';
+      dotRadius = 6;
+      // Pulse ring
+      const t = Date.now() / 1000;
+      const pulse = (Math.sin(t * 3) + 1) / 2;
+      ctx.strokeStyle = '#00e5ff';
+      ctx.globalAlpha = pulse * 0.5;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(x, y, 10 + pulse * 4, 0, Math.PI*2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    } else if (c.status === 'delivered') {
+      dotColor = '#10b981';
+      dotRadius = 4;
+    }
+
+    ctx.fillStyle = dotColor;
+    ctx.beginPath(); ctx.arc(x, y, dotRadius, 0, Math.PI*2); ctx.fill();
+
+    if (currentView === 'all' && canvas.width > 500) {
+      ctx.fillStyle = 'rgba(226,232,240,0.6)';
+      ctx.font = '8px Space Mono, monospace';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(c.name.split(' ')[0], x + 7, y);
+    }
   });
-  window.addEventListener('scroll', () => {
-    document.getElementById('hdr').classList.toggle('scrolled', scrollY > 60);
+
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+}
+
+function drawRoutes() {
+  activeRoutes.forEach(r => {
+    if (r.progress >= 1) return;
+    const sup = SUPERMARKETS[r.supId];
+    const client = simClients[r.clientId];
+    const sx = px(sup.x, 'x'), sy = px(sup.y, 'y');
+    const ex = px(client.x, 'x'), ey = px(client.y, 'y');
+
+    // Dashed line
+    ctx.setLineDash([4, 6]);
+    ctx.strokeStyle = sup.color + '40';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Progress indicator
+    const px2 = sx + (ex - sx) * r.progress;
+    const py2 = sy + (ey - sy) * r.progress;
+    ctx.fillStyle = '#00e5ff';
+    ctx.beginPath(); ctx.arc(px2, py2, 5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#0a0e1a';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
   });
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add('up'); }
+}
+
+function drawParticles() {
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fill();
+    p.x += p.vx; p.y += p.vy;
+    p.life -= 0.03;
+    p.r *= 0.97;
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawHeatmap() {
+  const W = canvas.width, H = canvas.height;
+  const resolution = 6;
+  for (let gx = 0; gx < W; gx += resolution) {
+    for (let gy = 0; gy < H; gy += resolution) {
+      let density = 0;
+      simClients.forEach(c => {
+        const cx = px(c.x, 'x'), cy = px(c.y, 'y');
+        const dist = Math.sqrt((gx-cx)**2 + (gy-cy)**2);
+        if (dist < 60) density += (60 - dist) / 60;
+      });
+      if (density > 0) {
+        const alpha = Math.min(density * 0.15, 0.6);
+        const hue = 200 - density * 30;
+        ctx.fillStyle = `hsla(${Math.max(0,hue)},80%,55%,${alpha})`;
+        ctx.fillRect(gx, gy, resolution, resolution);
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════
+// TOOLTIP
+// ═══════════════════════════════════════════════
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+  const tooltip = document.getElementById('tooltip');
+  const box = document.getElementById('tooltipBox');
+
+  let found = false;
+
+  // Check supermarkets
+  SUPERMARKETS.forEach(s => {
+    const sx = px(s.x, 'x'), sy = px(s.y, 'y');
+    if (Math.sqrt((mx-sx)**2 + (my-sy)**2) < 16) {
+      const orders = stats.supOrders[s.id];
+      box.innerHTML = `
+        <div class="tooltip-name" style="color:${s.color}">${s.name}</div>
+        <div class="tooltip-row"><span>Zona</span><span>${s.zone}</span></div>
+        <div class="tooltip-row"><span>Dirección</span><span>${s.address}</span></div>
+        <div class="tooltip-row"><span>Pedidos</span><span>${orders}</span></div>
+        <div class="tooltip-row"><span>Descuento medio</span><span>${s.discount}%</span></div>
+        <div class="tooltip-row"><span>Clientes asignados</span><span>${simClients.filter(c=>c.sup===s.id).length}</span></div>
+      `;
+      positionTooltip(e, rect);
+      found = true;
+    }
+  });
+
+  // Check clients
+  if (!found) {
+    simClients.forEach(c => {
+      const cx = px(c.x, 'x'), cy = px(c.y, 'y');
+      if (Math.sqrt((mx-cx)**2 + (my-cy)**2) < 10) {
+        const sup = SUPERMARKETS[c.sup];
+        const statusLabel = { idle: 'Disponible', ordered: 'Pedido enviado', delivering: 'En reparto', delivered: 'Entregado' }[c.status] || '';
+        const statusColor = { idle: '#94a3b8', ordered: '#25D366', delivering: '#00e5ff', delivered: '#10b981' }[c.status];
+        box.innerHTML = `
+          <div class="tooltip-name">${c.name}</div>
+          <div class="tooltip-row"><span>Barrio</span><span>${c.zone}</span></div>
+          <div class="tooltip-row"><span>Calle</span><span style="font-size:9px">${c.street}</span></div>
+          <div class="tooltip-row"><span>Supermercado</span><span style="color:${sup.color}">${sup.name}</span></div>
+          <div class="tooltip-row"><span>Estado</span><span style="color:${statusColor}">${statusLabel}</span></div>
+          <div class="tooltip-row"><span>Ahorro acum.</span><span style="color:#10b981">${c.savingsEur.toFixed(2)}€</span></div>
+        `;
+        positionTooltip(e, rect);
+        found = true;
+      }
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.rev').forEach(el => io.observe(el));
+  }
+
+  tooltip.style.display = found ? 'block' : 'none';
+});
+
+canvas.addEventListener('mouseleave', () => {
+  document.getElementById('tooltip').style.display = 'none';
+});
+
+function positionTooltip(e, rect) {
+  const tooltip = document.getElementById('tooltip');
+  let left = e.clientX - rect.left + 16;
+  let top = e.clientY - rect.top - 10;
+  const bw = canvas.parentElement.offsetWidth;
+  if (left + 180 > bw) left -= 200;
+  tooltip.style.left = left + 'px';
+  tooltip.style.top = top + 'px';
+  tooltip.style.display = 'block';
+}
+
+// ═══════════════════════════════════════════════
+// SIMULATION
+// ═══════════════════════════════════════════════
+
+function toggleSim() {
+  if (simRunning) {
+    pauseSim();
+  } else {
+    startSim();
+  }
+}
+
+function startSim() {
+  simRunning = true;
+  document.getElementById('btnPlay').textContent = '⏸ PAUSAR';
+  document.getElementById('btnPlay').className = 'sim-btn sim-pause';
+  if (simInterval) clearInterval(simInterval);
+  simInterval = setInterval(simTick, 100);
+}
+
+function pauseSim() {
+  simRunning = false;
+  document.getElementById('btnPlay').textContent = '▶ CONTINUAR';
+  document.getElementById('btnPlay').className = 'sim-btn sim-play';
+}
+
+function resetSim() {
+  pauseSim();
+  simTime = 0;
+  stats = { orders:0, delivered:0, waMessages:0, totalSavings:0, kmOptimized:0, supOrders:[0,0,0,0], supSavings:[0,0,0,0], avgDelivery:38, routeEfficiency:0 };
+  simClients = JSON.parse(JSON.stringify(CLIENTS));
+  activeRoutes = [];
+  particles = [];
+  feedItems = [];
+  orderQueue = [];
+  nextOrderTime = 5;
+  waHistory = [{ type: 'system', text: 'AhorraAI reiniciado · Listo para operar' }];
+  renderWA();
+  document.getElementById('feedList').innerHTML = '<div class="feed-item"><div class="feed-icon">⏳</div><div class="feed-text"><div class="feed-name">Esperando inicio</div><div class="feed-detail">Pulsa INICIAR para comenzar</div></div></div>';
+  document.getElementById('routeList').innerHTML = '<div style="font-size:11px;color:var(--text3);text-align:center;padding:16px;font-family:\'Space Mono\',monospace;">Sin entregas activas</div>';
+  updateUI();
+  drawMap();
+}
+
+let animFrame;
+function animLoop() {
+  drawMap();
+  // Update particle positions via drawMap
+  animFrame = requestAnimationFrame(animLoop);
+}
+animLoop();
+
+function simTick() {
+  simTime += 1 * simSpeed;
+
+  // Clock
+  const hrs = Math.floor(simTime / 360) % 24 + 8; // starts at 8am
+  const mins = Math.floor((simTime % 360) / 6);
+  const secs = Math.floor(simTime % 6) * 10;
+  document.getElementById('tickerTime').textContent = 
+    `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+
+  // Schedule orders
+  if (simTime >= nextOrderTime) {
+    const idleClients = simClients.filter(c => c.status === 'idle');
+    if (idleClients.length > 0) {
+      const client = idleClients[Math.floor(Math.random() * idleClients.length)];
+      placeOrder(client);
+      nextOrderTime = simTime + (15 + Math.random() * 25) / simSpeed;
+    }
+  }
+
+  // Progress routes
+  activeRoutes.forEach(r => {
+    if (r.progress < 1) {
+      r.progress += 0.008 * simSpeed;
+      if (r.progress >= 1) {
+        r.progress = 1;
+        deliverOrder(r);
+      }
+    }
+  });
+
+  updateUI();
+}
+
+function placeOrder(client) {
+  client.status = 'ordered';
+  stats.orders++;
+  stats.waMessages += 2;
+  stats.supOrders[client.sup]++;
+
+  const sup = SUPERMARKETS[client.sup];
+  const ticket = (25 + Math.random() * 60).toFixed(2);
+  const savings = (ticket * (sup.discount / 100)).toFixed(2);
+  const numProds = 3 + Math.floor(Math.random() * 5);
+  const prods = [...PRODUCTS].sort(() => .5-Math.random()).slice(0, numProds);
+
+  client.order = { ticket, savings, products: prods };
+
+  // WhatsApp conversation
+  waHistory.push({ type: 'user', sender: client.name, text: WA_GREETINGS[Math.floor(Math.random()*WA_GREETINGS.length)] + ' ' + sup.name });
+  waHistory.push({ type: 'bot', text: `✅ Perfecto ${client.name.split(' ')[0]}! Te asigno a ${sup.name} (${sup.zone}). Ahorro estimado: ${savings}€ 💰` });
+  waHistory.push({ type: 'user', sender: client.name, text: prods.slice(0,3).join(', ') + (prods.length>3 ? '...' : '') });
+  waHistory.push({ type: 'bot', text: `🛒 Pedido registrado · ${prods.length} productos · ${ticket}€ · Preparando ruta óptima...` });
+  renderWA();
+
+  // Feed
+  addFeed('🛒', client.name, `Pedido en ${sup.name} · ${prods.length} productos · ${ticket}€`);
+  document.getElementById('tickerOrders').textContent = `${stats.orders} pedidos`;
+
+  // WA particles from client
+  spawnWAParticles(px(client.x,'x'), px(client.y,'y'));
+
+  // Schedule delivery
+  setTimeout(() => {
+    if (client.status !== 'ordered') return;
+    client.status = 'delivering';
+    const route = { clientId: client.id, supId: client.sup, progress: 0, ticket, savings };
+    activeRoutes.push(route);
+    addFeed('🚚', client.name, `En reparto desde ${sup.name}`);
+
+    waHistory.push({ type: 'system', text: `Repartidor asignado → ${client.name}` });
+    waHistory.push({ type: 'bot', text: `📦 Tu pedido está en camino! ETA: 25-40 min 🚚` });
+    renderWA();
+    renderRoutes();
+  }, 1500 / simSpeed);
+}
+
+function deliverOrder(route) {
+  const client = simClients[route.clientId];
+  if (!client) return;
+  client.status = 'delivered';
+  stats.delivered++;
+  stats.totalSavings += parseFloat(route.savings);
+  stats.supSavings[route.supId] += parseFloat(route.savings);
+  client.savingsEur += parseFloat(route.savings);
+  stats.kmOptimized += (2.5 + Math.random() * 4);
+  stats.routeEfficiency = Math.min(98, 70 + stats.delivered * 0.5);
+
+  // Burst particles at client
+  const cx = px(client.x,'x'), cy = px(client.y,'y');
+  for (let i = 0; i < 12; i++) {
+    const angle = (i/12) * Math.PI * 2;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * (1+Math.random()*2),
+      vy: Math.sin(angle) * (1+Math.random()*2),
+      color: '#10b981', r: 3, life: 1
+    });
+  }
+
+  activeRoutes = activeRoutes.filter(r => r !== route);
+  addFeed('✅', client.name, `Entregado en ${client.street} · Ahorro ${route.savings}€`);
+
+  waHistory.push({ type: 'user', sender: client.name, text: '¡Gracias! Todo perfecto 👍' });
+  waHistory.push({ type: 'bot', text: `🌟 ¡Gracias ${client.name.split(' ')[0]}! Has ahorrado ${route.savings}€ vs precio estándar` });
+  renderWA();
+  renderRoutes();
+
+  // Reset client after delay
+  setTimeout(() => {
+    client.status = 'idle';
+    client.order = null;
+  }, (8000 + Math.random() * 12000) / simSpeed);
+}
+
+function spawnWAParticles(x, y) {
+  // WhatsApp green bubbles
+  for (let i = 0; i < 5; i++) {
+    particles.push({
+      x: x + (Math.random()-0.5)*6,
+      y: y + (Math.random()-0.5)*6,
+      vx: (Math.random()-0.5)*1.5,
+      vy: -1 - Math.random(),
+      color: '#25D366', r: 2.5 + Math.random()*1.5, life: 1
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════
+// UI RENDERS
+// ═══════════════════════════════════════════════
+
+function addFeed(icon, name, detail) {
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  feedItems.unshift({ icon, name, detail, time });
+  if (feedItems.length > 20) feedItems.pop();
+  renderFeed();
+}
+
+function renderFeed() {
+  const container = document.getElementById('feedList');
+  container.innerHTML = feedItems.map(f => `
+    <div class="feed-item">
+      <div class="feed-icon">${f.icon}</div>
+      <div class="feed-text">
+        <div class="feed-name">${f.name}</div>
+        <div class="feed-detail">${f.detail}</div>
+      </div>
+      <div class="feed-time">${f.time}</div>
+    </div>
+  `).join('');
+}
+
+function renderWA() {
+  const container = document.getElementById('waMessages');
+  const last8 = waHistory.slice(-8);
+  container.innerHTML = last8.map(m => {
+    if (m.type === 'system') return `<div class="wa-msg system">${m.text}</div>`;
+    if (m.type === 'user') return `<div class="wa-msg user"><div class="wa-sender">${m.sender}</div>${m.text}</div>`;
+    return `<div class="wa-msg bot">${m.text}<span class="wa-ts">✓✓</span></div>`;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+function renderRoutes() {
+  const container = document.getElementById('routeList');
+  const all = [
+    ...activeRoutes.filter(r => simClients[r.clientId]?.status === 'delivering').map(r => {
+      const c = simClients[r.clientId];
+      const s = SUPERMARKETS[r.supId];
+      return `<div class="route-item">
+        <div class="route-dot" style="background:${s.color}"></div>
+        <span class="route-name">${c.name}</span>
+        <span class="route-zone">${c.zone}</span>
+        <span class="route-status status-enroute">EN RUTA</span>
+      </div>`;
+    }),
+    ...simClients.filter(c=>c.status==='ordered').map(c => {
+      const s = SUPERMARKETS[c.sup];
+      return `<div class="route-item">
+        <div class="route-dot" style="background:${s.color}"></div>
+        <span class="route-name">${c.name}</span>
+        <span class="route-zone">${c.zone}</span>
+        <span class="route-status status-pending">PREPARANDO</span>
+      </div>`;
+    })
+  ];
+  if (all.length === 0) {
+    container.innerHTML = '<div style="font-size:11px;color:var(--text3);text-align:center;padding:16px;font-family:\'Space Mono\',monospace;">Sin entregas activas</div>';
+  } else {
+    container.innerHTML = all.join('');
+  }
+}
+
+function updateUI() {
+  // Header
+  document.getElementById('hTotalOrders').textContent = stats.orders;
+  document.getElementById('hSavings').textContent = stats.totalSavings.toFixed(0) + '€';
+  document.getElementById('hDelivered').textContent = stats.delivered;
+
+  // Supermarket cards
+  const maxOrders = Math.max(...stats.supOrders, 1);
+  SUPERMARKETS.forEach((s,i) => {
+    const n = stats.supOrders[i];
+    const clients = simClients.filter(c=>c.sup===i);
+    const active = clients.filter(c=>c.status!=='idle').length;
+    document.getElementById(`s${i+1}orders`).textContent = n;
+    document.getElementById(`s${i+1}delivery`).textContent = active > 0 ? `${active} activos` : 'Sin reparto';
+    const tickets = clients.filter(c=>c.order).map(c=>parseFloat(c.order?.ticket||0));
+    const avg = tickets.length > 0 ? (tickets.reduce((a,b)=>a+b,0)/tickets.length).toFixed(2) : '—';
+    document.getElementById(`s${i+1}ticket`).textContent = avg !== '—' ? avg + '€' : '—';
+    document.getElementById(`s${i+1}bar`).style.width = (n/maxOrders*100) + '%';
+  });
+
+  // KPIs
+  document.getElementById('kpi1').textContent = stats.delivered;
+  document.getElementById('kpi2').textContent = stats.avgDelivery + ' min';
+  document.getElementById('kpi3').textContent = stats.totalSavings.toFixed(0) + '€';
+  document.getElementById('kpi4').textContent = stats.routeEfficiency.toFixed(0) + '%';
+  document.getElementById('kpi5').textContent = stats.waMessages;
+  document.getElementById('kpi6').textContent = stats.kmOptimized.toFixed(1) + ' km';
+
+  // Savings bars
+  const maxSav = Math.max(...stats.supSavings, 1);
+  stats.supSavings.forEach((v,i) => {
+    const pct = (v/maxSav*100).toFixed(0);
+    document.getElementById(`sav${i+1}`).style.width = pct + '%';
+    document.getElementById(`savv${i+1}`).textContent = v.toFixed(0) + '€';
+  });
+}
+
+// ═══════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════
+
+function setView(v) {
+  currentView = v;
+  ['All','Routes','Heat'].forEach(n => {
+    document.getElementById('btn'+n).classList.toggle('active', v === n.toLowerCase());
+  });
+}
+
+function changeSpeed(delta) {
+  simSpeed = Math.max(1, Math.min(8, simSpeed + delta));
+  document.getElementById('speedVal').textContent = simSpeed + '×';
+}
+
+// ═══════════════════════════════════════════════
+// REVEAL
+// ═══════════════════════════════════════════════
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// Init
+resetSim();
 </script>
 </body>
-</html>                                                                                     </html>
-        
+</html>

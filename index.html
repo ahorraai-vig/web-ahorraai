@@ -1,304 +1,168 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>AhorraAI · Vigo PRO</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<style>
-  :root {
-    --bg: #0a0e1a; --surface: #111827; --surface2: #1a2235; --border: #1e2d47;
-    --accent: #00e5ff; --green: #10b981; --accent3: #f59e0b;
-  }
-  body { font-family: 'Syne', sans-serif; background: var(--bg); color: #e2e8f0; margin:0; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
-  .btn { padding: 8px 16px; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.2s; }
-  .btn-primary { background: var(--accent); color: #0a0e1a; font-weight: 700; border: none; }
-  .header { padding: 20px 32px; background: rgba(10,14,26,0.95); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-  .map-container { height: 620px; border-radius: 12px; overflow: hidden; position: relative; }
-  .log { max-height: 240px; overflow-y: auto; font-family: 'Space Mono', monospace; font-size: 11px; background: #0c1320; padding: 12px; border-radius: 8px; }
-</style>
+  <meta charset="UTF-8">
+  <title>AhorraAI Vigo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+```
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 200px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #22c55e;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.discount {
+  color: #f87171;
+  font-weight: bold;
+}
+```
+
+  </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="logo" style="font-size:22px;font-weight:800;">Ahorra<span style="color:var(--accent)">AI</span><small style="font-size:11px;display:block;color:#94a3b8;">VIGO PRO</small></div>
-  <div style="display:flex;gap:12px;align-items:center;">
-    <div id="timer" style="font-family:Space Mono;font-size:22px;color:var(--accent);">00:00:00</div>
-    <button class="btn btn-primary" id="btnPlay">▶ Iniciar</button>
-    <button class="btn" id="btnPause">⏸</button>
-    <button class="btn" id="btnReset">Reset</button>
-  </div>
-</header>
+<h1>🛒 AhorraAI Vigo</h1>
 
-<div style="max-width:1480px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:1fr 420px;gap:20px;">
-
-  <!-- MAPA -->
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <h3>Mapa en Tiempo Real - Vigo</h3>
-      <div>
-        <button class="btn btn-primary" onclick="optimizeRoutes()">Optimizar Rutas</button>
-        <button class="btn" onclick="exportData('csv')">CSV</button>
-        <button class="btn" onclick="exportData('json')">JSON</button>
-      </div>
-    </div>
-    <div id="map" class="map-container"></div>
-  </div>
-
-  <!-- PANEL DERECHO -->
-  <div style="display:flex;flex-direction:column;gap:20px;">
-    <div class="card">
-      <h3>KPIs en Tiempo Real</h3>
-      <div id="kpiGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
-    </div>
-
-    <div class="card">
-      <h3>Repartidores Activos (<span id="agentCount">4</span>)</h3>
-      <div id="agentsList"></div>
-    </div>
-
-    <div class="card" style="flex:1;">
-      <h3>Eventos en Vivo</h3>
-      <div id="liveFeed" class="log"></div>
-    </div>
-  </div>
+<div class="controls">
+  <input type="text" id="search" placeholder="Buscar producto...">
+  <select id="category">
+    <option value="">Todas las categorías</option>
+  </select>
 </div>
 
-<!-- Predicción + Histórico -->
-<div style="max-width:1480px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-  <div class="card">
-    <h3>IA Predictiva de Demanda (Próximas 2h)</h3>
-    <canvas id="predictionChart" height="180"></canvas>
-  </div>
-  <div class="card">
-    <h3>Análisis Histórico</h3>
-    <button class="btn btn-primary" onclick="showHistoricalAnalysis()">Ver Dashboard Completo</button>
-    <div id="historicalSummary"></div>
-  </div>
-</div>
-
-<table id="ordersTable" class="card" style="width:100%;margin:20px auto;max-width:1480px;border-collapse:collapse;font-size:12px;"></table>
+<div class="grid" id="products"></div>
 
 <script>
-// ==================== DATOS ====================
-let map, time = 0, simulationRunning = false;
-let orders = [], completed = [], simulationLog = [];
-let agents = [];
-let markers = [];
+const SHEET_ID = "TU_SHEET_ID";
+const API_KEY = "TU_API_KEY"; // opcional si usas API pública
 
-const supermarkets = [
-  {id:1, name:"Mercadona", lat:42.2402, lng:-8.7125, color:"#ef4444"},
-  {id:2, name:"Froiz", lat:42.2251, lng:-8.7120, color:"#3b82f6"},
-  {id:3, name:"Gadis", lat:42.2180, lng:-8.7500, color:"#f59e0b"},
-  {id:4, name:"Carrefour", lat:42.2350, lng:-8.7150, color:"#a855f7"}
-];
+// URL pública de Google Sheets (CSV)
+const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-const zones = ["Gran Vía","Coia","Bouzas","Centro","Teis","Navia"];
+let productos = [];
 
-// ==================== MAPA ====================
-function initMap() {
-  map = L.map('map').setView([42.232, -8.72], 13.5);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+async function cargarDatos() {
+  const res = await fetch(URL);
+  const text = await res.text();
 
-  supermarkets.forEach(s => {
-    L.circleMarker([s.lat, s.lng], {radius:9, color:s.color, fillOpacity:0.9})
-      .bindPopup(`<b>${s.name}</b>`).addTo(map);
+  const json = JSON.parse(text.substr(47).slice(0, -2));
+  const rows = json.table.rows;
+
+  productos = rows.map(r => ({
+    nombre: r.c[0]?.v || "",
+    precio: r.c[1]?.v || "",
+    precio_anterior: r.c[2]?.v || "",
+    descuento: r.c[3]?.v || "",
+    categoria: r.c[4]?.v || "",
+    url: r.c[5]?.v || ""
+  }));
+
+  cargarCategorias();
+  render(productos);
+}
+
+function cargarCategorias() {
+  const categorias = [...new Set(productos.map(p => p.categoria))];
+  const select = document.getElementById("category");
+
+  categorias.forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
   });
 }
 
-// Crear repartidores con movimiento
-function createAgents() {
-  agents = [
-    {id:1, name:"Alex", lat:42.238, lng:-8.720, status:"Libre", color:"#22d3ee", target:null},
-    {id:2, name:"Laura", lat:42.232, lng:-8.715, status:"En ruta", color:"#a78bfa", target:null},
-    {id:3, name:"Miguel", lat:42.225, lng:-8.730, status:"Libre", color:"#fbbf24", target:null},
-    {id:4, name:"Sara", lat:42.245, lng:-8.705, status:"En ruta", color:"#4ade80", target:null}
-  ];
+function render(lista) {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
 
-  agents.forEach(agent => {
-    const marker = L.circleMarker([agent.lat, agent.lng], {radius:7, color:agent.color, fillOpacity:1})
-      .bindPopup(`<b>\( {agent.name}</b><br> \){agent.status}`).addTo(map);
-    agent.marker = marker;
-  });
-  updateAgentsUI();
-}
+  lista.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "card";
 
-// Movimiento de repartidores
-function moveAgents() {
-  agents.forEach(agent => {
-    if (agent.target) {
-      agent.lat += (agent.target.lat - agent.lat) * 0.08;
-      agent.lng += (agent.target.lng - agent.lng) * 0.08;
-      agent.marker.setLatLng([agent.lat, agent.lng]);
-    }
+    div.innerHTML = `
+      <h3>${p.nombre}</h3>
+      <div class="price">${p.precio} €</div>
+      ${p.precio_anterior ? `<div class="old-price">${p.precio_anterior} €</div>` : ""}
+      ${p.descuento ? `<div class="discount">-${p.descuento}%</div>` : ""}
+      <div>${p.categoria}</div>
+      <a href="${p.url}" target="_blank">Ver producto</a>
+    `;
+
+    container.appendChild(div);
   });
 }
 
-// ==================== SIMULACIÓN ====================
-function generateOrder() {
-  const sup = supermarkets[Math.floor(Math.random() * supermarkets.length)];
-  const agent = agents[Math.floor(Math.random() * agents.length)];
-  
-  const order = {
-    id: orders.length + 1,
-    time: time,
-    supermarket: sup.name,
-    zone: zones[Math.floor(Math.random()*zones.length)],
-    amount: (22 + Math.random()*48).toFixed(2),
-    agent: agent.name,
-    status: "En ruta"
-  };
-  orders.push(order);
-  simulationLog.push(order);
+function filtrar() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const category = document.getElementById("category").value;
 
-  addLog(`📦 Pedido #${order.id} desde ${sup.name} → ${order.zone} | ${agent.name}`, "success");
+  const filtrados = productos.filter(p =>
+    p.nombre.toLowerCase().includes(search) &&
+    (category === "" || p.categoria === category)
+  );
 
-  // Asignar target al repartidor
-  agent.status = "En ruta";
-  agent.target = {lat: sup.lat + (Math.random()-0.5)*0.015, lng: sup.lng + (Math.random()-0.5)*0.015};
-  updateAgentsUI();
-  updateTable();
-
-  // Completar entrega
-  setTimeout(() => {
-    order.status = "Entregado";
-    completed.push(order);
-    agent.status = "Libre";
-    agent.target = null;
-    updateAgentsUI();
-    updateKPIs();
-    addLog(`✅ Entrega completada por \( {agent.name} (# \){order.id})`, "success");
-  }, 9000 + Math.random()*8000);
+  render(filtrados);
 }
 
-// ==================== UI UPDATES ====================
-function updateKPIs() {
-  const delivered = completed.length;
-  const avgTime = delivered ? (completed.reduce((a,b)=>a + (time - b.time),0)/delivered).toFixed(1) : 0;
-  
-  document.getElementById('kpiGrid').innerHTML = `
-    <div class="card"><strong style="font-size:32px;color:var(--green)">${delivered}</strong><br>Entregas</div>
-    <div class="card"><strong style="font-size:32px;">${avgTime}</strong><br>min promedio</div>
-    <div class="card"><strong style="font-size:32px;color:#fbbf24">${Math.round((delivered/orders.length)*100)||0}%</strong><br>Éxito</div>
-    <div class="card"><strong style="font-size:32px;color:#4ade80">${(delivered*0.75).toFixed(1)}kg</strong><br>CO₂ ahorrado</div>
-  `;
-}
+document.getElementById("search").addEventListener("input", filtrar);
+document.getElementById("category").addEventListener("change", filtrar);
 
-function updateAgentsUI() {
-  let html = '';
-  agents.forEach(a => {
-    html += `<div style="display:flex;justify-content:space-between;padding:10px;background:#1a2235;border-radius:8px;margin-bottom:6px;">
-      <span><strong>\( {a.name}</strong> <span style="color: \){a.color}">●</span></span>
-      <span style="font-size:11px;color:#94a3b8">${a.status}</span>
-    </div>`;
-  });
-  document.getElementById('agentsList').innerHTML = html;
-  document.getElementById('agentCount').textContent = agents.length;
-}
-
-function addLog(text, type="info") {
-  const colors = {success:"#10b981", info:"#67e8f9"};
-  const feed = document.getElementById('liveFeed');
-  const ts = new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-  feed.innerHTML += `<div style="color:\( {colors[type]}">[ \){ts}] ${text}</div>`;
-  feed.scrollTop = feed.scrollHeight;
-}
-
-function updateTable() {
-  let html = `<thead><tr style="background:#1a2235"><th>Hora</th><th>Pedido</th><th>Zona</th><th>Importe</th><th>Repartidor</th><th>Estado</th></tr></thead><tbody>`;
-  orders.slice(-8).reverse().forEach(o => {
-    html += `<tr><td>\( {o.time}s</td><td># \){o.id}</td><td>\( {o.zone}</td><td> \){o.amount}€</td><td>\( {o.agent}</td><td style="color:#10b981"> \){o.status}</td></tr>`;
-  });
-  html += `</tbody>`;
-  document.getElementById('ordersTable').innerHTML = html;
-}
-
-// ==================== OPTIMIZACIÓN Y EXPORTACIÓN ====================
-function optimizeRoutes() {
-  addLog("🔄 Optimizando rutas con algoritmo genético...", "info");
-  setTimeout(() => {
-    addLog("✅ Rutas optimizadas · -21% tiempo estimado", "success");
-    agents.forEach(a => {
-      if (a.target) a.target = {lat: a.target.lat*0.98, lng: a.target.lng*0.99};
-    });
-  }, 1400);
-}
-
-function exportData(type) {
-  if (type === 'csv') {
-    let csv = "time,order_id,supermarket,zone,amount,agent,status\n";
-    orders.forEach(o => csv += `\( {o.time}, \){o.id},\( {o.supermarket}, \){o.zone},\( {o.amount}, \){o.agent},${o.status}\n`);
-    downloadFile(csv, 'ahorraAI_vigo_pedidos.csv', 'text/csv');
-  } else {
-    const data = {simulation: {duration: time, totalOrders: orders.length}, orders, completed};
-    downloadFile(JSON.stringify(data, null, 2), 'ahorraAI_vigo_full.json', 'application/json');
-  }
-}
-
-function downloadFile(content, filename, mime) {
-  const blob = new Blob([content], {type: mime});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
-}
-
-// ==================== PREDICCIÓN Y ANÁLISIS ====================
-let predChart;
-function createPredictionChart() {
-  const ctx = document.getElementById('predictionChart');
-  predChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Ahora', '+20min', '+40min', '+60min', '+80min', '+100min', '+120min'],
-      datasets: [{
-        label: 'Demanda prevista (pedidos)',
-        data: [3, 7, 12, 9, 15, 11, 8],
-        borderColor: '#00e5ff',
-        tension: 0.4,
-        fill: true,
-        backgroundColor: 'rgba(0,229,255,0.1)'
-      }]
-    },
-    options: { plugins: { legend: { display: false } } }
-  });
-}
-
-function showHistoricalAnalysis() {
-  const total = orders.length;
-  const deliveredRate = Math.round((completed.length / total) * 100) || 0;
-  alert(`📊 ANÁLISIS HISTÓRICO\n\nPedidos totales: ${total}\nEntregados: \( {completed.length} ( \){deliveredRate}%)\nTiempo simulado: ${Math.floor(time/60)} minutos\nCO₂ ahorrado: ${(completed.length*0.8).toFixed(1)} kg`);
-}
-
-// ==================== LOOP PRINCIPAL ====================
-let interval;
-document.getElementById('btnPlay').onclick = () => {
-  if (simulationRunning) return;
-  simulationRunning = true;
-  interval = setInterval(() => {
-    time++;
-    const h = String(Math.floor(time/3600)).padStart(2,'0');
-    const m = String(Math.floor((time%3600)/60)).padStart(2,'0');
-    const s = String(time%60).padStart(2,'0');
-    document.getElementById('timer').textContent = `\( {h}: \){m}:${s}`;
-
-    if (Math.random() < 0.22) generateOrder();
-    moveAgents();
-  }, 700);
-};
-
-document.getElementById('btnPause').onclick = () => { clearInterval(interval); simulationRunning = false; };
-document.getElementById('btnReset').onclick = () => location.reload();
-
-// ==================== INICIO ====================
-initMap();
-createAgents();
-createPredictionChart();
-addLog("🚀 AhorraAI PRO iniciado en Vigo", "success");
-updateKPIs();
+cargarDatos();
 </script>
+
 </body>
-      </html>
-      
+</html>

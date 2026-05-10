@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AhorraAI | La oferta de Vigo en tu bolsillo</title>
-    <!-- Importamos fuentes de Google y FontAwesome para los iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #0088cc; /* Azul Telegram */
-            --secondary-color: #25D366; /* Verde WhatsApp (para el futuro) */
+            --secondary-color: #25D366; /* Verde WhatsApp */
             --dark-color: #1a1a1a;
             --light-color: #f4f7f6;
             --text-color: #333;
@@ -52,7 +51,7 @@
             color: var(--primary-color);
         }
 
-        /* --- SECCIÓN HERO (Principal) --- */
+        /* --- SECCIÓN HERO --- */
         .hero {
             display: flex;
             flex-direction: column;
@@ -77,7 +76,7 @@
 
         .btn {
             display: inline-block;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             font-size: 1.1rem;
             font-weight: 600;
             text-decoration: none;
@@ -96,14 +95,7 @@
             box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
         }
 
-        .coming-soon {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #888;
-            font-weight: 600;
-        }
-
-        /* --- CARACTERÍSTICAS (Iconos/Dibujos) --- */
+        /* --- CARACTERÍSTICAS --- */
         .features {
             padding: 5rem 5%;
             background-color: #fff;
@@ -128,11 +120,6 @@
             padding: 2rem;
             background: var(--light-color);
             border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
         }
 
         .feature-icon {
@@ -141,12 +128,7 @@
             margin-bottom: 1rem;
         }
 
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        /* --- PAQUETES B2B (Servicios Digitales) --- */
+        /* --- PAQUETES --- */
         .packages {
             padding: 5rem 5%;
             text-align: center;
@@ -162,7 +144,7 @@
 
         .package-card {
             background: #fff;
-            padding: 3rem 2rem;
+            padding: 2.5rem;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             border-top: 5px solid var(--primary-color);
@@ -171,126 +153,138 @@
 
         .package-card.premium {
             border-top: 5px solid var(--dark-color);
-            transform: scale(1.05);
+            background-color: #fdfdfd;
         }
 
-        .package-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
+        /* --- SECCIÓN CONTACTO --- */
+        .contact-info {
+            padding: 4rem 5%;
+            background-color: #fff;
+            text-align: center;
+            border-top: 1px solid #eee;
         }
 
-        .package-card ul {
-            list-style: none;
-            margin-bottom: 2rem;
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
         }
 
-        .package-card ul li {
-            margin-bottom: 0.8rem;
-            position: relative;
-            padding-left: 1.5rem;
+        .contact-item {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
         }
 
-        .package-card ul li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--secondary-color);
-            font-weight: bold;
+        .contact-item i {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+
+        .contact-item:hover {
+            color: var(--primary-color);
         }
 
         /* --- FOOTER --- */
         footer {
             background-color: var(--dark-color);
-            color: #fff;
+            color: #bbb;
             text-align: center;
-            padding: 2rem 5%;
-            margin-top: 3rem;
+            padding: 3rem 5%;
         }
 
-        /* --- RESPONSIVE --- */
+        footer strong {
+            color: #fff;
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.2rem; }
-            .package-card.premium { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navegación -->
     <header>
         <div class="logo">Ahorra<span>AI</span></div>
     </header>
 
-    <!-- Sección Principal -->
     <section class="hero">
-        <h1>Toda la oferta de Vigo, a un mensaje de distancia</h1>
-        <p>Encuentra los mejores productos, ofertas de comercios locales y haz tus compras de forma sencilla a través de nuestro asistente inteligente.</p>
-        
-        <!-- Enlace directo a tu bot -->
+        <h1>La oferta de Vigo en tu móvil</h1>
+        <p>Encuentra chollos, comercios y productos locales hablando directamente con nuestra IA en Telegram.</p>
         <a href="https://t.me/ahorraai_vigo_bot" class="btn btn-telegram" target="_blank">
-            <i class="fab fa-telegram"></i> Probar Chatbot en Telegram
+            <i class="fab fa-telegram"></i> Entrar al Chat de Vigo
         </a>
-        <p class="coming-soon"><i class="fab fa-whatsapp" style="color: #25D366;"></i> Muy pronto disponible también en WhatsApp</p>
     </section>
 
-    <!-- Características (Para usuarios finales) -->
     <section class="features">
-        <h2 class="section-title">¿Cómo funciona?</h2>
+        <h2 class="section-title">Qué ofrece AhorraAI</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <i class="fas fa-comment-dots feature-icon"></i>
-                <h3>Chat Cero Fricción</h3>
-                <p>Sin descargar apps nuevas. Háblale a nuestro bot en tu app de mensajería favorita y pídele lo que necesitas buscar en la ciudad.</p>
+                <i class="fas fa-map-marker-alt feature-icon"></i>
+                <h3>Todo Vigo</h3>
+                <p>Información actualizada de los comercios de tu zona y ofertas exclusivas en la ciudad.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-store feature-icon"></i>
-                <h3>Comercio Local</h3>
-                <p>Accede al inventario y ofertas de las tiendas de tu barrio. Fomentamos la economía circular y la cercanía.</p>
+                <i class="fas fa-robot feature-icon"></i>
+                <h3>Asistente 24/7</h3>
+                <p>Nuestra IA te responde al instante sobre disponibilidad de productos y horarios.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-bolt feature-icon"></i>
-                <h3>Ahorro de Tiempo</h3>
-                <p>El bot busca, filtra y te ofrece las mejores opciones al instante para que optimices tus compras diarias.</p>
+                <i class="fas fa-mobile-alt feature-icon"></i>
+                <h3>Sin Instalaciones</h3>
+                <p>Úsalo desde Telegram (y próximamente WhatsApp). Sin registros complicados.</p>
             </div>
         </div>
     </section>
 
-    <!-- Paquetes de Digitalización (Para negocios) -->
     <section class="packages">
-        <h2 class="section-title">Impulsa tu Negocio en Vigo</h2>
-        <p style="margin-bottom: 3rem; color: #666; max-width: 700px; margin-left: auto; margin-right: auto;">¿Tienes un comercio local? Te ayudamos a digitalizarlo y a conectarlo con cientos de clientes a través de nuestro Hub Digital AhorraAI.</p>
-        
+        <h2 class="section-title">Servicios para Empresas</h2>
         <div class="packages-grid">
-            <!-- Paquete Básico -->
             <div class="package-card">
-                <h3>Presencia Básica</h3>
-                <p style="margin-bottom: 1.5rem; color: #666;">Ideal para empezar a ser visible en internet.</p>
-                <ul>
-                    <li>Alta y optimización en Google Business</li>
-                    <li>Aparición en el buscador de AhorraAI</li>
-                    <li>Configuración de perfil en 1 Red Social</li>
+                <h3>Digitalización Básica</h3>
+                <p>Aparece donde tus clientes te buscan.</p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li>✓ Google Business Profile</li>
+                    <li>✓ Alta en buscador AhorraAI</li>
+                    <li>✓ Optimización de Redes</li>
                 </ul>
             </div>
-
-            <!-- Paquete Integral (Destacado) -->
             <div class="package-card premium">
-                <h3>Hub Digital Completo</h3>
-                <p style="margin-bottom: 1.5rem; color: #666;">La solución total para modernizar tus ventas.</p>
-                <ul>
-                    <li>Diseño de Página Web a medida</li>
-                    <li>Gestión de Google Business y reseñas</li>
-                    <li>Gestión automatizada de Redes Sociales</li>
-                    <li>Integración prioritaria en el Bot AhorraAI</li>
-                    <li>Estrategia de posicionamiento local (Vigo)</li>
+                <h3>Pack Web + IA</h3>
+                <p>Lleva tu negocio al siguiente nivel.</p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li>✓ Web Profesional Moderna</li>
+                    <li>✓ Integración en Chatbot</li>
+                    <li>✓ Gestión de Redes Sociales</li>
+                    <li>✓ Soporte Directo</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Pie de página -->
+    <section class="contact-info">
+        <h2 class="section-title">¿Hablamos?</h2>
+        <p>Si tienes un negocio en Vigo o quieres saber más, contáctanos directamente:</p>
+        <div class="contact-container">
+            <a href="tel:+34614053674" class="contact-item">
+                <i class="fas fa-phone-alt"></i> 614 053 674
+            </a>
+            <a href="mailto:contacto@ahorraai.com" class="contact-item">
+                <i class="fas fa-envelope"></i> contacto@ahorraai.com
+            </a>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2026 AhorraAI. Digitalizando el comercio local.</p>
+        <p><strong>AhorraAI</strong> - Soluciones Digitales para Vigo</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">Tel: 614053674 | Email: contacto@ahorraai.com</p>
+        <p style="font-size: 0.8rem; margin-top: 20px;">&copy; 2026 Todos los derechos reservados.</p>
     </footer>
 
 </body>

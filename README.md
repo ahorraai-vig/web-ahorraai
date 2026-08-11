@@ -1,62 +1,46 @@
-# AhorraAI · Vigo 🛒
+# AhorrAI · Vigo 🛒
 
-> Plataforma de digitalización e inteligencia artificial para negocios locales de Vigo.  
-> **Web en producción → [ahorraai.com](https://ahorraai.com)**
+> **Infraestructura de digitalización, comercio conversacional e inteligencia artificial para el comercio local.**
 
----
-
-## ¿Qué es esto?
-
-AhorraAI nació como un asistente de comparación de precios por WhatsApp para vecinos de Vigo. Ha evolucionado hacia una plataforma más amplia que conecta negocios locales con sus clientes mediante IA y automatización.
-
-Este repositorio contiene el **frontend público** del proyecto: una landing page estática con información de servicios, planes y acceso al canal de WhatsApp.
+🌐 **Web en producción:** [ahorraai.com](https://ahorraai.com)
 
 ---
 
-## Stack Técnico
+## ¿Qué es AhorrAI en la actualidad?
 
-| Capa | Tecnología |
-|---|---|
-| Frontend | HTML5 · CSS3 · JavaScript vanilla |
-| Hosting | GitHub Pages |
-| Dominio | ahorraai.com (CNAME personalizado) |
-| Formularios | Tally.so |
-| Contacto | WhatsApp Business API |
+AhorrAI ha evolucionado desde sus inicios como comparador de precios hasta convertirse en una **plataforma integral de comercio conversacional y automatización para negocios locales**. 
+
+Su objetivo principal es romper las barreras digitales de los comercios tradicionales de proximidad (empezando por Vigo), conectándolos directamente con sus clientes mediante canales privados de mensajería (WhatsApp y Telegram) e integrando su visibilidad en los nuevos motores de búsqueda basados en Inteligencia Artificial.
 
 ---
 
-## Estado del Proyecto
+## ⚙️ Pilares Tecnológicos
 
-- [x] Landing page en producción con dominio propio
-- [x] Formulario de captación de negocios (Tally)
-- [x] Canal WhatsApp activo
-- [ ] Motor de comparación de precios (en desarrollo)
-- [ ] Scraper de supermercados en AWS Lambda (en desarrollo)
-- [ ] Integración con API de Claude/LLM (próximamente)
+* **Comercio Conversacional:** Automatización de catálogos, stock y atención al cliente mediante agentes de IA conectados a WhatsApp Business.
+* **GEO (Generative Engine Optimization):** Estructuración avanzada de datos geolocalizados y comerciales optimizados para que los LLM y buscadores indexen de forma nativa la oferta del pequeño comercio.
+* **Infraestructura Serverless:** Despliegues ligeros y eficientes orientados al rendimiento en tiempo real y la automatización de procesos locales.
 
 ---
 
-## Proyecto completo (backend)
+## 🛠️ Stack del Ecosistema
 
-La parte técnica del proyecto incluye:
-
-- **Scraper serverless** en AWS Lambda con disparo nocturno via EventBridge
-- **Base de datos** en Google Sheets, poblada automáticamente
-- **Bot de WhatsApp** que responde consultas de precios usando IA
-- **Pipeline completo**: Scraping → Almacenamiento → Consulta por lenguaje natural
-
-> El código del backend está en un repositorio separado (privado durante el desarrollo).
+* **Frontend:** HTML5, CSS3, JavaScript vainilla (Alojado en Vercel / GitHub Pages).
+* **Backend y Automatizaciones:** Python, AWS Lambda, API de Gemini / Claude.
+* **Captación y Canales:** Formularios dinámicos e integración directa con WhatsApp Business API.
 
 ---
 
-## Sobre el proyecto
+## 📍 Estado del Proyecto
 
-Construido de forma autodidacta como proyecto real con caso de uso local.  
-Parte de un portfolio de automatización con IA centrado en soluciones para pequeños negocios.
+* [x] Landing page optimizada y en producción (`ahorraai.com`)
+* [x] Canal de captación y validación activa para negocios locales en Vigo
+* [x] Motores de automatización y scraping de datos comerciales en desarrollo activo
+* [x] Integración de capas de IA conversacional para catálogos locales
 
-**Contacto:** contacto@ahorraai.com
-| Proyecto | Descripción | Stack |
-|---|---|---|
-| [AhorraAI Backend](https://github.com/ahorraai-vig/ahorraai-backend) | Bot WhatsApp de precios con IA | Python · Lambda · Gemini |
-| [AhorraAI Web](https://github.com/ahorraai-vig/web-ahorraai) | Landing page en producción | HTML · CSS · GitHub Pages |
-| [Centinela Bot](https://github.com/ahorraai-vig/centinela-bot) | Agente de contenido YouTube con Gemini + Telegram | Python · Gemini · YouTube API |
+---
+
+## 📬 Contacto
+
+* **Web:** [ahorraai.com](https://ahorraai.com)
+* **Correo:** contacto@ahorraai.com
+* 

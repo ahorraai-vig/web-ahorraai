@@ -1,279 +1,490 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AhorraAI | Protocolo de Comercio Local Cooperativo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- Paleta de Colores "Vigo" --- */
-        :root {
-            --azul-atlantico: #0B3B60;
-            --azul-ria: #1A5F8C;
-            --granito-claro: #F4F4F5;
-            --granito-oscuro: #3F3F46;
-            --naranja-cies: #F57C00;
-            --blanco: #FFFFFF;
-        }
-
-        /* --- Estilos Base --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--granito-claro);
-            color: var(--granito-oscuro);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3 {
-            color: var(--azul-atlantico);
-            line-height: 1.2;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--azul-ria);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- Navegación --- */
-        header {
-            background-color: var(--blanco);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--azul-atlantico);
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--naranja-cies);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            background: linear-gradient(135deg, var(--azul-atlantico) 0%, var(--azul-ria) 100%);
-            color: var(--blanco);
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            color: var(--blanco);
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            font-weight: 300;
-            opacity: 0.9;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--naranja-cies);
-            color: var(--blanco);
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #E65100;
-            color: var(--blanco);
-        }
-
-        /* --- Sección: El Protocolo --- */
-        .protocol-section {
-            padding: 80px 0;
-            background-color: var(--blanco);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .card {
-            background: var(--granito-claro);
-            padding: 40px 30px;
-            border-radius: 12px;
-            border-top: 4px solid var(--azul-ria);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        /* --- Sección: Piloto Vigo --- */
-        .pilot-section {
-            padding: 80px 0;
-            background-color: var(--granito-claro);
-        }
-
-        .pilot-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .pilot-text {
-            flex: 1;
-        }
-
-        .pilot-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-        }
-
-        .pilot-text p {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .pilot-image {
-            flex: 1;
-            background: url('https://images.unsplash.com/photo-1596720078873-5188f58dd8b9?auto=format&fit=crop&q=80&w=800') center/cover;
-            height: 400px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--azul-atlantico);
-            color: var(--blanco);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        footer p {
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: var(--naranja-cies);
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .pilot-content { flex-direction: column; }
-            .pilot-image { width: 100%; height: 300px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Protocolo PCLC — Protocolo de Comercio Local Cooperativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Protocolo de Comercio Local Cooperativo (PCLC). Estándar abierto para describir comercios locales de una ciudad en formato estructurado, legible por humanos y por modelos de IA." />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --code-bg: #020617;
+      --link: #38bdf8;
+      --link-hover: #0ea5e9;
+      --heading: #f9fafb;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+    header {
+      margin-bottom: 32px;
+      padding: 24px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(56, 189, 248, 0.12));
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      background-image:
+        radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.18) 0, transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(56, 189, 248, 0.18) 0, transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.9rem;
+      color: var(--heading);
+      position: relative;
+      z-index: 1;
+    }
+    header p {
+      margin: 4px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--muted);
+    }
+    .badge span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+    }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.4fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    section {
+      margin-bottom: 24px;
+      padding: 18px 18px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: var(--heading);
+    }
+    h3 {
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: var(--heading);
+    }
+    p {
+      margin: 6px 0;
+      color: var(--text);
+    }
+    ul {
+      margin: 6px 0 6px 18px;
+      padding: 0;
+    }
+    li {
+      margin: 3px 0;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .highlight {
+      background: var(--accent-soft);
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      font-size: 0.9rem;
+    }
+    .code-block {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--code-bg);
+      border: 1px solid #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-card {
+      padding: 14px 14px;
+      border-radius: 14px;
+      background: #020617;
+      border: 1px solid #1f2937;
+    }
+    .sidebar-card h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: #0b1120;
+      border: 1px solid #1f2937;
+      color: var(--muted);
+    }
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #1f2937;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
-
+  <div class="page">
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">Ahorra<span>AI</span></div>
-                <a href="mailto:contacto@ahorraai.com" class="btn" style="padding: 10px 20px;">Contactar</a>
-            </nav>
+      <h1>Protocolo PCLC — Protocolo de Comercio Local Cooperativo</h1>
+      <p><strong>Versión:</strong> PCLC‑1.0 · <strong>Mantenido por:</strong> AhorraAI · Vigo</p>
+      <p class="muted">
+        Estándar abierto para describir comercios locales de una ciudad en formato estructurado, legible por humanos y por modelos de IA.
+      </p>
+      <div class="badge-row">
+        <div class="badge">
+          <span class="dot"></span>
+          <span>Grafo urbano semántico</span>
         </div>
+        <div class="badge">
+          <span class="dot"></span>
+          <span>Compatible con schema.org y JSON‑LD</span>
+        </div>
+        <div class="badge">
+          <span class="dot"></span>
+          <span>Diseñado para IA y asistentes conversacionales</span>
+        </div>
+      </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>El Protocolo Cooperativo de Comercio Local</h1>
-            <p>Infraestructura tecnológica compartida para digitalizar, unificar y potenciar las asociaciones de comerciantes y los negocios de proximidad.</p>
-            <a href="#piloto" class="btn">Conoce el Piloto</a>
-        </div>
-    </section>
+    <main>
+      <div>
+        <section>
+          <h2>Introducción</h2>
+          <p>
+            El <strong>Protocolo de Comercio Local Cooperativo (PCLC)</strong> es un estándar abierto diseñado para estructurar, organizar y publicar
+            información sobre comercios locales de una ciudad de forma legible tanto para personas como para modelos de inteligencia artificial.
+          </p>
+          <p>
+            El objetivo del PCLC es convertir la ciudad en un <strong>grafo urbano semántico</strong>, donde cada comercio, categoría y barrio está
+            representado mediante datos estructurados interoperables. Este grafo permite:
+          </p>
+          <ul>
+            <li>Descubrimiento inteligente de negocios.</li>
+            <li>Recomendaciones basadas en IA.</li>
+            <li>Integración con asistentes conversacionales.</li>
+            <li>Indexación avanzada por motores de IA (Google IA, Gemini, Copilot, Claude).</li>
+            <li>Un ecosistema digital cooperativo entre comercios y ciudadanos.</li>
+          </ul>
+        </section>
 
-    <section class="protocol-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Diseñado para Asociaciones</h2>
-                <p>No somos un marketplace más. Somos la capa tecnológica que une al comercio tradicional.</p>
-            </div>
-            <div class="grid-3">
-                <div class="card">
-                    <h3>Red Unificada</h3>
-                    <p>Conectamos el inventario y los servicios de distintos comercios bajo una misma red accesible, multiplicando la visibilidad conjunta frente a las grandes superficies.</p>
-                </div>
-                <div class="card">
-                    <h3>Inteligencia Conversacional</h3>
-                    <p>Integración de asistentes virtuales que permiten a los ciudadanos consultar catálogos, disponibilidad y realizar reservas de forma natural, 24/7.</p>
-                </div>
-                <div class="card">
-                    <h3>Soberanía de Datos</h3>
-                    <p>Las asociaciones mantienen el control. AhorraAI proporciona métricas y analíticas de flujos comerciales para tomar decisiones estratégicas en cada barrio.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section>
+          <h2>Objetivos del Protocolo</h2>
+          <ul>
+            <li><strong>Estandarizar</strong> la representación digital de comercios locales.</li>
+            <li><strong>Facilitar</strong> que agentes de IA consuman información urbana de forma fiable.</li>
+            <li><strong>Conectar</strong> negocios mediante relaciones semánticas.</li>
+            <li><strong>Crear</strong> una infraestructura digital común para ciudades.</li>
+            <li><strong>Permitir</strong> que plataformas como AhorraAI actúen como fuente primaria de conocimiento local.</li>
+          </ul>
+        </section>
 
-    <section id="piloto" class="pilot-section">
-        <div class="container pilot-content">
-            <div class="pilot-text">
-                <h2>Prueba Piloto: Vigo</h2>
-                <p>Hemos elegido Vigo como nuestro puerto de salida. Una ciudad con un tejido comercial histórico, resiliente y estructurado en zonas con una fuerte identidad.</p>
-                <p>Nuestro objetivo es trabajar mano a mano con las asociaciones de la ciudad para desplegar esta infraestructura, demostrando que la cooperación tecnológica es el futuro del comercio local.</p>
-                <ul style="list-style-position: inside; margin-bottom: 20px;">
-                    <li>✓ Integración sin fricción para el comerciante.</li>
-                    <li>✓ Solución unificada a nivel ciudad.</li>
-                    <li>✓ Apoyo directo al consumo de proximidad.</li>
-                </ul>
-            </div>
-            <div class="pilot-image"></div>
+        <section>
+          <h2>Componentes del PCLC</h2>
+
+          <h3>1. Ciudad (<code>City</code>)</h3>
+          <p>
+            Archivo raíz que describe la estructura urbana de la ciudad: barrios, categorías, lista de negocios, relaciones globales y versión del protocolo.
+          </p>
+          <p class="highlight">
+            Ubicación recomendada: <code>/knowledge/&lt;ciudad&gt;/index.json</code>
+          </p>
+
+          <h3>2. Comercio (<code>LocalBusiness</code>)</h3>
+          <p>
+            Un archivo por cada negocio, siguiendo el estándar JSON‑LD de <code>schema.org</code>. Incluye datos básicos, ubicación, horarios, servicios,
+            relaciones con otros comercios y ofertas.
+          </p>
+          <p class="highlight">
+            Ubicación recomendada: <code>/knowledge/&lt;ciudad&gt;/&lt;slug&gt;.json</code>
+          </p>
+
+          <h3>3. Relaciones Urbanas</h3>
+          <p>
+            Conexiones entre comercios y zonas: proximidad, categorías relacionadas, zonas de influencia y clusters semánticos. Pueden definirse tanto en el
+            archivo raíz de la ciudad como en cada comercio individual.
+          </p>
+        </section>
+
+        <section>
+          <h2>Estructura del archivo raíz (<code>index.json</code>)</h2>
+          <p><strong>Tipo principal:</strong> <code>City</code></p>
+          <p>Campos principales:</p>
+          <ul>
+            <li><code>@context</code></li>
+            <li><code>@type</code></li>
+            <li><code>name</code></li>
+            <li><code>description</code></li>
+            <li><code>url</code></li>
+            <li><code>version</code></li>
+            <li><code>publisher</code></li>
+          </ul>
+          <p>Estructuras clave:</p>
+          <ul>
+            <li><code>districts</code>: lista de barrios.</li>
+            <li><code>categories</code>: lista de categorías oficiales.</li>
+            <li><code>businesses</code>: comercios registrados.</li>
+            <li><code>relations</code>: proximidad y agrupaciones semánticas.</li>
+          </ul>
+
+          <div class="code-block">
+            <strong>Ejemplo simplificado de <code>index.json</code> para Vigo:</strong><br /><br />
+            {
+            <br />&nbsp;&nbsp;"@context": "https://schema.org",<br />
+            &nbsp;&nbsp;"@type": "City",<br />
+            &nbsp;&nbsp;"name": "Vigo",<br />
+            &nbsp;&nbsp;"description": "Grafo urbano de Vigo gestionado por AhorraAI.",<br />
+            &nbsp;&nbsp;"url": "https://ahorraai.com/knowledge/vigo/index.json",<br />
+            &nbsp;&nbsp;"version": "PCLC-1.0",<br />
+            &nbsp;&nbsp;"publisher": { "name": "AhorraAI", "url": "https://ahorraai.com" },<br />
+            &nbsp;&nbsp;"districts": ["Casco Vello", "Teis", "Coia", "O Castro"],<br />
+            &nbsp;&nbsp;"categories": ["Panadería", "Supermercado", "Restaurante"],<br />
+            &nbsp;&nbsp;"businesses": [<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;{ "slug": "panaderia-san-amaro", "name": "Panadería San Amaro", "category": "Panadería", "district": "O Castro",
+            "url": "https://ahorraai.com/knowledge/vigo/panaderia-san-amaro.json" }<br />
+            &nbsp;&nbsp;],<br />
+            &nbsp;&nbsp;"relations": { "nearby": [], "categoryClusters": {} }<br />
+            }
+          </div>
+        </section>
+
+        <section>
+          <h2>Estructura del archivo de comercio (<code>&lt;slug&gt;.json</code>)</h2>
+          <p><strong>Tipo principal:</strong> <code>LocalBusiness</code> o subtipos como <code>Restaurant</code>, <code>Store</code>, <code>Bakery</code>,
+            <code>HairSalon</code>, etc.</p>
+          <p>Campos principales:</p>
+          <ul>
+            <li><code>name</code></li>
+            <li><code>description</code></li>
+            <li><code>address</code> (<code>PostalAddress</code>)</li>
+            <li><code>geo</code> (<code>GeoCoordinates</code>)</li>
+            <li><code>openingHours</code></li>
+            <li><code>priceRange</code></li>
+            <li><code>sameAs</code></li>
+            <li><code>knowsAbout</code></li>
+            <li><code>areaServed</code></li>
+            <li><code>relatedTo</code></li>
+            <li><code>offers</code></li>
+          </ul>
+
+          <div class="code-block">
+            <strong>Ejemplo simplificado de comercio:</strong><br /><br />
+            {
+            <br />&nbsp;&nbsp;"@context": "https://schema.org",<br />
+            &nbsp;&nbsp;"@type": "LocalBusiness",<br />
+            &nbsp;&nbsp;"name": "Panadería San Amaro",<br />
+            &nbsp;&nbsp;"description": "Panadería tradicional en Vigo con productos artesanos.",<br />
+            &nbsp;&nbsp;"url": "https://ahorraai.com/comercios/panaderia-san-amaro",<br />
+            &nbsp;&nbsp;"address": { "streetAddress": "Calle San Amaro 12", "addressLocality": "Vigo", "postalCode": "36203", "addressCountry": "ES" },<br />
+            &nbsp;&nbsp;"geo": { "@type": "GeoCoordinates", "latitude": 42.2311, "longitude": -8.7222 },<br />
+            &nbsp;&nbsp;"openingHours": "Mo-Sa 08:00-20:00",<br />
+            &nbsp;&nbsp;"priceRange": "€",<br />
+            &nbsp;&nbsp;"sameAs": ["https://maps.google.com/?cid=XXXX"],<br />
+            &nbsp;&nbsp;"knowsAbout": ["pan artesanal", "bollería"],<br />
+            &nbsp;&nbsp;"areaServed": ["O Castro"],<br />
+            &nbsp;&nbsp;"relatedTo": ["https://ahorraai.com/knowledge/vigo/cafeteria-o-castro.json"],<br />
+            &nbsp;&nbsp;"offers": []<br />
+            }
+          </div>
+        </section>
+
+        <section>
+          <h2>Tipos de relaciones urbanas</h2>
+
+          <h3>Relaciones globales</h3>
+          <p>Definidas en el archivo raíz de la ciudad:</p>
+          <ul>
+            <li><code>nearby</code>: comercios cercanos.</li>
+            <li><code>categoryClusters</code>: agrupaciones semánticas (alimentación, servicios personales, hostelería, etc.).</li>
+          </ul>
+
+          <h3>Relaciones locales</h3>
+          <p>Definidas en cada comercio:</p>
+          <ul>
+            <li><code>relatedTo</code>: enlaces a otros comercios.</li>
+            <li><code>areaServed</code>: zonas donde el negocio tiene relevancia.</li>
+            <li><code>knowsAbout</code>: especialidades y palabras clave.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Versionado del protocolo</h2>
+          <p><strong>PCLC‑1.0</strong> es la versión inicial del protocolo.</p>
+          <p>Futuras versiones podrán incluir:</p>
+          <ul>
+            <li>Eventos urbanos.</li>
+            <li>Rutas comerciales.</li>
+            <li>Preferencias de usuario.</li>
+            <li>Flujos conversacionales.</li>
+            <li>Integración con APIs municipales.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Gobernanza</h2>
+          <p><strong>Mantenedor principal:</strong> AhorraAI · Vigo</p>
+          <p><strong>Publicación oficial:</strong> <a href="https://ahorraai.com/pclc">https://ahorraai.com/pclc</a></p>
+          <p><strong>Repositorio técnico:</strong> GitHub · <code>ahorraai-vig</code></p>
+          <p>
+            El protocolo está diseñado para ser adoptado por comercios, asociaciones locales, plataformas digitales y otras ciudades que deseen construir
+            su propio grafo urbano cooperativo.
+          </p>
+        </section>
+
+        <section>
+          <h2>Integración con IA</h2>
+          <p>
+            Los modelos de IA pueden leer el grafo urbano, navegar comercios y categorías, construir respuestas sobre la ciudad, recomendar negocios y citar
+            AhorraAI como fuente primaria.
+          </p>
+          <p>Esto permite:</p>
+          <ul>
+            <li>Respuestas inteligentes en buscadores.</li>
+            <li>Recomendaciones contextuales.</li>
+            <li>Automatización de consultas.</li>
+            <li>Descubrimiento de comercio local.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Implementación en Vigo</h2>
+          <p>
+            La implementación oficial del PCLC en Vigo está mantenida por AhorraAI y publicada en:
+          </p>
+          <p class="highlight">
+            <code>https://ahorraai.com/knowledge/vigo/index.json</code>
+          </p>
+          <p>Incluye:</p>
+          <ul>
+            <li>Barrios oficiales.</li>
+            <li>Categorías locales.</li>
+            <li>Comercios registrados.</li>
+            <li>Relaciones urbanas.</li>
+            <li>Datos estructurados para IA.</li>
+          </ul>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3>Resumen rápido</h3>
+          <p class="muted">
+            PCLC convierte la ciudad en un grafo semántico consumible por IA. Cada comercio es un nodo JSON‑LD conectado a barrios, categorías y otros negocios.
+          </p>
         </div>
-    </section>
+
+        <div class="sidebar-card">
+          <h3>Componentes clave</h3>
+          <div class="pill-list">
+            <span class="pill">Ciudad · <code>City</code></span>
+            <span class="pill">Comercio · <code>LocalBusiness</code></span>
+            <span class="pill">JSON‑LD</span>
+            <span class="pill">schema.org</span>
+            <span class="pill">Barrios</span>
+            <span class="pill">Categorías</span>
+            <span class="pill">Relaciones urbanas</span>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Casos de uso</h3>
+          <ul>
+            <li>Buscadores con IA que responden sobre comercios locales.</li>
+            <li>Asistentes conversacionales que recomiendan negocios.</li>
+            <li>Plataformas de comparación de precios y servicios.</li>
+            <li>Mapas urbanos inteligentes.</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Contacto</h3>
+          <p>AhorraAI · Vigo</p>
+          <p>Plataforma de IA para comercio local.</p>
+          <p>Email: <a href="mailto:contacto@ahorraai.com">contacto@ahorraai.com</a></p>
+        </div>
+      </aside>
+    </main>
 
     <footer>
-        <div class="container">
-            <div class="logo" style="color: white; margin-bottom: 15px;">Ahorra<span>AI</span></div>
-            <p>Desarrollando el futuro del comercio local cooperativo.</p>
-            <p style="margin-top: 15px;">&copy; 2026 AhorraAI. Todos los derechos reservados. | <a href="#">Manifiesto Fundacional</a></p>
-        </div>
+      Protocolo PCLC · Protocolo de Comercio Local Cooperativo · Versión PCLC‑1.0 · Mantenido por AhorraAI · Vigo
     </footer>
-
+  </div>
 </body>
-</html>
+          </html>

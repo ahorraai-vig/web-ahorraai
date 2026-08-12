@@ -1,31 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Panadería San Amaro · Vigo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-<body>
-  <h1>Panadería San Amaro</h1>
-  <p>Panadería tradicional en Vigo con productos artesanos.</p>
-  <p>Dirección: Calle San Amaro 12, Vigo.</p>
+{
+  "@context": "https://schema.org",
+  "@type": "City",
+  "name": "Vigo",
+  "description": "Grafo urbano de Vigo gestionado por AhorraAI.",
+  "url": "https://ahorraai.com/knowledge/vigo/index.json",
+  "version": "PCLC-1.0",
+  "publisher": {
+    "@type": "Organization",
+    "name": "AhorraAI",
+    "url": "https://ahorraai.com"
+  },
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Panadería San Amaro",
-    "description": "Panadería tradicional en Vigo con productos artesanos.",
-    "url": "https://ahorraai.com/comercios/panaderia-san-amaro",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Calle San Amaro 12",
-      "addressLocality": "Vigo",
-      "addressRegion": "Galicia",
-      "postalCode": "36203",
-      "addressCountry": "ES"
-    }
+  "districts": [
+    "Casco Vello",
+    "Teis",
+    "Coia",
+    "O Castro"
+  ],
+
+  "categories": [
+    "Panadería",
+    "Supermercado",
+    "Restaurante"
+  ],
+
+  "businesses": [],
+
+  "relations": {
+    "nearby": [],
+    "categoryClusters": {}
   }
-  </script>
-</body>
-</html>
+}
